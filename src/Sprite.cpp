@@ -13,8 +13,8 @@ SDL_Rect* Sprite::GetSrcP() { return &m_rSrc; }
 SDL_Rect* Sprite::GetDstP() { return &m_rDst; }
 
 void Sprite::SetSrc(char c) {
-	if (c == 'B' || c == 'i') // Black Tile
-		m_rSrc = { 64,0,64,64 };
+	if (c == 'B' || c == 'i') // Blank Tile
+		m_rSrc = { 448,128,64,64 };
 	else if (c == 'A' || c == 'W') // Straight Verticle Walls
 		m_rSrc = { 192,0,64,64 };
 	else if (c == 'H') // Straight Horizontal Walls
@@ -49,14 +49,16 @@ void Sprite::SetSrc(char c) {
 		m_rSrc = { 384,0,64,64 };
 	else if (c == '$') //top-left wall
 		m_rSrc = { 448,0,64,64 };
-	else if (c == '%') //top-right wall
+	else if (c == '%') //right wall T
 		m_rSrc = { 0,128,64,64 };
-	else if (c == '^') //bottom-right wall
+	else if (c == '^') //left wall T
 		m_rSrc = { 64,128,64,64 };
-	else if (c == '&')//bottom-left wall
+	else if (c == '&')//bottom wall T
 		m_rSrc = { 128,128,64,64 };
-	else if (c == '*') //top-left wall
+	else if (c == '*') //top wall T
 		m_rSrc = { 192,128,64,64 };
+	else if (c == 'F')//Floor tiles
+		m_rSrc = { 64, 0, 64, 64 };
 	else
 	{
 		m_rSrc = { 96,0,32,32 };

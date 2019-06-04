@@ -12,7 +12,7 @@ int main (int argc, char* argv[])
 
     SDL_Manager* pSDL = SDL_Manager::GetInstance();
     
-    if (pSDL->Init("Cat and Mouse", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 992, 992, 
+    if (pSDL->Init("Cat and Mouse", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 736, 736, 
         SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL, // SDL_WINDOW_BORDERLESS |
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE) != 0)
     {
@@ -38,7 +38,7 @@ int main (int argc, char* argv[])
 		{
 			cout << "Instance of Game will run" << endl;
 			cout << "This is an infinite loop." << endl;
-			if (game->Init("Cat and Mouse", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1472, 1472, 0) == false) {
+			if (game->Init("Cat and Mouse", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 23, 23, 0) == false) {
 				return 1;
 			}
 

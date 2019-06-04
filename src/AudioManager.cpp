@@ -3,18 +3,23 @@
 using namespace std;
 AudioManager* AudioManager::AudioList = nullptr;
 
+
+
 AudioManager::AudioManager()
 {
 
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
 	Mix_AllocateChannels(16);
 
+	//loads sound assets from file
 	Jump = Mix_LoadWAV("../Assets/sounds/Jump.wav");
-	PowerUp = Mix_LoadWAV("../Assets/sounds/POWERUP.WAV");
+	PowerUp = Mix_LoadWAV("../Assets/sounds/PowerUp.wav");
 	Select = Mix_LoadWAV("../Assets/sounds/Select.wav");
 	Pause = Mix_LoadWAV("../Assets/sounds/Pause.wav");
 	Pellet = Mix_LoadWAV("../Assets/sounds/Pellet.wav");
 	Return = Mix_LoadWAV("../Assets/sounds/Return.wav");
+
+	//checks for loaded sound assets
 	if (!Jump)
 	{
 		cout << "JUMP ERROR!" << endl;
@@ -87,28 +92,28 @@ AudioManager* AudioManager::GetInstance()
 
 void AudioManager::_Jump()
 {
-	Mix_PlayChannel(3, Jump, 0);
+	Mix_PlayChannel(1, Jump, 0);
 }
 void AudioManager::_Select()
 {
-	Mix_PlayChannel(1, Select, 0);
+	Mix_PlayChannel(2, Select, 0);
 }
 void AudioManager::_Return()
 {
-	Mix_PlayChannel(5, Return, 0);
+	Mix_PlayChannel(3, Return, 0);
 }
 void AudioManager::_Pause()
 {
-	Mix_PlayChannel(2, Pause, 0);
+	Mix_PlayChannel(4, Pause, 0);
 
 }
 void AudioManager::_PowerUp()
 {
-	Mix_PlayChannel(4, PowerUp, 0);
+	Mix_PlayChannel(5, PowerUp, 0);
 }
 void AudioManager::_Pellet()
 {
-	Mix_PlayChannel(1, Pellet, 0);
+	Mix_PlayChannel(6, Pellet, 0);
 }
 
 AudioManager::~AudioManager()

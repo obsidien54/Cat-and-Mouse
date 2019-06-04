@@ -225,7 +225,7 @@ void Cat::Seek()
 		if (GetDir() == 'w') {
 			// If not an obstacle then sets the new destination square
 			if (!Game::GetInstance()->GetLevel()->m_Map[GetY() - 1][GetX()].isObstacle()) {
-				SetDestinationY(GetDst().y - 64);
+				SetDestinationY(GetDst().y - 32);
 				SetDestinationX(GetDst().x);
 				SetMoving(true);
 			}
@@ -247,7 +247,7 @@ void Cat::Seek()
 		}
 		else if (GetDir() == 's') {
 			if (!Game::GetInstance()->GetLevel()->m_Map[GetY() + 1][GetX()].isObstacle()) {
-				SetDestinationY(GetDst().y + 64);
+				SetDestinationY(GetDst().y + 32);
 				SetDestinationX(GetDst().x);
 				SetMoving(true);
 			}
@@ -270,7 +270,7 @@ void Cat::Seek()
 		else if (GetDir() == 'a') {
 			if (!Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX() - 1].isObstacle())
 			{
-				SetDestinationX(GetDst().x - 64);
+				SetDestinationX(GetDst().x - 32);
 				SetDestinationY(GetDst().y);
 				SetMoving(true);
 			}
@@ -292,7 +292,7 @@ void Cat::Seek()
 		}
 		else if (GetDir() == 'd') {
 			if (!Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX() + 1].isObstacle()) {
-				SetDestinationX(GetDst().x + 64);
+				SetDestinationX(GetDst().x + 32);
 				SetDestinationY(GetDst().y);
 				SetMoving(true);
 			}
@@ -344,7 +344,7 @@ void Cat::SetVulnerable(bool b)
 	if (b) {
 		m_bIsVulnerable = true;
 		if (!m_bIsDead) {
-			m_rSrc = { 768, 0, 64, 64 };
+			m_rSrc = { 768, 0, 32, 32 };
 		}
 	}
 	else {

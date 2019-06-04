@@ -49,12 +49,12 @@ private:
 	std::string m_fontTextLevel;
 	SDL_Surface* m_pTextSurfaceLevel;
 	SDL_Texture* m_pTextTextureLevel;
-	SDL_Rect m_textRectLevel = { 700,10 };;
+	SDL_Rect m_textRectLevel = { 700,10 };
 	//Score
 	std::string m_fontTextScore;
 	SDL_Surface* m_pTextSurfaceScore;
 	SDL_Texture* m_pTextTextureScore;
-	SDL_Rect m_textRectScore = { 1320,10 }; ;
+	SDL_Rect m_textRectScore = { 1320,10 };
 	
 public:
 	static Game* GetInstance() {

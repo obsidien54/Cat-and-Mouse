@@ -4,7 +4,7 @@ Player::Player(SDL_Rect s, SDL_Rect d)
 {
 	m_rSrc = s;
 	m_rDst = d;
-	center.x = center.y = 32;
+	center.x = center.y = 16;
 	m_iAngle = 0;
 }
 
@@ -35,11 +35,11 @@ bool Player::enteredWall()
 
 int Player::GetX() 
 { 
-	return m_rDst.x / 64;
+	return m_rDst.x / 32;
 }
 int Player::GetY() 
 { 
-	return m_rDst.y / 64; 
+	return m_rDst.y / 32; 
 }
 
 int Player::GetDestinationX()
@@ -79,22 +79,22 @@ void Player::SetEnteredWall(bool b)
 
 int Player::GetRightEdgeTile()
 {
-	return (m_rDst.x %64 ==0 ? m_rDst.x / 64: m_rDst.x /64 +1);
+	return (m_rDst.x %32 ==0 ? m_rDst.x / 32: m_rDst.x /32 +1);
 }
 
 int Player::GetLeftEdgeTile()
 {
-	return m_rDst.x / 64;
+	return m_rDst.x / 32;
 }
 
 int Player::GetTopEdgeTile()
 {
-	return m_rDst.y / 64;
+	return m_rDst.y / 32;
 }
 
 int Player::GetBottomEdgeTile()
 {
-	return (m_rDst.y % 64 == 0 ? m_rDst.y / 64 : m_rDst.y / 64 + 1);
+	return (m_rDst.y % 32 == 0 ? m_rDst.y / 32 : m_rDst.y / 32 + 1);
 }
 
 
