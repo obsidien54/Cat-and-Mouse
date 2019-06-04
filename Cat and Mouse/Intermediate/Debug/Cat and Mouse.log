@@ -1,13 +1,7 @@
 ﻿  Cat.cpp
   Game.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(17): warning C4244: '=': conversion from 'Uint64' to 'Uint32', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(98): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(114): warning C4805: '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
-  main.cpp
-  Player.cpp
-  PowerUp.cpp
-  Sprite.cpp
-  Tile.cpp
+C:\Users\Miko Man\Desktop\Cat-and-Mouse-testttt\Cat-and-Mouse-master\src\Game.cpp(17): warning C4244: '=': conversion from 'Uint64' to 'Uint32', possible loss of data
+C:\Users\Miko Man\Desktop\Cat-and-Mouse-testttt\Cat-and-Mouse-master\src\Game.cpp(110): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Miko Man\Desktop\Cat-and-Mouse-testttt\Cat-and-Mouse-master\src\Game.cpp(143): warning C4805: '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
   Generating Code...
-f:\school\game production\bugsv2\good version\cat and mouse\src\powerup.cpp(32): warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
-  Cat and Mouse.vcxproj -> F:\School\Game Production\Bugsv2\good version\Cat and Mouse\bin\Debug\Cat and Mouse.exe
+  Cat and Mouse.vcxproj -> C:\Users\Miko Man\Desktop\Cat-and-Mouse-testttt\Cat-and-Mouse-master\bin\Debug\Cat and Mouse.exe
