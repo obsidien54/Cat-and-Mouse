@@ -239,6 +239,10 @@ void Cat::Seek()
 				{
 					SetDir('a');
 				}
+				else
+				{
+					SetDir('s');
+				}
 			}
 		}
 		else if (GetDir() == 's') {
@@ -256,6 +260,10 @@ void Cat::Seek()
 				else if (!Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX() + 1].isObstacle())
 				{
 					SetDir('d');
+				}
+				else
+				{
+					SetDir('w');
 				}
 			}
 		}
@@ -276,6 +284,10 @@ void Cat::Seek()
 				{
 					SetDir('s');
 				}
+				else
+				{
+					SetDir('d');
+				}
 			}
 		}
 		else if (GetDir() == 'd') {
@@ -293,6 +305,10 @@ void Cat::Seek()
 				else if (!Game::GetInstance()->GetLevel()->m_Map[GetY() + 1][GetX()].isObstacle())
 				{
 					SetDir('s');
+				}
+				else
+				{
+					SetDir('a');
 				}
 			}
 		}
