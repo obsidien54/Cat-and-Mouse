@@ -1,8 +1,10 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include "Player.h"
 #include "Cat.h"
+#include <string>
 #include "Level.h"
 #define FPS 60
 
@@ -31,15 +33,37 @@ private:
 	int m_currLevel = 0;
 	Level m_level;
 	Level m_bg;
+	//Scoring and level Tracking
+	int m_scoreNum = 0;
+	int m_levelNum = 1;
+	int m_livesNum = 3;
+	//font
+	TTF_Font* m_pFont;
+	SDL_Color m_colour = { 255,255,255 };
+	//Lives font
+	std::string m_fontTextLives;
+	SDL_Surface* m_pTextSurfaceLives;
+	SDL_Texture* m_pTextTextureLives;
+	SDL_Rect m_textRectLives = { 10,10 };
+	//Level
+	std::string m_fontTextLevel;
+	SDL_Surface* m_pTextSurfaceLevel;
+	SDL_Texture* m_pTextTextureLevel;
+	SDL_Rect m_textRectLevel = { 700,10 };;
+	//Score
+	std::string m_fontTextScore;
+	SDL_Surface* m_pTextSurfaceScore;
+	SDL_Texture* m_pTextTextureScore;
+	SDL_Rect m_textRectScore = { 1320,10 }; ;
 	
-	
-
 public:
 	static Game* GetInstance() {
 		static Game* instance = new Game();
 		return instance;
 	}
-	
+	Player* GetPlayer();
+	Level* GetLevel();
+
 	bool Init(const char* title, int xpos, int ypos, int width, int height, int flags);
 	bool Running() { return m_bRunning; }
 	void Update();

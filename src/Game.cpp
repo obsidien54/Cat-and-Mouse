@@ -6,6 +6,7 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "PowerUp.h"
+#include "AudioManager.h"
 #include <random>
 #include <ctime>
 
@@ -42,8 +43,20 @@ bool Game::Init(const char* title, int xpos, int ypos, int width, int height, in
 					SDL_FreeSurface(playerSurface);
 					SDL_FreeSurface(ghostsSurface);
 					std::cout << "Pixel maps creation success!" << std::endl;
+					if (TTF_Init() == 0) //initialize ttf
+					{
+
+						m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
+						std::cout << "Font creation success!" << std::endl;
+					}
+					else
+					{
+						std::cout << "TTF init fail!" << std::endl;
+						return false; //ttf init fail
+					}
 				}
 				else {
+					std::cout << "Image init fail!" << std::endl;
 					return 1; // Image init fail
 				}
 			}
@@ -101,13 +114,30 @@ bool Game::Init(const char* title, int xpos, int ypos, int width, int height, in
 	// Spawn Player and Ghosts
 	// Starting coordinate: 15, 17
 	m_pPlayer = new Player({ 0, 0, 64, 64 }, { 64 * 11, 64 * 13, 64, 64 });
-	m_pCats[0] = new Cat({ 0, 0, 64, 64 }, { 64 * 10, 64 * 11, 64, 64 });
-	m_pCats[1] = new Cat({ 192, 0, 64, 64 }, { 64 * 11, 64 * 11, 64, 64 });
-	m_pCats[2] = new Cat({ 384, 0, 64, 64 }, { 64 * 12, 64 * 11, 64, 64 });
-	m_pCats[3] = new Cat({ 576, 0, 64, 64 }, { 64 * 8, 64 * 6, 64, 64 });
+	m_pCats[0] = new Cat({ 0, 0, 64, 64 }, { 64 * 3, 64 * 3, 64, 64 });
+	m_pCats[1] = new Cat({ 192, 0, 64, 64 }, { 64 * 19, 64 * 3, 64, 64 });
+	m_pCats[2] = new Cat({ 384, 0, 64, 64 }, { 64 * 3, 64 * 19, 64, 64 });
+	m_pCats[3] = new Cat({ 576, 0, 64, 64 }, { 64 * 19, 64 * 19, 64, 64 });
 	m_bRunning = true;
+
+	m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+
 	return true;
 }
+
+Player* Game::GetPlayer()
+{
+	return m_pPlayer;
+}
+Level* Game::GetLevel()
+{
+	return &m_level;
+}
+
+
 
 bool Game::KeyDown(SDL_Scancode c) {
 	if (m_iKeyStates != nullptr) {
@@ -210,17 +240,22 @@ void Game::PlayerCatsInteractions() {
 		// If player collides with cat..
 		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
 			// Destroy cat if powered up
-			if (!m_pCats[i]->isDead())
+			if (!m_pCats[i]->IsDead())
 			{
 				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
 				{
 					m_pCats[i]->Die();
+					m_scoreNum += 100;
 				}
 				// Else player dies
 				else
 				{
 					m_pPlayer->Die();
-					m_bRunning = false;
+					m_livesNum -= 1;
+					if (m_livesNum == 0)
+					{
+						m_bRunning = false;
+					}
 				}
 			}
 		}
@@ -235,6 +270,7 @@ void Game::PlayerMovements() {
 		// Change tile to a normal blank tile with its associated variables
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
+		m_scoreNum += 10;
 	}
 
 	// Handles player eating a mystery cheese
@@ -243,12 +279,35 @@ void Game::PlayerMovements() {
 		// Change tile to a normal blank tile with its associated variables
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
+		m_scoreNum += 20;
+
+		AudioManager::GetInstance()->_Pellet();
 
 		// Grant player a random ability and start the timer
 		m_powerUpStartTimer = SDL_GetTicks();
 		m_pPlayer->SetAbility(PowerUp::GenerateRandomAbility());
 		std::cout << "Your current ability: " << (m_pPlayer->GetAbility() == DEFEAT_CATS ? "Defeat Cats" : "Enter Walls") << std::endl;
 		
+		// Turn cats to a different color
+		if (m_pPlayer->GetAbility() == DEFEAT_CATS)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				m_pCats[i]->ResetCell();
+				m_pCats[i]->SetSrc({ 768,0,64,64 });
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (!m_pCats[i]->IsDead())
+				{
+					m_pCats[i]->ResetCell();
+					m_pCats[i]->SetSrc({ i * 192,0,64,64 });  //turn cats back to original color
+				}
+			}
+		}
 	}
 
 	//player movement input handling: set the destination for the players
@@ -328,175 +387,10 @@ void Game::PlayerMovements() {
 
 void Game::CatMovements()
 {
-	int CATINDEX = 3;
-	int distance = 99999;
-	int temp = 0;
-	// Check if the square cat is on is an intersection
-	if (m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX()].isIntersection())
-	{
-		// if north is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle() && m_pCats[CATINDEX]->getDir() != 's')
-		{
-			temp = 0;// reseting and checking the distance
-			temp += (m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX())*(m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX());
-			temp += (m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() - 1))*(m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() - 1));
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('w');
-			}
-		}
-		// if east is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle() && m_pCats[CATINDEX]->getDir() != 'a')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() + 1))*(m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() + 1));
-			temp += (m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY())*(m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY());
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('d');
-			}
-		}
-		// if south is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle() && m_pCats[CATINDEX]->getDir() != 'w')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX())*(m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX());
-			temp += (m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() + 1))*(m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() + 1));
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('s');
-			}
-		}
-		// if west is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle() && m_pCats[CATINDEX]->getDir() != 'd')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() - 1))*(m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() - 1));
-			temp += (m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY())*(m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY());
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('a');
-			}
-		}
-	}
-	// if not moving then move in a direction
-	if (!m_pCats[CATINDEX]->isDead() && !m_pCats[CATINDEX]->isMoving()) {
-		if (m_pCats[CATINDEX]->getDir() == 'w') {
-			// If not an obstacle then sets the new destination square
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y - 64);
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else // if Obstacle it will check for another route
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 's') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y + 64);
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 'a') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-			{
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x - 64);
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 'd') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x + 64);
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-			}
-		}
-	}
-	// if moving continue moving till
-	if (m_pCats[CATINDEX]->isMoving()) {
-		if (m_pCats[CATINDEX]->GetDestinationX() > m_pCats[CATINDEX]->GetDst().x) {
-			m_pCats[CATINDEX]->MoveX(1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationX() < m_pCats[CATINDEX]->GetDst().x) {
-			m_pCats[CATINDEX]->MoveX(-1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationY() > m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->MoveY(1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationY() < m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->MoveY(-1);
-		}
-		// if cat has gotten to destination then set moving to false
-		else if (m_pCats[CATINDEX]->GetDestinationX() == m_pCats[CATINDEX]->GetDst().x && m_pCats[CATINDEX]->GetDestinationY() == m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->SetMoving(false);
-		}
-
-	}
-		
+	m_pCats[0]->Update();
+	m_pCats[1]->Update();
+	m_pCats[2]->Update();
+	m_pCats[3]->Update();
 }
 
 void Game::Render() {
@@ -523,6 +417,30 @@ void Game::Render() {
 
 	// Render player
 	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(),m_pPlayer->GetPlayerAngle(),&m_pPlayer->center,SDL_FLIP_NONE);
+
+	//render text
+	//lives text creation
+	m_fontTextLives = "Lives: " + std::to_string(m_livesNum);
+	m_pTextSurfaceLives = TTF_RenderText_Solid(m_pFont, m_fontTextLives.c_str(), m_colour);
+	m_pTextTextureLives = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceLives);
+	SDL_FreeSurface(m_pTextSurfaceLives);
+	SDL_QueryTexture(m_pTextTextureLives, NULL, NULL, &m_textRectLives.w, &m_textRectLives.h);
+	//level text creation
+	m_fontTextLevel = "Level: " + std::to_string(m_levelNum);
+	m_pTextSurfaceLevel = TTF_RenderText_Solid(m_pFont, m_fontTextLevel.c_str(), m_colour);
+	m_pTextTextureLevel = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceLevel);
+	SDL_FreeSurface(m_pTextSurfaceLevel);
+	SDL_QueryTexture(m_pTextTextureLevel, NULL, NULL, &m_textRectLevel.w, &m_textRectLevel.h);
+	//score text creation
+	m_fontTextScore = "Score: " + std::to_string(m_scoreNum);
+	m_pTextSurfaceScore = TTF_RenderText_Solid(m_pFont, m_fontTextScore.c_str(), m_colour);
+	m_pTextTextureScore = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceScore);
+	SDL_FreeSurface(m_pTextSurfaceScore);
+	SDL_QueryTexture(m_pTextTextureScore, NULL, NULL, &m_textRectScore.w, &m_textRectScore.h);
+	//render out the texts
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureLives, NULL, &m_textRectLives);
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureLevel, NULL, &m_textRectLevel);
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureScore, NULL, &m_textRectScore);
 
 	SDL_RenderPresent(m_pRenderer);
 }
@@ -556,7 +474,7 @@ void Game::Clean() {
 	SDL_DestroyTexture(m_pPlayerTexture);
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
-	IMG_Quit();
-	SDL_Quit();
+	//IMG_Quit();
+	//SDL_Quit();
 }
 

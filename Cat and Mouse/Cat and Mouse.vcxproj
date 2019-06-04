@@ -23,6 +23,7 @@
     <Text Include="..\Assets\Level0.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\AudioManager.h" />
     <ClInclude Include="..\src\Cat.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Game_Manager.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="..\src\UI_Scores.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\AudioManager.cpp" />
     <ClCompile Include="..\src\Cat.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\Game_Manager.cpp" />
@@ -62,13 +64,13 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{056A63E3-0205-4D30-A0A7-3170A2399630}</ProjectGuid>
     <RootNamespace>CatandMouse</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -119,7 +121,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include\;$(SolutionDir)include\GLM\;$(SolutionDir)include\SDL\include\;$(SolutionDir)include\SDL_Image\include\;$(SolutionDir)include\SDL_Mixer\include\;$(SolutionDir)include\SDL_ttf\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include\IL\include\;$(SolutionDir)include\GLUT\include\;$(SolutionDir)include\GLEW\include\;$(SolutionDir)include\GL\include\;$(SolutionDir)include\;$(SolutionDir)include\GLM\;$(SolutionDir)include\SDL\include\;$(SolutionDir)include\SDL_Image\include\;$(SolutionDir)include\SDL_Mixer\include\;$(SolutionDir)include\SDL_ttf\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

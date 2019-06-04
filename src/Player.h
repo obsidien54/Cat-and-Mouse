@@ -8,7 +8,7 @@ class Player : public Sprite
 private:
 	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false;;
 	int m_iDestinationX, m_iDestinationY;
-	int m_iMoveSpeed = 2;
+	int m_iMoveSpeed = 4;
 	int m_iAngle; // angle of mouse
 	int m_iFrame = 0; // current frame
 	int m_iSprite = 0; //sprite counter
