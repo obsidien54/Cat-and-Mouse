@@ -9,12 +9,12 @@ AudioManager::AudioManager()
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
 	Mix_AllocateChannels(16);
 
-	Jump = Mix_LoadWAV("Jump.wav");
-	PowerUp = Mix_LoadWAV("POWERUP.WAV");
-	Select = Mix_LoadWAV("Select.wav");
-	Pause = Mix_LoadWAV("Pause.wav");
-	Pellet = Mix_LoadWAV(" /Assets / Sound Effects / Pellet.wav");
-	Return = Mix_LoadWAV("Return.wav");
+	Jump = Mix_LoadWAV("../Assets/sounds/Jump.wav");
+	PowerUp = Mix_LoadWAV("../Assets/sounds/POWERUP.WAV");
+	Select = Mix_LoadWAV("../Assets/sounds/Select.wav");
+	Pause = Mix_LoadWAV("../Assets/sounds/Pause.wav");
+	Pellet = Mix_LoadWAV("../Assets/sounds/Pellet.wav");
+	Return = Mix_LoadWAV("../Assets/sounds/Return.wav");
 	if (!Jump)
 	{
 		cout << "JUMP ERROR!" << endl;
