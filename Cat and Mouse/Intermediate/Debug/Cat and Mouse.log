@@ -1,32 +1,33 @@
 ﻿  AudioManager.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Cat.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   Game.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(20): warning C4244: '=': conversion from 'Uint64' to 'Uint32', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(113): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\game.cpp(145): warning C4805: '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Game_Manager.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Input_Manager.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\input_manager.cpp(55): warning C4805: '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Main.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Player.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   PowerUp.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   SDL_Manager.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
   Sprite.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   Tile.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   UI_HowToPlay.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_howtoplay.cpp(13): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_howtoplay.cpp(14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  UI_Levels.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_levels.cpp(13): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_levels.cpp(14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   UI_MainMenu.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_mainmenu.cpp(15): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_mainmenu.cpp(16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   UI_Manager.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   UI_Menu.cpp
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   UI_Scores.cpp
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_scores.cpp(13): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-f:\school\game production\bugsv2\good version\cat and mouse\src\ui_scores.cpp(14): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
   Generating Code...
-f:\school\game production\bugsv2\good version\cat and mouse\src\powerup.cpp(32): warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
-  Cat and Mouse.vcxproj -> F:\School\Game Production\Bugsv2\good version\Cat and Mouse\bin\Debug\Cat and Mouse.exe

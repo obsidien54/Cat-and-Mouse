@@ -23,7 +23,7 @@ private:
 public:
     Input_Manager();
     //static Input_Manager* GetInstance();
-
+	bool MouseOver(SDL_Rect rect);
     bool MouseUp_Select(SDL_Rect rect);
     bool KeyDown(SDL_Scancode c);
 

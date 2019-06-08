@@ -20,21 +20,22 @@ Game::Game() {
 	m_fps = (Uint64)round(1 / (long double)FPS * 1000);
 }
 
-bool Game::Init(const char* title, int xpos, int ypos, int width, int height, int flags) {
-	// Attempt to initialize SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) { // 0 is error code meaning success
-		std::cout << "SDL init success!" << std::endl;
-		// Initialize window
-		m_pWindow = SDL_CreateWindow(title, xpos, ypos, width * TILESIZE, height * TILESIZE, flags);
-		if (m_pWindow != nullptr) { // Window init success
-			std::cout << "Window creation successful!" << std::endl;
-			m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
+bool Game::Init(SDL_Renderer* m_pRenderer) 
+{
+	//// Attempt to initialize SDL
+	//if (SDL_Init(SDL_INIT_EVERYTHING) == 0) { // 0 is error code meaning success
+	//	std::cout << "SDL init success!" << std::endl;
+	//	// Initialize window
+	//	m_pWindow = SDL_CreateWindow(title, xpos, ypos, width * TILESIZE, height * TILESIZE, flags);
+	//	if (m_pWindow != nullptr) { // Window init success
+	//		std::cout << "Window creation successful!" << std::endl;
+	//		m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 
-			if (m_pRenderer != nullptr) { // Renderer init success
-				std::cout << "Renderer creation success!" << std::endl;
+	//		if (m_pRenderer != nullptr) { // Renderer init success
+	//			std::cout << "Renderer creation success!" << std::endl;
 
-				if (IMG_Init(IMG_INIT_PNG) != 0) {
-					// Create pixel maps.
+	//			if (IMG_Init(IMG_INIT_PNG) != 0) {
+	//				// Create pixel maps.
 					SDL_Surface* tileSurface = IMG_Load("../Assets/textures/Tiles.png");
 					SDL_Surface* playerSurface = IMG_Load("../Assets/textures/mouse.png");
 					SDL_Surface* ghostsSurface = IMG_Load("../Assets/textures/Cats.png");
@@ -45,37 +46,37 @@ bool Game::Init(const char* title, int xpos, int ypos, int width, int height, in
 					SDL_FreeSurface(playerSurface);
 					SDL_FreeSurface(ghostsSurface);
 					std::cout << "Pixel maps creation success!" << std::endl;
-					if (TTF_Init() == 0) //initialize ttf
-					{
+					//if (TTF_Init() == 0) //initialize ttf
+					//{
 
 						m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
 						std::cout << "Font creation success!" << std::endl;
-					}
-					else
-					{
-						std::cout << "TTF init fail!" << std::endl;
-						return false; //ttf init fail
-					}
-				}
-				else {
-					std::cout << "Image init fail!" << std::endl;
-					return 1; // Image init fail
-				}
-			}
-			else {
-				std::cout << "Renderer init fail!" << std::endl;
-				return false; //Renderer init fail
-			}
-		}
-		else {
-			std::cout << "Window init fail!" << std::endl;
-			return false; // Window init fail
-		}
-	}
-	else {
-		std::cout << "SDL init fail!" << std::endl;
-		return false; // SDL init fail
-	}
+	//				}
+	//				else
+	//				{
+	//					std::cout << "TTF init fail!" << std::endl;
+	//					return false; //ttf init fail
+	//				}
+	//			}
+	//			else {
+	//				std::cout << "Image init fail!" << std::endl;
+	//				return 1; // Image init fail
+	//			}
+	//		}
+	//		else {
+	//			std::cout << "Renderer init fail!" << std::endl;
+	//			return false; //Renderer init fail
+	//		}
+	//	}
+	//	else {
+	//		std::cout << "Window init fail!" << std::endl;
+	//		return false; // Window init fail
+	//	}
+	//}
+	//else {
+	//	std::cout << "SDL init fail!" << std::endl;
+	//	return false; // SDL init fail
+	//}
 	// build background layer
 	std::ifstream bgFile("../Assets/bg.txt");
 	if (!bgFile) {
@@ -394,7 +395,7 @@ void Game::CatMovements()
 	m_pCats[3]->Update();
 }
 
-void Game::Render() {
+void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 	// draw background tile map
@@ -473,8 +474,8 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
-	SDL_DestroyWindow(m_pWindow);
-	SDL_DestroyRenderer(m_pRenderer);
+	//SDL_DestroyWindow(m_pWindow);
+	//SDL_DestroyRenderer(m_pRenderer);
 	//IMG_Quit();
 	//SDL_Quit();
 }

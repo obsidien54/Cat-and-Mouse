@@ -44,7 +44,7 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
     SDL_RenderDrawRect(pRenderer, &m_rBack);
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-    sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "Back", White);
+    sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "1. Back", White);
     tTemp1 = SDL_CreateTextureFromSurface(pRenderer, sTemp1);
     SDL_RenderCopy(pRenderer, tTemp1, NULL, &m_rBack); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
     

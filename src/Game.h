@@ -11,7 +11,7 @@
 class Game {
 private:
 	Game();
-	~Game() {};
+	
 
 	// Game Engine Variables
 	bool m_bRunning;
@@ -64,10 +64,10 @@ public:
 	Player* GetPlayer();
 	Level* GetLevel();
 
-	bool Init(const char* title, int xpos, int ypos, int width, int height, int flags);
+	bool Init(SDL_Renderer* m_pRenderer);
 	bool Running() { return m_bRunning; }
 	void Update();
-	void Render();
+	void Render(SDL_Renderer* m_pRenderer);
 	void HandleEvents();
 	void HandlePlayerAbilities();
 	void PlayerCatsInteractions();
@@ -77,4 +77,13 @@ public:
 	void Wake();
 	void Sleep();
 	bool KeyDown(SDL_Scancode c);
+	bool& IsRunningByRef()
+	{
+		return m_bRunning;
+	}
+	void StopRunning()
+	{
+		m_bRunning = false;
+	}
+	~Game() {};
 };
