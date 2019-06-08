@@ -30,6 +30,14 @@ UI_MainMenu::UI_MainMenu()
     m_rQuit.w = m_rHowToPlay.w; // controls the width of the rect
     m_rQuit.h = m_rHowToPlay.h; // These are all specific to ONE TEXT Title ... Data driven design
 
+
+	//background music
+	//music by bensound
+	TheAudioManager::Instance()->load("../Assets/sound/bensound-endlessmotion.mp3",
+		"Background", sound_type::SOUND_MUSIC);
+
+	TheAudioManager::Instance()->playMusic("Background", -1);
+
 }
 
 

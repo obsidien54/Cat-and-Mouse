@@ -2,6 +2,13 @@
 
 Player::Player(SDL_Rect s, SDL_Rect d) 
 {
+	//load the sound files that revolve around the player. WHen using them just use the audiomanager play function
+	TheAudioManager::Instance()->load("../Assets/sound/Cheese.wav",
+		"cheese", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/Powerup4.wav",
+		"powerup", sound_type::SOUND_SFX);
+
 	m_rSrc = s;
 	m_rDst = d;
 	center.x = center.y = 16;

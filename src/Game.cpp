@@ -272,6 +272,7 @@ void Game::PlayerMovements() {
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
 		m_scoreNum += 10;
+		TheAudioManager::Instance()->playSound("cheese", 0);
 	}
 
 	// Handles player eating a mystery cheese
@@ -281,8 +282,9 @@ void Game::PlayerMovements() {
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
 		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
 		m_scoreNum += 20;
+		TheAudioManager::Instance()->playSound("powerup", 0);
 
-		AudioManager::GetInstance()->_Pellet();
+		//AudioManager::GetInstance()->_Pellet();
 
 		// Grant player a random ability and start the timer
 		m_powerUpStartTimer = SDL_GetTicks();

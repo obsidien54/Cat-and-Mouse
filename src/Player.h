@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include <SDL.h>
 #include "PowerUp.h"
+#include "AudioManager.h"
 
 class Player : public Sprite 
 {

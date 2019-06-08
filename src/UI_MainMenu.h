@@ -3,6 +3,7 @@
 
 #include <SDL_image.h>
 #include "UI_Menu.h"
+#include "AudioManager.h"
 
 class UI_MainMenu : public UI_Menu
 {
