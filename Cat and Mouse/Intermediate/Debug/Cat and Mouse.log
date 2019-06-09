@@ -1,17 +1,59 @@
-﻿  Button.cpp
-e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\button.cpp(89): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\button.cpp(90): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
+﻿  AudioManager.cpp
+  Button.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(89,17): warning C4244:  'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(89,17): warning C4244:         with
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(89,17): warning C4244:         [
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(89,17): warning C4244:             T=float
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(89,17): warning C4244:         ]
+  Cat.cpp
+  Game.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(90,17): warning C4244:  'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(90,17): warning C4244:         with
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(90,17): warning C4244:         [
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(90,17): warning C4244:             T=float
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Button.cpp(90,17): warning C4244:         ]
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Game.cpp(15,23): warning C4244:  '=': conversion from 'Uint64' to 'Uint32', possible loss of data
+  Input_Manager.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Game.cpp(23,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Main.cpp
+  Player.cpp
+  PowerUp.cpp
+  SDL_Manager.cpp
+  Sprite.cpp
+  TextureManager.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Input_Manager.cpp(57,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(65,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(66,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(109,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(110,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(154,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(155,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(198,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(199,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(218,11): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(218,11): warning C4244:         with
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(218,11): warning C4244:         [
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(218,11): warning C4244:             T=float
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(218,11): warning C4244:         ]
+  Tile.cpp
+  UI_HowToPlay.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(219,11): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(219,11): warning C4244:         with
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(219,11): warning C4244:         [
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(219,11): warning C4244:             T=float
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\TextureManager.cpp(219,11): warning C4244:         ]
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_HowToPlay.cpp(13,28): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   UI_MainMenu.cpp
-e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(15): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(75): warning C4551: function call missing argument list
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_HowToPlay.cpp(14,28): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_MainMenu.cpp(15,33): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_MainMenu.cpp(16,33): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+  UI_Manager.cpp
+  UI_Menu.cpp
+  UI_Scores.cpp
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_MainMenu.cpp(75,2): warning C4551:  function call missing argument list
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_Scores.cpp(13,28): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   Generating Code...
-  Cat and Mouse.vcxproj -> E:\Michael\Desktop\Cat-and-Mouse\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_Scores.cpp(14,28): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_Scores.cpp(14,28): warning C4244: C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\PowerUp.cpp(32) : warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
+C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\UI_Scores.cpp(14,28): warning C4244: C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\src\Input_Manager.cpp(66) : warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
+  Cat and Mouse.vcxproj -> C:\Users\wishn\OneDrive\Documents\T163\Bugs-are-us\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe
