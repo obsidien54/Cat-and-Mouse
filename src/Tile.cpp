@@ -16,87 +16,64 @@ bool Tile::isEnterableWall()
 }
 
 void Tile::SetTileVariables(char c) {
-	if (c == 'B') { // No Tile
-		m_bIsObstacle = false;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-	}
-	else if (c == 'A' ) { // brick tile
-		m_bIsObstacle = true;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-	}
-	else if (c == 'H') { // brick tile
-		m_bIsObstacle = true;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-	}
-	else if (c == '1'|| c == '2'|| c == '3' || c == '4') { // roof tiles
-		m_bIsObstacle = true;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-	}
-	else if (c == '!' || c == '@' || c == '#' || c == '$'|| c == '%' || c == '^' || c == '&' || c == '*') { // corner tiles
-		m_bIsObstacle = true;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-	}
-	else if (c == 'P') { // Point Tile
+/*VARIABLE MEANINGS:
+  ! = TILES WHERE THE PLAYER CAN NEVER WALK ON
+  O = CHEESE TILES
+  F = FLOOR TILES
+  I = INTERSECTIONS
+  H = PELLET/INTERSECTION HYBRIDS
+  W = ENTERABLE WALLS
+  P = POWERUPS							*/
+
+	switch (c) {
+	case 'O':
 		m_bIsObstacle = false;
 		m_bIsPoint = true;
 		m_bIsPowerUp = false;
 		m_bIsIntersection = false;
 		m_bIsEnterableWall = false;
-	}
-	else if (c == 'O') { // Power Up Tile
+		break;
+	case 'F':
+		m_bIsObstacle = false;
+		m_bIsPoint = false;
+		m_bIsPowerUp = false;
+		m_bIsIntersection = false;
+		m_bIsEnterableWall = false;
+		break;
+	case 'P':
 		m_bIsObstacle = false;
 		m_bIsPoint = false;
 		m_bIsPowerUp = true;
 		m_bIsIntersection = false;
 		m_bIsEnterableWall = false;
-	}
-	else if (c == 'I') {//Intersection with a point
+		break;
+	case 'I':
+		m_bIsObstacle = false;
+		m_bIsPoint = false;
+		m_bIsPowerUp = false;
+		m_bIsIntersection = true;
+		m_bIsEnterableWall = false;
+		break;
+	case 'H':
 		m_bIsObstacle = false;
 		m_bIsPoint = true;
 		m_bIsPowerUp = false;
 		m_bIsIntersection = true;
 		m_bIsEnterableWall = false;
-	}
-	else if (c == 'i') {//blank intersection
-		m_bIsObstacle = false;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = true;
-		m_bIsEnterableWall = false;
-	}
-	/*
-	else if(c=='d') // default indoor tile
-	{
-		m_bIsObstacle = true;
-		m_bIsPoint = false;
-		m_bIsPowerUp = false;
-		m_bIsIntersection = false;
-		m_bIsEnterableWall = false;
-		m_rSrc.x = 96;
-		m_rSrc.y = 0;
-		m_rSrc.w = m_rSrc.h = 32;
-	}
-	*/
-	else if (c == 'W') {
+		break;
+	case 'W':
 		m_bIsObstacle = true;
 		m_bIsPoint = false;
 		m_bIsPowerUp = false;
 		m_bIsIntersection = false;
 		m_bIsEnterableWall = true;
+		break;
+	case '!':
+		m_bIsObstacle = true;
+		m_bIsPoint = false;
+		m_bIsPowerUp = false;
+		m_bIsIntersection = false;
+		m_bIsEnterableWall = false;
+		break;
 	}
 }

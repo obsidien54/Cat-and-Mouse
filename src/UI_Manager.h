@@ -7,56 +7,46 @@
 #include "Input_Manager.h"
 
 #include "UI_MainMenu.h"
-#include "UI_Levels.h"
 #include "UI_HowToPlay.h"
 #include "UI_Scores.h"
 
 
-enum eType
+enum eMenu
 {
 	MAIN_MENU,
-    HOW_TO_PLAY,
-    LEVELS,
+	HOW_TO_PLAY,
     SCORES,
-    QUIT,
-	NUM_OF_TYPES
+	NUM_OF_MENUS
 };
-enum eMain
+enum eMainButtons
 {
     Main_HOW_TO_PLAY,
-    Main_LEVELS,
+    Main_START,
     Main_SCORES,
-    Main_QUIT,
-	Main_NUM_OF_TYPES
+	Main_NUM_OF_BUTTONS
 };
-enum eHowToPlay
+enum eHowToPlayButtons
 {
     HowToPlay_BACK,
-	HowToPlay_NUM_OF_TYPES
+	HowToPlay_NUM_OF_BUTTONS
 };
-enum eLevels
-{
-    Levels_LEVEL_1,
-    Levels_BACK,
-	Levels_NUM_OF_TYPES
-};
-enum eScores
+enum eScoresButtons
 {
     Scores_BACK,
-	Scores_NUM_OF_TYPES
+	Scores_NUM_OF_BUTTONS
 };
 using namespace std;
 
 class UI_Manager // Manages order of UI scenes
 {
 private:
+	//SDL_Scancode aMainMenuButtonScanCodes[eMainButtons::Main_NUM_OF_BUTTONS];
     unsigned short m_iCurrentScreenIndex;
     //bool m_bWaitingForInput;
     Input_Manager m_pInput;
 
     // Encapsulation of all Menu objects
     UI_MainMenu m_pMainMenu;
-    UI_Levels m_pLevels;
     UI_HowToPlay m_pHowToPlay;
     UI_Scores m_pScores;
     
@@ -71,9 +61,8 @@ public:
     
     void SetScreenIndex (unsigned short);
     // A func for every menu type
-    void MainMenu(SDL_Renderer*, bool& bRunning);
+    void MainMenu(SDL_Renderer*, bool& bRunning, bool &bGameIsRunning);
     void HowToPlay (SDL_Renderer*);
-    void Levels (SDL_Renderer*, bool& bRunning);
     void Scores (SDL_Renderer*);
 
     

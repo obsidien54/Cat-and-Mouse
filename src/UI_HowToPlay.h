@@ -14,6 +14,8 @@ private:
     
     
 public:
+	bool bBack;
+
     UI_HowToPlay();
     //static UI_HowToPlay* GetInstance();
 

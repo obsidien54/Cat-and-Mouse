@@ -2,23 +2,30 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+
+#include "Input_Manager.h"
+
 #include "Player.h"
 #include "Cat.h"
 #include <string>
 #include "Level.h"
 #define FPS 60
+#define ROWS 23
+#define COLS 23
+#define TILESIZE 32
+#define SPRITESIZE 64
+
+class Player;
 
 class Game {
 private:
-	Game();
-	~Game() {};
 
+	Input_Manager m_Input;
+	Game();
+	
 	// Game Engine Variables
 	bool m_bRunning;
-	const Uint8* m_iKeyStates;
-	Uint32 m_start, m_end, m_delta, m_fps, m_powerUpStartTimer;
-	SDL_Window* m_pWindow;
-	SDL_Renderer* m_pRenderer;
+	Uint32 m_start, m_end, m_delta, m_fps, m_abilityStartTimer;
 	
 	SDL_Texture* m_pTileTexture;
 	SDL_Texture* m_pPickupTexture;
@@ -49,12 +56,12 @@ private:
 	std::string m_fontTextLevel;
 	SDL_Surface* m_pTextSurfaceLevel;
 	SDL_Texture* m_pTextTextureLevel;
-	SDL_Rect m_textRectLevel = { 700,10 };
+	SDL_Rect m_textRectLevel = { 300,10 };
 	//Score
 	std::string m_fontTextScore;
 	SDL_Surface* m_pTextSurfaceScore;
 	SDL_Texture* m_pTextTextureScore;
-	SDL_Rect m_textRectScore = { 1320,10 };
+	SDL_Rect m_textRectScore = { 650,10 };
 	
 public:
 	static Game* GetInstance() {
@@ -63,18 +70,36 @@ public:
 	}
 	Player* GetPlayer();
 	Level* GetLevel();
+	Input_Manager* GetInputManager();
 
-	bool Init(const char* title, int xpos, int ypos, int width, int height, int flags);
+	bool Init(SDL_Renderer* m_pRenderer);
+	void CreateGameObjects();
+	void SetUpTileVariables();
+	void BuildForegroundLayer();
+	void BuildBackgroundLayer();
 	bool Running() { return m_bRunning; }
 	void Update();
-	void Render();
+	void Render(SDL_Renderer* m_pRenderer);
 	void HandleEvents();
-	void HandlePlayerAbilities();
-	void PlayerCatsInteractions();
-	void PlayerMovements();
-	void CatMovements();
+	void ChangeCatsToWhite();
+	void ChangeCatsToOriginalColors();
+	void HandlePlayerAndCatInteractions();
+
+	void IncrementScore(int score);
+	void SetAbilityStartTimer(Uint32 time);
+	Uint32 GetAbilityStartTimer();
+
+	void UpdateCats();
 	void Clean();
 	void Wake();
 	void Sleep();
-	bool KeyDown(SDL_Scancode c);
+	bool& IsRunningByRef()
+	{
+		return m_bRunning;
+	}
+	void StopRunning()
+	{
+		m_bRunning = false;
+	}
+	~Game() {};
 };

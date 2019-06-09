@@ -14,6 +14,10 @@ Cat::Cat(SDL_Rect s, SDL_Rect d) {
 	checkBound = false;
 }
 
+bool Cat::IsWhite()
+{
+	return m_rSrc.x == 768 && m_rSrc.y == 0;
+}
 
 bool Cat::IsVulnerable() { return m_bIsVulnerable; }
 bool Cat::IsDead() { return m_bIsDead; }

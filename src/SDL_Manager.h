@@ -1,7 +1,10 @@
 #ifndef SDL_MANAGER_H
 #define SDL_MANAGER_H
 
-
+#define ROWS 23
+#define COLS 23
+#define TILESIZE 32
+#define SPRITESIZE 64
 
 #include<iostream>
 
