@@ -29,6 +29,7 @@ void UI_Manager::Start(SDL_Renderer* pRenderer, bool& bRunning, bool& bGameIsRun
     // Displays MENU
     if (m_iCurrentScreenIndex == eType::MAIN_MENU)
     {
+		
         MainMenu(pRenderer, bRunning);
     }
     else if (m_iCurrentScreenIndex == eType::HOW_TO_PLAY)
@@ -63,6 +64,8 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool& bSDLRunning)
 {
     
     m_pMainMenu.Render(pRenderer);
+
+	
 
     if (m_pInput.MouseUp_Select(m_pMainMenu.GetRect(eMain::Main_HOW_TO_PLAY))) // Potential change of scenes
     {

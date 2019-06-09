@@ -30,6 +30,17 @@ UI_MainMenu::UI_MainMenu()
     m_rQuit.w = m_rHowToPlay.w; // controls the width of the rect
     m_rQuit.h = m_rHowToPlay.h; // These are all specific to ONE TEXT Title ... Data driven design
 
+	//create the buttons in this menu
+	
+	button1.setPosition(glm::vec2(368,150));
+	button1.setType(PLAY_BUTTON);
+	button2.setPosition(glm::vec2(368, 300));
+	button2.setType(HOW_TO_PLAY_BUTTON);
+	button3.setPosition(glm::vec2(368, 450));
+	button3.setType(MAIN_MENU_BUTTON);
+
+	//lower the volume since too loud
+	TheAudioManager::Instance()->setMusicVolume(20);
 
 	//background music
 	//music by bensound
@@ -60,7 +71,6 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
     SDL_DestroyTexture(tTemp);
     SDL_Surface* sTemp1;
     SDL_Texture* tTemp1;
-    
     
     // How to Play
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 150);
@@ -112,6 +122,11 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
     
     SDL_FreeSurface(sTemp4);
     SDL_DestroyTexture(tTemp4);
+
+
+	button1.draw();
+	button2.draw();
+	button3.draw();
 
     
     SDL_RenderPresent(pRenderer);

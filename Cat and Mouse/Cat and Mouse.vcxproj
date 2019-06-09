@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AudioManager.h" />
+    <ClInclude Include="..\src\Button.h" />
     <ClInclude Include="..\src\Cat.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Game_Manager.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\src\PowerUp.h" />
     <ClInclude Include="..\src\SDL_Manager.h" />
     <ClInclude Include="..\src\Sprite.h" />
+    <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Tile.h" />
     <ClInclude Include="..\src\UI_HowToPlay.h" />
     <ClInclude Include="..\src\UI_Levels.h" />
@@ -43,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AudioManager.cpp" />
+    <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\Cat.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\Game_Manager.cpp" />
@@ -52,6 +55,7 @@
     <ClCompile Include="..\src\PowerUp.cpp" />
     <ClCompile Include="..\src\SDL_Manager.cpp" />
     <ClCompile Include="..\src\Sprite.cpp" />
+    <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\UI_HowToPlay.cpp" />
     <ClCompile Include="..\src\UI_Levels.cpp" />
