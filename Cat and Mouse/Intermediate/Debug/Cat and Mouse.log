@@ -1,33 +1,17 @@
-﻿  AudioManager.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Cat.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  Game.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Game_Manager.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Input_Manager.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Main.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Player.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  PowerUp.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  SDL_Manager.cpp
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\crtdefs.h(10): fatal error C1083: Cannot open include file: 'corecrt.h': No such file or directory
-  Sprite.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  Tile.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  UI_HowToPlay.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
+﻿  Button.cpp
+e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\button.cpp(89): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\button.cpp(90): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
   UI_MainMenu.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  UI_Manager.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  UI_Menu.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
-  UI_Scores.cpp
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\include\sdl\include\sdl_stdinc.h(50): fatal error C1083: Cannot open include file: 'stddef.h': No such file or directory
+e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(15): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\michael\desktop\cat-and-mouse\cat-and-mouse\src\ui_mainmenu.cpp(75): warning C4551: function call missing argument list
   Generating Code...
+  Cat and Mouse.vcxproj -> E:\Michael\Desktop\Cat-and-Mouse\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe

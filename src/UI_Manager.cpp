@@ -83,7 +83,7 @@ void UI_Manager::HowToPlay (SDL_Renderer* pRenderer)
 {
     m_pHowToPlay.Render(pRenderer);
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Via Enum indexes
+	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
 	{
 		//m_pMainMenu.RenderMouseOver(pRenderer, i); Not Implemented in other classes
 		//cout << "MouseOver Detected" << endl;
@@ -98,7 +98,7 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 {
     m_pScores.Render(pRenderer);
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Via Enum indexes
+	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
 	{
 		//m_pMainMenu.RenderMouseOver(pRenderer, i);
 		//cout << "MouseOver Detected" << endl;

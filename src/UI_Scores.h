@@ -14,6 +14,8 @@ private:
     
     
 public:
+	bool bBack;
+
     UI_Scores();
     //static UI_Scores* GetInstance();
 

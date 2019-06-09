@@ -1,7 +1,5 @@
 #include "SDL_Manager.h"
 #include "UI_Manager.h"
-#include "Input_Manager.h"
-#include "Game_Manager.h"
 #include "Game.h"
 #include <Windows.h>
 #include <SDL_ttf.h>
@@ -24,8 +22,7 @@ int main (int argc, char* argv[])
     UI_Manager pUI;
 	Game* game = Game::GetInstance();
 	
-    
-	Input_Manager mInput;
+
 
 	while (pSDL->IsRunning())
 	{
@@ -35,7 +32,7 @@ int main (int argc, char* argv[])
 		if (game->Running()) 
 		{
 			
-			if (game->Init(pSDL->GetRenderer()))
+			if (game->Init(pSDL->GetRenderer()) == false)
 			{
 				return 1;
 			}

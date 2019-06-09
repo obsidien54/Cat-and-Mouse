@@ -7,8 +7,7 @@ Input_Manager::Input_Manager()
     cout << "Instance of a Input Manager Created" << endl;
 
     m_iKeyStates = SDL_GetKeyboardState(NULL);
-    m_bLMouseButton_Up = true;
-    //m_iNumOfTimesPressed = 0;
+	
 }
 
 bool Input_Manager::MouseUp_Select(SDL_Rect rect) // Rename
@@ -60,16 +59,10 @@ bool Input_Manager::KeyDown(SDL_Scancode c)
 			return true;
 		}
 		else 
-        {
+		{
 			return false;
 		}
 	}
-	/*else
-	{
-		cout << "m_iKeyStates == nullptr" << endl;
-		return false;
-	}*/
-	
 }
 
 Input_Manager::~Input_Manager()

@@ -9,7 +9,7 @@ UI_Scores::UI_Scores()
     m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
     m_rBack.x = m_rTitle.x + 150;  //controls the rect's x coordinate 
-    m_rBack.y = m_rTitle.y + 100; // controls the rect's y coordinte
+    m_rBack.y = m_rTitle.y + 280; // controls the rect's y coordinte
     m_rBack.w = m_rTitle.w * 0.5; // controls the width of the rect
     m_rBack.h = m_rTitle.h * 0.5; // These are all specific to ONE TEXT Title ... Data driven design
 
@@ -44,7 +44,7 @@ void UI_Scores::Render(SDL_Renderer* pRenderer)
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
     SDL_RenderDrawRect(pRenderer, &m_rBack);
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-    sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "1. Back", White);
+    sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "4. Back", White);
     tTemp1 = SDL_CreateTextureFromSurface(pRenderer, sTemp1);
     SDL_RenderCopy(pRenderer, tTemp1, NULL, &m_rBack); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
     

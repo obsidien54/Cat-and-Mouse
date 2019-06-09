@@ -12,8 +12,7 @@ class Input_Manager // Manages order of INPUT scenes
 private:
     const Uint8* m_iKeyStates; // this is for the game loop
     SDL_Event event;
-    //unsigned short m_iNumOfTimesPressed;
-    bool m_bLMouseButton_Up;
+    
 
     int m_iTempX, m_iTempY;
 

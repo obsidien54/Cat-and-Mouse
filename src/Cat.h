@@ -39,6 +39,7 @@ private:
 public:
 	int distance;
 	Cat(SDL_Rect s, SDL_Rect d);
+	bool IsWhite();
 	bool IsVulnerable();
 	bool IsDead();
 	bool IsMoving();

@@ -15,26 +15,14 @@ enum sound_type
 	SOUND_SFX = 1
 };
 
+//************LIST OF AUDIO FILES AND LOCATIONS BEING USED************//
+// UI_MainMenu.cpp contains the background music and its implementation
+//player.cpp contains the loading of the powerup and the cheese pickup sound effect
+//powerup and cheese pickup are played in game.cpp where the mouse eats the cheese or there is a pickup done
+
 class AudioManager {
 public:
-
-	AudioManager();
-
-	bool load(std::string fileName, std::string id, sound_type type);
-
-	static AudioManager* AudioList;
-
-	Mix_Music* sMusic = nullptr;
-
-	Mix_Chunk* Jump = nullptr;
-	Mix_Chunk* Select = nullptr;
-	Mix_Chunk* Return = nullptr;
-	Mix_Chunk* Pause = nullptr;
-	Mix_Chunk* PowerUp = nullptr;
-	Mix_Chunk* Pellet = nullptr;
-
-
-	/*static AudioManager* Instance()
+	static AudioManager* Instance()
 	{
 		if (s_pInstance == 0)
 		{
@@ -42,28 +30,26 @@ public:
 			return s_pInstance;
 		}
 		return s_pInstance;
-	}*/
+	}
 
+	//volume from 0-128
+	void setMusicVolume(int volume);
 
-
-
-	static AudioManager* Audiolist;
+	bool load(std::string fileName, std::string id, sound_type type);
+	void playSound(std::string id, int loop);
+	void playMusic(std::string id, int loop);
+private:
+	static AudioManager* s_pInstance;
 
 	std::map<std::string, Mix_Chunk*> m_sfxs;
-	
+	std::map<std::string, Mix_Music*> m_music;
 
-	static AudioManager * GetInstance();
-	void _Jump();
-	void _Select();
-	void _Return();
-	void _Pause();
-	void _PowerUp();
-	void _Pellet();
+	AudioManager();
 	~AudioManager();
 
-	//AudioManager(const AudioManager&);
-};
+	AudioManager(const AudioManager&);
 
+};
 typedef AudioManager TheAudioManager;
 
 #endif /* defined (__SoundManager__) */
