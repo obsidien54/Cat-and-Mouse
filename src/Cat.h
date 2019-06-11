@@ -23,6 +23,7 @@ private:
 	int m_IDestinationX, m_IDestinationY;
 	char dir;
 	int m_iTargetX, m_iTargetY;
+	int m_CatNum;
 	int m_iSprite = 0;
 	int m_iSpriteMax = 3;
 	int m_iFrameMax = 6;
@@ -37,8 +38,10 @@ private:
 	void DistanceWest();
 
 public:
+	char newDir;
 	int distance;
-	Cat(SDL_Rect s, SDL_Rect d);
+	int frames;
+	Cat(SDL_Rect s, SDL_Rect d, int cat = 0);
 	bool IsWhite();
 	bool IsVulnerable();
 	bool IsDead();

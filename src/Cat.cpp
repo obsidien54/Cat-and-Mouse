@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-Cat::Cat(SDL_Rect s, SDL_Rect d) {
+Cat::Cat(SDL_Rect s, SDL_Rect d, int cat) {
 	m_rSrc = s;
 	m_rDst = d;
 	dir = 'd';
@@ -12,6 +12,8 @@ Cat::Cat(SDL_Rect s, SDL_Rect d) {
 	center.x = center.y = m_rDst.w / 2;
 	m_State = C_State::SEEK;
 	checkBound = false;
+	frames = 0;
+	m_CatNum = cat;
 }
 
 bool Cat::IsWhite()
@@ -131,7 +133,7 @@ void Cat::DistanceNorth()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('w');
+			newDir = 'w';
 		}
 	}
 }
@@ -148,7 +150,7 @@ void Cat::DistanceEast()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('d');
+			newDir = 'd';
 		}
 	}
 }
@@ -165,7 +167,7 @@ void Cat::DistanceSouth()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('s');
+			newDir = 's';
 		}
 	}
 }
@@ -182,7 +184,7 @@ void Cat::DistanceWest()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('a');
+			newDir = 'a';
 		}
 	}
 }
@@ -218,6 +220,8 @@ void Cat::Seek()
 						break;
 					}
 				}
+				SetDir(newDir);
+				newDir = 'q';
 				//std::cout << "---------" << std::endl;
 				//std::cout << "shortest : " << GetDir() << " | Distance :" << distance << std::endl;
 				//std::cout << "---------" << std::endl;
@@ -366,12 +370,60 @@ void Cat::Update()
 	case C_State::WAKEUP:
 		break;
 	case C_State::SCATTER:
-		TargetScatter();
-		Seek();
+		if (frames >= 1500)
+		{
+			SetState(C_State::SEEK);
+			switch (GetDir())
+			{
+			case 'w':
+				SetDir('s');
+				break;
+			case 'd':
+				SetDir('a');
+				break;
+			case 'a':
+				SetDir('d');
+				break;
+			case 's':
+				SetDir('w');
+				break;
+			}
+			frames = 0;
+		}
+		else
+		{
+			frames++;
+			TargetScatter();
+			Seek();
+		}
 		break;
 	case C_State::SEEK:
-		TargetPlayer();
-		Seek();
+		if (frames >= 1500)
+		{
+			SetState(C_State::SCATTER);
+			switch (GetDir())
+			{
+			case 'w':
+				SetDir('s');
+				break;
+			case 'd':
+				SetDir('a');
+				break;
+			case 'a':
+				SetDir('d');
+				break;
+			case 's':
+				SetDir('w');
+				break;
+			}
+			frames = 0;
+		}
+		else
+		{
+			frames++;
+			TargetPlayer();
+			Seek();
+		}
 		break;
 	case C_State::DEATH:
 		TargetDeath();
@@ -383,4 +435,6 @@ void Cat::Update()
 void Cat::Die() {
 	m_bIsDead = true;
 	m_rSrc = {};
+	SetState(C_State::DEATH);
+	frames = 0;
 }
