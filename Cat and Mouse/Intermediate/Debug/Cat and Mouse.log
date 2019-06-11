@@ -4,6 +4,8 @@ e:\michael\documents\george brown\second semester\game 1014 game production ii\g
 e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.cpp(24): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Main.cpp
   Player.cpp
+  Sprite.cpp
+  Tile.cpp
   UI_MainMenu.cpp
 e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\ui_mainmenu.cpp(93): warning C4018: '<': signed/unsigned mismatch
   UI_Manager.cpp

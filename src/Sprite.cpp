@@ -72,3 +72,9 @@ void Sprite::SetSrc(SDL_Rect src) {
 void Sprite::SetDst(SDL_Rect d) { 
 	m_rDst = d; 
 }
+
+void Sprite::SetDst(int x, int y)
+{
+	m_rDst.x = x;
+	m_rDst.y = y;
+}

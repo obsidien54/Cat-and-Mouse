@@ -192,7 +192,14 @@ void Game::HandlePlayerAndCatInteractions() {
 					m_livesNum -= 1;
 					if (m_livesNum == 0)
 					{
-						
+						SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+						TheTextureManager::Instance()->draw("Game_Over",
+							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+						SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+						Game::GetInstance()->SetScore(0);
+
+						SDL_Delay(3000);
+						Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
 						m_pPlayer->Die();
 						m_livesNum = 2;
 						m_bRunning = false;
@@ -255,17 +262,13 @@ void Game::PlayerLost()
 	std::cout << "The player has lost" << std::endl;
 	// load picture in the contructor
 	// Render picture
-	m_pPlayer->SetDestinationX(TILESIZE * 11);
-	m_pPlayer->SetDestinationY(TILESIZE * 13);
+	m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
 	std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
-	m_pCats[0]->SetDestinationX(TILESIZE * 3);
-	m_pCats[0]->SetDestinationY(TILESIZE * 3);
-	m_pCats[1]->SetDestinationX(TILESIZE * 19);
-	m_pCats[1]->SetDestinationY(TILESIZE * 3);
-	m_pCats[2]->SetDestinationX(TILESIZE * 3);
-	m_pCats[2]->SetDestinationY(TILESIZE * 19);
-	m_pCats[3]->SetDestinationX(TILESIZE * 19);
-	m_pCats[3]->SetDestinationY(TILESIZE * 19);
+
+	m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
+	m_pCats[1]->SetDst(TILESIZE * 19, TILESIZE * 3);
+	m_pCats[2]->SetDst(TILESIZE * 3, TILESIZE * 19);
+	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);
 	
 
 	std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
@@ -278,7 +281,6 @@ void Game::PlayerLost()
 		Game::GetInstance()->SetScore(0);
 	}
 	SDL_Delay(3000);
-	//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400); //dont want to reduce score
 	
 }
 
