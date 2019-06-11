@@ -4,7 +4,7 @@
 
 class Tile : public Sprite {
 private:
-	bool m_bIsObstacle, m_bIsPoint, m_bIsPowerUp, m_bIsIntersection, m_bIsEnterableWall;
+	bool m_bIsObstacle, m_bIsPoint, m_bIsPowerUp, m_bIsIntersection, m_bIsEnterableWall, m_bIsLeftWarp, m_bIsRightWarp;
 
 public:
 	Tile();
@@ -13,7 +13,9 @@ public:
 	bool isPoint();
 	bool isPowerUp();
 	bool isIntersection();
-	bool isEnterableWall();
+	bool isEnterableWall(); 
+	bool isLeftWarpTile();
+	bool isRightWarpTile();
 
 	void SetTileVariables(char c);
 };

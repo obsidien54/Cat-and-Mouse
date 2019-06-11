@@ -26,6 +26,7 @@
     <ClInclude Include="..\src\AudioManager.h" />
     <ClInclude Include="..\src\Button.h" />
     <ClInclude Include="..\src\Cat.h" />
+    <ClInclude Include="..\src\CommonIncludes.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\Game_Manager.h" />
     <ClInclude Include="..\src\Input_Manager.h" />

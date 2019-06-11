@@ -46,6 +46,25 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
 }
 
+void TextureManager::draw(std::string id, SDL_Renderer* pRenderer, int dWidth, int dHeight, SDL_RendererFlip flip, int x, int y)
+{
+	SDL_Rect srcRect;
+	SDL_Rect destRect;
+	srcRect.x = 0;
+	srcRect.y = 0;
+
+	int textureWidth, textureHeight;
+	SDL_QueryTexture(m_textureMap[id], NULL, NULL, &textureWidth, &textureHeight);
+
+	srcRect.w = textureWidth; //srcRect.w = width;
+	srcRect.h = textureHeight;  //srcRect.h = height;
+	destRect.w = dWidth;
+	destRect.h = dHeight;
+	destRect.x = x;
+	destRect.y = y;
+	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
+}
+
 void TextureManager::draw(std::string id, int x, int y, SDL_Renderer * pRenderer, bool centered, SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;

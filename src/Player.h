@@ -2,7 +2,11 @@
 #include "Sprite.h"
 #include <SDL.h>
 #include "PowerUp.h"
+#include "Input_Manager.h"
+#include "Game.h"
 #include "AudioManager.h"
+
+class Game;
 
 class Player : public Sprite 
 {
@@ -17,10 +21,19 @@ private:
 	int m_iSpriteMax = 3; //number of sprites in anumation
 	Ability m_ability = Ability::ENTER_WALL;
 
+	void m_HandlePlayerAbilities();
+	void m_HandleMovement();
+	void m_HandleWarping();
+	void m_HandleEatingCheese();
+	void m_HandleEatingMysteryCheese();
+	void m_MovePlayer();
+	
+
 public:
 	Player(SDL_Rect s, SDL_Rect d);
 	SDL_Point center; // pivot point of our mouse
 	
+	void update();
 	void animate(); // animates mouse
 	
 	bool isMoving();
@@ -39,8 +52,6 @@ public:
 	void SetCurrentlyInWall(bool b);
 	void SetEnteredWall(bool b);
 
-	
-
 	int GetRightEdgeTile(); //return the tile that the right edge of the sprite is located in
 	int GetLeftEdgeTile(); //return the tile that the left edge of the sprite is located in
 	int GetTopEdgeTile();//return the tile that the top edge of the sprite is located in
@@ -49,7 +60,6 @@ public:
 	void SetPowered(bool b); 
 	void SetAbility(Ability a);
 	Ability GetAbility();
-
 
 	void MoveUp();
 	void MoveDown();

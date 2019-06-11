@@ -20,7 +20,7 @@ bool SDL_Manager::Init(const char* title, int x, int y, int w, int h, Uint32 wfl
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) // SDL_INIT_EVENTS | SDL_INIT_VIDEO
     {
-        m_pWindow = SDL_CreateWindow(title, x, y, w, h, wflags);
+        m_pWindow = SDL_CreateWindow(title, x, y, w * TILESIZE, h * TILESIZE, wflags);
 
         if (m_pWindow != nullptr)
         {
