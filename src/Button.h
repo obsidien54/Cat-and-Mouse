@@ -24,6 +24,8 @@ enum ButtonType {
 	HIGH_SCORES_BUTTON,
 	MAIN_MENU_BUTTON,
 	QUIT_BUTTON,
+	RESTART_BUTTON,
+	LEVELS_BUTTON,
 	NUM_OF_TYPES_BUTTON
 };
 
@@ -42,10 +44,17 @@ public:
 	void setState(State newState);
 
 	ButtonType getType();
-	void setType(ButtonType newState);
+	void setType(ButtonType newType);
 
 	string getName();
 	void setName(string name);
+
+	SDL_Rect* getButtonRect();
+	void setButtonRect(std::string name, glm::vec2 rect);
+
+	//set up the button with all poperties
+	void buttonSetUp(glm::vec2 position, ButtonType type, std::string name);
+
 	
 	void draw();
 
@@ -63,5 +72,8 @@ private:
 	
 	//name for button to use when drawing
 	string m_buttonName;
+
+	//rectangle for button hitbox
+	SDL_Rect m_pButtonRect;
 };
 #endif /* defined (__Button__) */

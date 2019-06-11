@@ -2,43 +2,32 @@
 #include "UI_MainMenu.h"
 
 
+
+
+Button UI_MainMenu::GetButton(int buttonNumber)
+{
+	return buttons[buttonNumber -1];
+}
+
 UI_MainMenu::UI_MainMenu()
 {
     cout << "Instance of a UI MainMenu Created" << endl;
-    m_rTitle.x = 100;  //controls the rect's x coordinate 
-    m_rTitle.y = 100; // controls the rect's y coordinte
-    m_rTitle.w = 300; // controls the width of the rect
-    m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
-    m_rHowToPlay.x = m_rTitle.x + 150;  //controls the rect's x coordinate 
-    m_rHowToPlay.y = m_rTitle.y + 100; // controls the rect's y coordinte
-    m_rHowToPlay.w = m_rTitle.w * 0.5; // controls the width of the rect
-    m_rHowToPlay.h = m_rTitle.h * 0.5; // These are all specific to ONE TEXT Title ... Data driven design
 
-    m_rStart.x = m_rHowToPlay.x;  //controls the rect's x coordinate 
-    m_rStart.y = m_rHowToPlay.y + 60; // controls the rect's y coordinte
-    m_rStart.w = m_rHowToPlay.w; // controls the width of the rect
-    m_rStart.h = m_rHowToPlay.h; // These are all specific to ONE TEXT Title ... Data driven design
-    
-    m_rScores.x = m_rHowToPlay.x;  //controls the rect's x coordinate 
-    m_rScores.y = m_rStart.y + 60; // controls the rect's y coordinte
-    m_rScores.w = m_rHowToPlay.w; // controls the width of the rect
-    m_rScores.h = m_rHowToPlay.h; // These are all specific to ONE TEXT Title ... Data driven design
-    
-    m_rQuit.x = m_rHowToPlay.x;  //controls the rect's x coordinate 
-    m_rQuit.y = m_rScores.y + 60; // controls the rect's y coordinte
-    m_rQuit.w = m_rHowToPlay.w; // controls the width of the rect
-    m_rQuit.h = m_rHowToPlay.h; // These are all specific to ONE TEXT Title ... Data driven design
-
+	mouseHitBox = {0,0,20,20};
 
 	//create the buttons in this menu
+	m_playButton.buttonSetUp(glm::vec2(368, 200), PLAY_BUTTON, "play");
+	m_howToPlayButton.buttonSetUp(glm::vec2(368, 260), HOW_TO_PLAY_BUTTON, "how to play");
+	m_highScoresButton.buttonSetUp(glm::vec2(368, 320), HIGH_SCORES_BUTTON, "high scores");
+	m_quitButton.buttonSetUp(glm::vec2(368, 380), QUIT_BUTTON, "quit");
+	
 
-	button1.setPosition(glm::vec2(368, 150));
-	button1.setType(PLAY_BUTTON);
-	button2.setPosition(glm::vec2(368, 300));
-	button2.setType(HOW_TO_PLAY_BUTTON);
-	button3.setPosition(glm::vec2(368, 450));
-	button3.setType(MAIN_MENU_BUTTON);
+	//add all the buttons to the button vector for easy access
+	buttons.push_back(m_playButton);
+	buttons.push_back(m_howToPlayButton);
+	buttons.push_back(m_highScoresButton);
+	buttons.push_back(m_quitButton);
 
 	//lower the volume since too loud
 	TheAudioManager::Instance()->setMusicVolume(20);
@@ -51,96 +40,71 @@ UI_MainMenu::UI_MainMenu()
 	TheAudioManager::Instance()->playMusic("Background", -1);
 }
 
-void UI_MainMenu::RenderMouseOver(SDL_Renderer* pRenderer, unsigned short i)
-{
-	SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 150);
-
-	if (i == 0)
-	{
-		// How to Play
-		SDL_RenderDrawRect(pRenderer, &m_rHowToPlay);
-	}
-	else if (i == 1)
-	{
-		// Start
-		SDL_RenderDrawRect(pRenderer, &m_rStart);
-
-	}
-	else if (i == 2)
-	{
-		// Scores
-		SDL_RenderDrawRect(pRenderer, &m_rScores);
-	}
-
-	SDL_RenderPresent;
-}
 
 
 void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 {
-    SDL_Surface* sTemp;
-    SDL_Texture* tTemp;
+	SDL_Surface* sTemp;
+	SDL_Texture* tTemp;
 
 	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-    SDL_RenderClear(pRenderer);
+	SDL_RenderClear(pRenderer);
 
-    //Title
-    sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "Main Menu", White);
-    tTemp = SDL_CreateTextureFromSurface(pRenderer, sTemp);
-    SDL_RenderCopy(pRenderer, tTemp, NULL, &m_rTitle); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-    
-    SDL_FreeSurface(sTemp);
-    SDL_DestroyTexture(tTemp);
-    SDL_Surface* sTemp1;
-    SDL_Texture* tTemp1;
-    
-    
-    // How to Play
-    sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "1. How to Play", White);
-    tTemp1 = SDL_CreateTextureFromSurface(pRenderer, sTemp1);
-    SDL_RenderCopy(pRenderer, tTemp1, NULL, &m_rHowToPlay); // you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-    
-    SDL_FreeSurface(sTemp1);
-    SDL_DestroyTexture(tTemp1);
-    SDL_Surface* sTemp2;
-    SDL_Texture* tTemp2;
+	//Title
+	sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "Main Menu", White);
+	tTemp = SDL_CreateTextureFromSurface(pRenderer, sTemp);
+	SDL_RenderCopy(pRenderer, tTemp, NULL, &m_rTitle); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 
-    // Start
-    sTemp2 = TTF_RenderText_Solid(m_pDefaultFontSans, "2. Start", White);
-    tTemp2 = SDL_CreateTextureFromSurface(pRenderer, sTemp2);
-    SDL_RenderCopy(pRenderer, tTemp2, NULL, &m_rStart); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-    
-    SDL_FreeSurface(sTemp2);
-    SDL_DestroyTexture(tTemp2);
-    SDL_Surface* sTemp3;
-    SDL_Texture* tTemp3;
+	SDL_FreeSurface(sTemp);
+	SDL_DestroyTexture(tTemp);
 
-    // High Scores
-    sTemp3 = TTF_RenderText_Solid(m_pDefaultFontSans, "3. High Scores", White);
-    tTemp3 = SDL_CreateTextureFromSurface(pRenderer, sTemp3);
-    SDL_RenderCopy(pRenderer, tTemp3, NULL, &m_rScores); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-        
 
-    SDL_FreeSurface(sTemp3);
-    SDL_DestroyTexture(tTemp3);
-    //SDL_Surface* sTemp4;
-    //SDL_Texture* tTemp4;
 
-    //// Quit
-    //sTemp4 = TTF_RenderText_Solid(m_pDefaultFontSans, "Quit", White);
-    //tTemp4 = SDL_CreateTextureFromSurface(pRenderer, sTemp4);
-    //SDL_RenderCopy(pRenderer, tTemp4, NULL, &m_rQuit); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-    //
-    //SDL_FreeSurface(sTemp4);
-    //SDL_DestroyTexture(tTemp4);
+	//check if mouse if over the button
+	SDL_Event event;
+	SDL_PollEvent(&event);
+	if (event.type == SDL_MOUSEMOTION)
+	{
+		mouseHitBox.x = event.button.x;
+		mouseHitBox.y = event.button.y;
+	}
+
+	for (int i = 0; i < buttons.size(); i++) //for every button in buttons draw it
+	{
+		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
+		{
+			buttons[i].setState(HOVER); //change the state
+			std::cout << "hovering over button" << std::endl;
+		}
+		else
+		{
+			buttons[i].setState(NORMAL);
+		}
+	}
 
 
 	//draw the buttons
-	button1.draw();
+	for(auto button: buttons ) //for every button in buttons draw it
+	{
+		button.draw();
+	}
+	/*button1.draw();
 	button2.draw();
 	button3.draw();
+	button4.draw();
+	*/
+
+	//draw the mouse hitbox to see
+	SDL_SetRenderDrawColor(pRenderer,255,225,255,255);
+	SDL_RenderFillRect(pRenderer, &mouseHitBox);
+	SDL_RenderDrawRect(pRenderer, &mouseHitBox);
     
     SDL_RenderPresent(pRenderer);
+}
+
+bool UI_MainMenu::IsMouseOverButton(int buttonNum)
+{
+	return SDL_HasIntersection(buttons[buttonNum].getButtonRect(), &mouseHitBox);
 }
 
 SDL_Rect UI_MainMenu::GetRect(unsigned short i)

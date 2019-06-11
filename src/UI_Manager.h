@@ -4,11 +4,11 @@
 
 #include <SDL.h>
 
-#include "Input_Manager.h"
 
 #include "UI_MainMenu.h"
 #include "UI_HowToPlay.h"
 #include "UI_Scores.h"
+#include "Game.h"
 
 
 enum eMenu
@@ -55,7 +55,7 @@ private:
     
 public:
     UI_Manager();
-    //static UI_Manager* GetInstance();
+    static UI_Manager* GetInstance();
 
     void Start(SDL_Renderer*, bool& bRunning, bool& bGameIsRunning);
     

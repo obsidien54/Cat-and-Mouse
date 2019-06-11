@@ -23,6 +23,7 @@ private:
 
 	void m_HandlePlayerAbilities();
 	void m_HandleMovement();
+	void m_HandleWarping();
 	void m_HandleEatingCheese();
 	void m_HandleEatingMysteryCheese();
 	void m_MovePlayer();

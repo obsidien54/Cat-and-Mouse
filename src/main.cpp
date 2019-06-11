@@ -49,7 +49,7 @@ int main (int argc, char* argv[])
 			game->Clean();
 			game->StopRunning();
 		}
-		SDL_Delay(200); // This allows the menu to function normally
+		//SDL_Delay(200); // This allows the menu to function normally
 
 	}
 

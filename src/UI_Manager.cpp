@@ -14,14 +14,14 @@ UI_Manager::UI_Manager()
 
     cout << "Instance of a UI Manager Created" << endl;
 }
-/*
+
 UI_Manager* UI_Manager::GetInstance()
 {
     static UI_Manager* instance = new UI_Manager();
 
     return instance;
 }
-*/
+
 
 
 void UI_Manager::Start(SDL_Renderer* pRenderer, bool& bRunning, bool& bGameIsRunning)
@@ -55,8 +55,39 @@ void UI_Manager::SetScreenIndex (unsigned short i) // Use initializer list
 
 void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGameIsRunning)
 {
+	
     m_pMainMenu.Render(pRenderer);
 
+	SDL_Event event;
+	//SDL_PollEvent(&event);
+
+	while (SDL_PollEvent(&event) != 0)
+	{
+		if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				if (m_pMainMenu.GetButton(1).getState() == HOVER)
+				{
+					bGameIsRunning = true;
+					cout << "Game will start" << endl;
+				}
+				else if (m_pMainMenu.GetButton(2).getState() == HOVER)
+				{
+					SetScreenIndex(eMenu::HOW_TO_PLAY);
+				}
+				else if (m_pMainMenu.GetButton(3).getState() == HOVER)
+				{
+					SetScreenIndex(eMenu::SCORES); // Via enums
+				}
+				else if (m_pMainMenu.GetButton(4).getState() == HOVER)
+				{
+					bSDLRunning = false;
+				}
+			}
+		}
+	}
+	
 
 	if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Potential change of scenes
 	{
@@ -83,6 +114,26 @@ void UI_Manager::HowToPlay (SDL_Renderer* pRenderer)
 {
     m_pHowToPlay.Render(pRenderer);
 
+	SDL_Event event;
+	//SDL_PollEvent(&event);
+
+	while (SDL_PollEvent(&event) != 0)
+	{
+		if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				if (m_pHowToPlay.GetButton(1).getState() == HOVER)
+				{
+					SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+					cout << "Screen changed" << endl;
+				}
+				
+			}
+		}
+	}
+
+
 	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
 	{
 		//m_pMainMenu.RenderMouseOver(pRenderer, i); Not Implemented in other classes
@@ -97,6 +148,25 @@ void UI_Manager::HowToPlay (SDL_Renderer* pRenderer)
 void UI_Manager::Scores (SDL_Renderer* pRenderer)
 {
     m_pScores.Render(pRenderer);
+
+	SDL_Event event;
+	//SDL_PollEvent(&event);
+
+	while (SDL_PollEvent(&event) != 0)
+	{
+		if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				if (m_pScores.GetButton(1).getState() == HOVER)
+				{
+					SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+					cout << "Screen changed" << endl;
+				}
+
+			}
+		}
+	}
 
 	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
 	{

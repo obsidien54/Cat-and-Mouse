@@ -73,10 +73,26 @@ void Player::m_HandlePlayerAbilities()
 
 void Player::m_HandleMovement()
 {
+	m_HandleWarping();
 	m_HandleEatingCheese();
 	m_HandleEatingMysteryCheese();
 	m_MovePlayer();
 	animate();
+}
+
+void Player::m_HandleWarping()
+{
+	Level* Level = Game::GetInstance()->GetLevel();
+	if (Level->m_Map[GetY()][GetX()].isLeftWarpTile() && !isMoving()) {
+		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
+		SetDestinationX(18 * TILESIZE);
+		SetMoving(true);
+	}
+	else if (Level->m_Map[GetY()][GetX()].isRightWarpTile() && !isMoving()) {
+		SetDst({ TILESIZE * 3 - TILESIZE, TILESIZE * 11, TILESIZE, TILESIZE });
+		SetDestinationX(4 * TILESIZE);
+		SetMoving(true);
+	}
 }
 
 void Player::m_HandleEatingCheese() {

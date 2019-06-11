@@ -11,7 +11,8 @@
 #include <ctime>
 
 
-Game::Game() {
+Game::Game() 
+{
 	m_fps = (Uint64)round(1 / (long double)FPS * 1000);
 }
 

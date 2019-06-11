@@ -42,10 +42,10 @@ ButtonType Button::getType()
 	return m_type;
 }
 
-void Button::setType(ButtonType newState)
+void Button::setType(ButtonType newType)
 {
-	m_type = newState;
-	switch (newState)
+	m_type = newType;
+	switch (newType)
 	{
 	case ButtonType::HOW_TO_PLAY_BUTTON:
 		TheTextureManager::Instance()->load("../Assets/textures/button_how_to_play.png",
@@ -71,6 +71,30 @@ void Button::setType(ButtonType newState)
 			"play large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("play");
 		break;
+	case ButtonType::QUIT_BUTTON:
+		TheTextureManager::Instance()->load("../Assets/textures/button_quit.png",
+			"quit", SDL_Manager::GetInstance()->GetRenderer());
+
+		TheTextureManager::Instance()->load("../Assets/textures/button_quit_large.png",
+			"quit large", SDL_Manager::GetInstance()->GetRenderer());
+		setName("quit");
+		break;
+	case ButtonType::HIGH_SCORES_BUTTON:
+		TheTextureManager::Instance()->load("../Assets/textures/button_high_scores.png",
+			"high scores", SDL_Manager::GetInstance()->GetRenderer());
+
+		TheTextureManager::Instance()->load("../Assets/textures/button_high_scores_large.png",
+			"high scores large", SDL_Manager::GetInstance()->GetRenderer());
+		setName("high scores");
+		break;
+	case ButtonType::LEVELS_BUTTON:
+		TheTextureManager::Instance()->load("../Assets/textures/button_levels.png",
+			"levels", SDL_Manager::GetInstance()->GetRenderer());
+
+		TheTextureManager::Instance()->load("../Assets/textures/button_levels_large.png",
+			"levels large", SDL_Manager::GetInstance()->GetRenderer());
+		setName("levels");
+		break;
 	}
 }
 
@@ -82,6 +106,29 @@ string Button::getName()
 void Button::setName(string name)
 {
 	m_buttonName = name;
+}
+
+SDL_Rect * Button::getButtonRect()
+{
+	return &m_pButtonRect;
+}
+
+void Button::setButtonRect(std::string name, glm::vec2 rect)
+{
+	glm::vec2 buttonSize;
+	buttonSize = TheTextureManager::Instance()->getTextureSize(name);
+
+	m_pButtonRect.x = rect.x - buttonSize.x * 0.5;//converrt from middle of the button to the outer edge
+	m_pButtonRect.y = rect.y - buttonSize.y * 0.5;
+	m_pButtonRect.w = buttonSize.x;
+	m_pButtonRect.h = buttonSize.y;
+}
+
+void Button::buttonSetUp(glm::vec2 position, ButtonType type, std::string name)
+{
+	setPosition(position);
+	setType(type);
+	setButtonRect(name, position);
 }
 
 void Button::draw()
