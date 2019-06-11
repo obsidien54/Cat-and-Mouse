@@ -1,13 +1,7 @@
-﻿  Cat.cpp
-  Game.cpp
+﻿  Game.cpp
 e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.cpp(16): warning C4244: '=': conversion from 'Uint64' to 'Uint32', possible loss of data
 e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.cpp(24): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Main.cpp
-  Player.cpp
-  Sprite.cpp
-  Tile.cpp
-  UI_MainMenu.cpp
-e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\ui_mainmenu.cpp(93): warning C4018: '<': signed/unsigned mismatch
-  UI_Manager.cpp
+  UI_HowToPlay.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\ui_howtoplay.cpp(69): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   Cat and Mouse.vcxproj -> E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe

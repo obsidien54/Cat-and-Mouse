@@ -199,7 +199,7 @@ void Game::HandlePlayerAndCatInteractions() {
 						Game::GetInstance()->SetScore(0);
 
 						SDL_Delay(3000);
-						Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
+						//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
 						m_pPlayer->Die();
 						m_livesNum = 2;
 						m_bRunning = false;
@@ -253,7 +253,6 @@ void Game::PlayerWon()
 	// load picture in the contructor
 	// Render picture
 	SDL_Delay(3000);
-	Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
 	Game::GetInstance()->StopRunning();
 }
 

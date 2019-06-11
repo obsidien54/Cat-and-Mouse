@@ -13,6 +13,17 @@ UI_MainMenu::UI_MainMenu()
 {
     cout << "Instance of a UI MainMenu Created" << endl;
   
+	m_rTitle.x = 350;  //controls the rect's x coordinate 
+	m_rTitle.y = 30; // controls the rect's y coordinte
+	m_rTitle.w = 200; // controls the width of the rect
+	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
+
+	m_rHowToPlay.x = m_rTitle.x + 100;  //controls the rect's x coordinate 
+	m_rHowToPlay.y = m_rTitle.y + 50; // controls the rect's y coordinte
+	m_rHowToPlay.w = m_rTitle.w; // controls the width of the rect
+	m_rHowToPlay.h = m_rTitle.h; // These are all specific to ONE TEXT Title ... Data driven design
+
+	
 
 	mouseHitBox = {0,0,2,2};
 
@@ -68,7 +79,7 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 	sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "Cat-and", White);
 	tTemp = SDL_CreateTextureFromSurface(pRenderer, sTemp);
 	SDL_RenderCopy(pRenderer, tTemp, NULL, &m_rTitle); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-	
+
 	SDL_FreeSurface(sTemp);
 	SDL_DestroyTexture(tTemp);
 

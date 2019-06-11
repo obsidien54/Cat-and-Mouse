@@ -8,11 +8,7 @@ UI_HowToPlay::UI_HowToPlay()
 	m_rTitle.w = 200; // controls the width of the rect
 	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
-    m_rBack.x = m_rTitle.x + 150;  //controls the rect's x coordinate 
-    m_rBack.y = m_rTitle.y + 280; // controls the rect's y coordinte
-    m_rBack.w = m_rTitle.w * 0.5; // controls the width of the rect
-    m_rBack.h = m_rTitle.h * 0.5; // These are all specific to ONE TEXT Title ... Data driven design
-
+   
 
 	mouseHitBox = { 0,0,2,2 };
 	m_mainMenuButton.buttonSetUp(glm::vec2(368, 570), MAIN_MENU_BUTTON, "main menu");

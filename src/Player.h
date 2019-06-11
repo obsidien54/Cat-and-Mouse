@@ -27,6 +27,8 @@ private:
 	void m_HandleEatingCheese();
 	void m_HandleEatingMysteryCheese();
 	void m_MovePlayer();
+
+	int m_numCheese = 136;
 	
 
 public:
@@ -70,6 +72,10 @@ public:
 	void SetPlayerAngle( int ang); //angle for rotation of image
 	int GetPlayerAngle();
 	int GetPlayerFrame();
+
+	void setNumCheese(int num);
+	int getNumCheese();
+
 
 	void Die();
 };
