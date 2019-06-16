@@ -37,6 +37,7 @@
     <ClInclude Include="..\src\Sprite.h" />
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Tile.h" />
+    <ClInclude Include="..\src\UI_GameOver.h" />
     <ClInclude Include="..\src\UI_HowToPlay.h" />
     <ClInclude Include="..\src\UI_Levels.h" />
     <ClInclude Include="..\src\UI_MainMenu.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
+    <ClCompile Include="..\src\UI_GameOver.cpp" />
     <ClCompile Include="..\src\UI_HowToPlay.cpp" />
     <ClCompile Include="..\src\UI_Levels.cpp" />
     <ClCompile Include="..\src\UI_MainMenu.cpp" />

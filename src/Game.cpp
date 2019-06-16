@@ -7,6 +7,7 @@
 #include "SDL_mixer.h"
 #include "PowerUp.h"
 #include "AudioManager.h"
+#include "UI_Manager.h"
 #include <random>
 #include <ctime>
 
@@ -43,6 +44,9 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	}
 	TheTextureManager::Instance()->load("../Assets/textures/Game_Over.png",
 		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
+
+	TheTextureManager::Instance()->load("../Assets/textures/background.png",
+		"background main", SDL_Manager::GetInstance()->GetRenderer());
 					
 	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
 	std::cout << "Font creation success!" << std::endl;
@@ -203,6 +207,9 @@ void Game::HandlePlayerAndCatInteractions() {
 						m_pPlayer->Die();
 						m_livesNum = 2;
 						m_bRunning = false;
+
+						//want to change the ui to the Game over screen
+						//UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
 					}
 				}
 			}
@@ -295,14 +302,19 @@ void Game::UpdateCats()
 void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
-	// draw background tile map
-	for (int row = 0; row < ROWS; row++)
-	{
-		for (int col = 0; col < COLS; col++) {
-			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
-		}
-	}
-	// Render map
+	//// draw background tile map
+	//for (int row = 0; row < ROWS; row++)
+	//{
+	//	for (int col = 0; col < COLS; col++) {
+	//		SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
+	//	}
+	//}
+
+	//full background image, need to render level map overtop
+	TheTextureManager::Instance()->draw("background main",
+		SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+
+	//// Render map
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_level.m_Map[row][col].GetSrcP(), m_level.m_Map[row][col].GetDstP());

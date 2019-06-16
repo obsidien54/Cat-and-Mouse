@@ -2,7 +2,7 @@
 
 UI_Scores::UI_Scores()
 {
-	//cout << "Instance of a UI Scores Created" << endl;
+	cout << "Instance of a UI Scores Created" << endl;
 	m_rTitle.x = 100;  //controls the rect's x coordinate 
 	m_rTitle.y = 100; // controls the rect's y coordinte
 	m_rTitle.w = 300; // controls the width of the rect

@@ -42,6 +42,10 @@ void UI_Manager::Start(SDL_Renderer* pRenderer, bool& bRunning, bool& bGameIsRun
 	{
 		Scores(pRenderer);
 	}
+	else if (m_iCurrentScreenIndex == eMenu::GAME_OVER)
+	{
+		GameOver(pRenderer, bRunning);
+	}
 	else
 	{
 		cout << "Menu Option not found" << endl;
@@ -167,10 +171,6 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 	}
 	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
 	{
-		//m_pMainMenu.RenderMouseOver(pRenderer, i);
-		//cout << "MouseOver Detected" << endl;
-
-			
 		SetScreenIndex(eMenu::MAIN_MENU); // Via enums
 		cout << "Screen changed" << endl;
 			
@@ -178,21 +178,44 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 	
 }
 
+void UI_Manager::GameOver(SDL_Renderer * pRenderer, bool &bSDLRunning)
+{
+
+	m_pGameOver.Render(pRenderer);
+
+	SDL_Event event;
+	//SDL_PollEvent(&event);
+
+	while (SDL_PollEvent(&event) != 0)
+	{
+		if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				if (m_pGameOver.GetButton(1).getState() == HOVER)
+				{
+					SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+					cout << "Screen changed" << endl;
+				}
+				if (m_pGameOver.GetButton(2).getState() == HOVER)
+				{
+					bSDLRunning = false;
+				}
+
+			}
+		}
+	}
+
+	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
+	{
+
+		SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+		cout << "Screen changed" << endl;
+	}
+}
+
 
 UI_Manager::~UI_Manager()
 {
-    /*
-    if (m_pInput != nullptr)
-    {
-        delete m_pInput;
-    }
-    if (m_pHowToPlay != nullptr)
-    {
-        delete m_pHowToPlay;
-    }
-    if (m_pScores != nullptr)
-    {
-        delete m_pScores;
-    }
-    */
+  
 }
