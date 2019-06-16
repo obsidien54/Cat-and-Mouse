@@ -42,6 +42,7 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	{
 		std::cout << "Pixel maps creation success!" << std::endl;
 	}
+
 	TheTextureManager::Instance()->load("../Assets/textures/Game_Over.png",
 		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
 
@@ -205,11 +206,11 @@ void Game::HandlePlayerAndCatInteractions() {
 						SDL_Delay(3000);
 						//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
 						m_pPlayer->Die();
-						m_livesNum = 2;
+						m_livesNum = 3;
 						m_bRunning = false;
 
 						//want to change the ui to the Game over screen
-						//UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
+						UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
 					}
 				}
 			}
@@ -268,25 +269,26 @@ void Game::PlayerLost()
 	std::cout << "The player has lost" << std::endl;
 	// load picture in the contructor
 	// Render picture
-	m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
-	std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+	//m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
 
-	m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
+	/*m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
 	m_pCats[1]->SetDst(TILESIZE * 19, TILESIZE * 3);
 	m_pCats[2]->SetDst(TILESIZE * 3, TILESIZE * 19);
-	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);
+	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);*/
 	
 
-	std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
-	if (m_livesNum == 0)
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+	/*if (m_livesNum == 0)
 	{
 		SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
 		TheTextureManager::Instance()->draw("Game_Over",
 			SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 		SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 		Game::GetInstance()->SetScore(0);
-	}
+	}*/
 	SDL_Delay(3000);
+	CreateGameObjects();
 	
 }
 
@@ -321,9 +323,13 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 		}
 	}
 
-	// Render ghosts
+	// Render cats
 	for (int i = 0; i < 4; i++) {
-		SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(),m_pCats[i]->angle,&m_pCats[i]->center,SDL_FLIP_NONE);
+		if (!m_pCats[i]->IsDead())
+		{
+			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
+		}
+
 	}
 
 	// Render player
