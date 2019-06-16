@@ -44,6 +44,7 @@ void UI_Manager::Start(SDL_Renderer* pRenderer, bool& bRunning, bool& bGameIsRun
 	}
 	else if (m_iCurrentScreenIndex == eMenu::GAME_OVER)
 	{
+		/*cout << "switched to game over";*/
 		GameOver(pRenderer, bRunning);
 	}
 	else
@@ -180,7 +181,6 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 
 void UI_Manager::GameOver(SDL_Renderer * pRenderer, bool &bSDLRunning)
 {
-
 	m_pGameOver.Render(pRenderer);
 
 	SDL_Event event;

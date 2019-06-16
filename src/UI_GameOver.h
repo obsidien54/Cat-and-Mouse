@@ -13,8 +13,6 @@
 class UI_GameOver : public UI_Menu
 {
 private:
-	SDL_Rect m_rTitle, m_rHowToPlay,
-		m_rStart, m_rScores, m_rQuit;
 
 	SDL_Rect mouseHitBox;
 
@@ -28,14 +26,10 @@ public:
 
 
 	UI_GameOver();
-	//static UI_MainMenu* GetInstance();
-	//void RenderMouseOver(SDL_Renderer* pRenderer, unsigned short i);
 	void Render(SDL_Renderer* pRenderer);
 
 	bool IsMouseOverButton(int buttonNum);
 
-
-	SDL_Rect GetRect(unsigned short i);
 
 	~UI_GameOver();
 

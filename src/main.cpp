@@ -19,7 +19,7 @@ int main (int argc, char* argv[])
         return 1;
     }
 
-    UI_Manager pUI;
+    //UI_Manager pUI;
 	Game* game = Game::GetInstance();
 	
 
@@ -27,7 +27,7 @@ int main (int argc, char* argv[])
 	while (pSDL->IsRunning())
 	{
 
-		pUI.Start(pSDL->GetRenderer(), pSDL->IsRunning(), game->IsRunningByRef());
+		UI_Manager::GetInstance()->Start(pSDL->GetRenderer(), pSDL->IsRunning(), game->IsRunningByRef());
 		
 		if (game->Running()) 
 		{
