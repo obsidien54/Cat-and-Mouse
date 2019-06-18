@@ -109,8 +109,22 @@ void Player::m_HandleEatingCheese() {
 		else {
 			Level->m_Map[GetY()][GetX()].SetTileVariables('F');
 		}
-		Game::GetInstance()->IncrementScore(20);
+		Game::GetInstance()->IncrementScore(10);
+		setNumCheese(getNumCheese() - 1);
+		TheAudioManager::Instance()->mixVolume(4);
 		TheAudioManager::Instance()->playSound("cheese", 0);
+	}
+
+	if (getNumCheese() <= 0)
+	{
+		Game::GetInstance()->PlayerWon();
+		Game::GetInstance()->IncrementLevel();
+		m_numCheese = 173;
+		SDL_Delay(2000);
+		m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 18;
+		m_bIsMoving = false;
 	}
 }
 
@@ -123,6 +137,8 @@ void Player::m_HandleEatingMysteryCheese() {
 		Level->m_Map[GetY()][GetX()].SetSrc('B');
 		Level->m_Map[GetY()][GetX()].SetTileVariables('F');
 		Game::GetInstance()->IncrementScore(20); //increase score when eating mystery cheese
+		setNumCheese(getNumCheese()-1);
+
 
 		TheAudioManager::Instance()->playSound("powerup", 0); //play sound effect for mystery cheese
 
@@ -134,6 +150,17 @@ void Player::m_HandleEatingMysteryCheese() {
 		if (GetAbility() == DEFEAT_CATS) {
 			Game::GetInstance()->ChangeCatsToWhite();
 		}
+	}
+	if (getNumCheese() <= 0) 
+	{
+		Game::GetInstance()->PlayerWon();
+		Game::GetInstance()->IncrementLevel();
+		m_numCheese = 173;
+		SDL_Delay(2000);
+		m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 18;
+		m_bIsMoving = false;
 	}
 }
 
@@ -398,6 +425,16 @@ int Player::GetPlayerAngle()
 int Player::GetPlayerFrame()
 {
 	return m_iFrame;
+}
+
+void Player::setNumCheese(int num)
+{
+	m_numCheese = num;
+}
+
+int Player::getNumCheese()
+{
+	return m_numCheese;
 }
 
 void Player::Die()

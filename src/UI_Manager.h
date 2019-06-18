@@ -8,6 +8,7 @@
 #include "UI_MainMenu.h"
 #include "UI_HowToPlay.h"
 #include "UI_Scores.h"
+#include "UI_GameOver.h"
 #include "Game.h"
 
 
@@ -16,6 +17,7 @@ enum eMenu
 	MAIN_MENU,
 	HOW_TO_PLAY,
     SCORES,
+	GAME_OVER,
 	NUM_OF_MENUS
 };
 enum eMainButtons
@@ -49,6 +51,7 @@ private:
     UI_MainMenu m_pMainMenu;
     UI_HowToPlay m_pHowToPlay;
     UI_Scores m_pScores;
+	UI_GameOver m_pGameOver;
     
 
     
@@ -64,6 +67,7 @@ public:
     void MainMenu(SDL_Renderer*, bool& bRunning, bool &bGameIsRunning);
     void HowToPlay (SDL_Renderer*);
     void Scores (SDL_Renderer*);
+	void GameOver(SDL_Renderer*, bool &bSDLRunning);
 
     
 

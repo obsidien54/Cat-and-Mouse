@@ -4,10 +4,12 @@
 
 
 #include "UI_Menu.h"
+#include "CommonIncludes.h"
+#include "TextureManager.h"
+#include "SDL_Manager.h"
 #include "Button.h"
 #include <vector>
 #include <glm\vec2.hpp>
-
 
 class UI_Scores : public UI_Menu // Manages order of UI scenes
 {

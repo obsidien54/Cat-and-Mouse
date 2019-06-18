@@ -7,6 +7,7 @@
 #include "SDL_mixer.h"
 #include "PowerUp.h"
 #include "AudioManager.h"
+#include "UI_Manager.h"
 #include <random>
 #include <ctime>
 
@@ -18,9 +19,9 @@ Game::Game()
 
 bool Game::Init(SDL_Renderer* m_pRenderer) 
 {
-	BuildBackgroundLayer();
-	BuildForegroundLayer();
-	SetUpTileVariables();
+	//BuildBackgroundLayer();
+	BuildForegroundLayer(0);
+	SetUpTileVariables(0);
 	srand(time(0));
 
 	CreateGameObjects();
@@ -41,7 +42,12 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	{
 		std::cout << "Pixel maps creation success!" << std::endl;
 	}
-					
+
+	TheTextureManager::Instance()->load("../Assets/textures/Game_Over.png",
+		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
+
+	TheTextureManager::Instance()->load("../Assets/textures/background.png",
+		"background main", SDL_Manager::GetInstance()->GetRenderer());
 					
 	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
 	std::cout << "Font creation success!" << std::endl;
@@ -73,10 +79,10 @@ void Game::CreateGameObjects()
 {
 	// Spawn Player and Ghosts
 	m_pPlayer = new Player({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
-	m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 3, TILESIZE * 3, TILESIZE, TILESIZE });
-	m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 19, TILESIZE * 3, TILESIZE, TILESIZE });
-	m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 3, TILESIZE * 19, TILESIZE, TILESIZE });
-	m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 19, TILESIZE * 19, TILESIZE, TILESIZE });
+	m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+	m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+	m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+	m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
 
 	m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
 	m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
@@ -98,11 +104,46 @@ void Game::SetUpTileVariables()
 	varFile.close();
 }
 
+void Game::SetUpTileVariables(int level)
+{
+	std::string varFileName = "../Assets/Level" + to_string(level) + "Variables.txt";
+	std::ifstream varFile(varFileName);
+
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			char temp;
+			varFile >> temp;
+			m_level.m_Map[row][col].SetTileVariables(temp);
+		}
+	}
+	varFile.close();
+}
+
 void Game::BuildForegroundLayer()
 {
 	// Build tilemap
 
 	std::ifstream mapFile("../Assets/Level0Map.txt");
+	if (!mapFile) {
+		std::cout << "bg file not detected" << std::endl;
+	}
+
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			char temp;
+			mapFile >> temp;
+			m_level.m_Map[row][col].SetSrc(temp);
+			m_level.m_Map[row][col].SetDst({ TILESIZE * col, TILESIZE * row, TILESIZE, TILESIZE });
+		}
+	}
+	mapFile.close();
+}
+
+void Game::BuildForegroundLayer(int level)
+{
+	std::string mapFileName = "../Assets/Level" + to_string(level) + "Map.txt";
+	std::ifstream mapFile(mapFileName);
+
 	if (!mapFile) {
 		std::cout << "bg file not detected" << std::endl;
 	}
@@ -181,17 +222,30 @@ void Game::HandlePlayerAndCatInteractions() {
 			{
 				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
 				{
-					m_pCats[i]->Die();
+					m_pCats[i]->Die(); // Cats need to be respawned in the center
 					m_scoreNum += 100;
 				}
 				// Else player dies
 				else
 				{
-					m_pPlayer->Die();
+					Game::GetInstance()->PlayerLost();
 					m_livesNum -= 1;
 					if (m_livesNum == 0)
 					{
+						SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+						TheTextureManager::Instance()->draw("Game_Over",
+							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+						SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+						Game::GetInstance()->SetScore(0);
+
+						SDL_Delay(3000);
+						//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
+						m_pPlayer->Die();
+						m_livesNum = 3;
 						m_bRunning = false;
+
+						//want to change the ui to the Game over screen
+						UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
 					}
 				}
 			}
@@ -199,9 +253,29 @@ void Game::HandlePlayerAndCatInteractions() {
 	}
 }
 
+void Game::IncrementLevel()
+{
+	m_currLevel++;
+	BuildForegroundLayer(m_currLevel);
+	SetUpTileVariables(m_currLevel);
+	ResetCat1();
+	ResetCat2();
+	ResetCat3();
+	ResetCat4();
+	
+}
+
 void Game::IncrementScore(int score)
 {
 	m_scoreNum += score;
+}
+void Game::SetScore(int score)
+{
+	m_scoreNum = score;
+}
+int Game::GetScore()
+{
+	return m_scoreNum;
 }
 
 void Game::SetAbilityStartTimer(Uint32 time)
@@ -212,6 +286,147 @@ void Game::SetAbilityStartTimer(Uint32 time)
 Uint32 Game::GetAbilityStartTimer()
 {
 	return m_abilityStartTimer;
+}
+
+void Game::GamePaused()
+{
+	SDL_Event event;
+	bool temp = false;
+
+	while (SDL_PollEvent(&event) != 0 && !temp)
+	{
+		if (event.type == SDL_KEYDOWN)
+		{
+			temp = true;
+		}
+	}
+}
+
+void Game::PlayerWon()
+{
+	std::cout << "The player has won" << std::endl;
+	// load picture in the contructor
+	// Render picture
+	
+
+	if (m_currLevel == 0) {
+		BuildForegroundLayer(1);
+		m_levelNum += 1;
+	}
+	else {
+		SDL_Delay(3000);
+		Game::GetInstance()->StopRunning();
+	}
+}
+
+void Game::PlayerLost()
+{
+	std::cout << "The player has lost" << std::endl;
+	// load picture in the contructor
+	// Render picture
+	//m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+
+	/*m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
+	m_pCats[1]->SetDst(TILESIZE * 19, TILESIZE * 3);
+	m_pCats[2]->SetDst(TILESIZE * 3, TILESIZE * 19);
+	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);*/
+	
+
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+	/*if (m_livesNum == 0)
+	{
+		SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+		TheTextureManager::Instance()->draw("Game_Over",
+			SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+		SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+		Game::GetInstance()->SetScore(0);
+	}*/
+	SDL_Delay(3000);
+	//CreateGameObjects();
+	if (m_currLevel == 0) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 1) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 0);
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 1);
+		m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 2);
+		m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 3);
+
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	
+}
+
+void Game::ResetCat1()
+{
+	if (m_currLevel == 0) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+
+}
+
+void Game::ResetCat2()
+{
+	if (m_currLevel == 0) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+
+}
+
+void Game::ResetCat3()
+{
+	if (m_currLevel == 0) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+}
+
+void Game::ResetCat4()
+{
+	if (m_currLevel == 0) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
 }
 
 
@@ -226,23 +441,32 @@ void Game::UpdateCats()
 void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
-	// draw background tile map
-	for (int row = 0; row < ROWS; row++)
-	{
-		for (int col = 0; col < COLS; col++) {
-			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
-		}
-	}
-	// Render map
+	//// draw background tile map
+	//for (int row = 0; row < ROWS; row++)
+	//{
+	//	for (int col = 0; col < COLS; col++) {
+	//		SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
+	//	}
+	//}
+
+	//full background image, need to render level map overtop
+	TheTextureManager::Instance()->draw("background main",
+		SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+
+	//// Render map
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_level.m_Map[row][col].GetSrcP(), m_level.m_Map[row][col].GetDstP());
 		}
 	}
 
-	// Render ghosts
+	// Render cats
 	for (int i = 0; i < 4; i++) {
-		SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(),m_pCats[i]->angle,&m_pCats[i]->center,SDL_FLIP_NONE);
+		if (!m_pCats[i]->IsDead())
+		{
+			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
+		}
+
 	}
 
 	// Render player

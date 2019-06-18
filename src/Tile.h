@@ -13,7 +13,7 @@ public:
 	bool isPoint();
 	bool isPowerUp();
 	bool isIntersection();
-	bool isEnterableWall();
+	bool isEnterableWall(); 
 	bool isLeftWarpTile();
 	bool isRightWarpTile();
 

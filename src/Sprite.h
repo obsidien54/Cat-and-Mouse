@@ -19,4 +19,7 @@ public:
 	void SetSrc(char c);
 	void SetSrc(SDL_Rect src);
 	void SetDst(SDL_Rect d);
+
+	void SetDst(int x, int y);
+	
 };

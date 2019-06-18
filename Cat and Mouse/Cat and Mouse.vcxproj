@@ -28,7 +28,9 @@
     <ClInclude Include="..\src\AudioManager.h" />
     <ClInclude Include="..\src\Button.h" />
     <ClInclude Include="..\src\Cat.h" />
+    <ClInclude Include="..\src\CommonIncludes.h" />
     <ClInclude Include="..\src\Game.h" />
+    <ClInclude Include="..\src\Game_Manager.h" />
     <ClInclude Include="..\src\Input_Manager.h" />
     <ClInclude Include="..\src\Level.h" />
     <ClInclude Include="..\src\Player.h" />
@@ -37,18 +39,20 @@
     <ClInclude Include="..\src\Sprite.h" />
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Tile.h" />
+    <ClInclude Include="..\src\UI_GameOver.h" />
     <ClInclude Include="..\src\UI_HowToPlay.h" />
+    <ClInclude Include="..\src\UI_Levels.h" />
     <ClInclude Include="..\src\UI_MainMenu.h" />
     <ClInclude Include="..\src\UI_Manager.h" />
     <ClInclude Include="..\src\UI_Menu.h" />
     <ClInclude Include="..\src\UI_Scores.h" />
-    <ClInclude Include="CommonIncludes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\AudioManager.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\Cat.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\Game_Manager.cpp" />
     <ClCompile Include="..\src\Input_Manager.cpp" />
     <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
@@ -57,7 +61,9 @@
     <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Tile.cpp" />
+    <ClCompile Include="..\src\UI_GameOver.cpp" />
     <ClCompile Include="..\src\UI_HowToPlay.cpp" />
+    <ClCompile Include="..\src\UI_Levels.cpp" />
     <ClCompile Include="..\src\UI_MainMenu.cpp" />
     <ClCompile Include="..\src\UI_Manager.cpp" />
     <ClCompile Include="..\src\UI_Menu.cpp" />
@@ -73,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

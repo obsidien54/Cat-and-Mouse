@@ -21,11 +21,11 @@ private:
     
 	vector<Button> buttons;
 
-	Button m_playButton; //play button
-	Button m_howToPlayButton; //how to play button
-	Button m_highScoresButton; //high scores button
-	Button m_quitButton; //quit button
-	
+	Button button1; //play button
+	Button button2; //how to play button
+	Button button3; //high scores button
+	Button button4; //quit button
+	Button button5; //main menu scores
     
 public:
 	Button GetButton(int buttonNumber);

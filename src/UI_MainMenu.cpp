@@ -12,32 +12,54 @@ Button UI_MainMenu::GetButton(int buttonNumber)
 UI_MainMenu::UI_MainMenu()
 {
     cout << "Instance of a UI MainMenu Created" << endl;
+  
+	m_rTitle.x = 350;  //controls the rect's x coordinate 
+	m_rTitle.y = 30; // controls the rect's y coordinte
+	m_rTitle.w = 200; // controls the width of the rect
+	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
+	m_rHowToPlay.x = m_rTitle.x + 100;  //controls the rect's x coordinate 
+	m_rHowToPlay.y = m_rTitle.y + 50; // controls the rect's y coordinte
+	m_rHowToPlay.w = m_rTitle.w; // controls the width of the rect
+	m_rHowToPlay.h = m_rTitle.h; // These are all specific to ONE TEXT Title ... Data driven design
 
-	mouseHitBox = {0,0,20,20};
-
-	//create the buttons in this menu
-	m_playButton.buttonSetUp(glm::vec2(368, 200), PLAY_BUTTON, "play");
-	m_howToPlayButton.buttonSetUp(glm::vec2(368, 260), HOW_TO_PLAY_BUTTON, "how to play");
-	m_highScoresButton.buttonSetUp(glm::vec2(368, 320), HIGH_SCORES_BUTTON, "high scores");
-	m_quitButton.buttonSetUp(glm::vec2(368, 380), QUIT_BUTTON, "quit");
 	
 
+	mouseHitBox = {0,0,2,2};
+
+	//create the buttons in this menu
+	button1.buttonSetUp(glm::vec2(500, 200), PLAY_BUTTON, "play");
+	button2.buttonSetUp(glm::vec2(500, 260), HOW_TO_PLAY_BUTTON, "how to play");
+	button3.buttonSetUp(glm::vec2(500, 320), HIGH_SCORES_BUTTON, "high scores");
+	button4.buttonSetUp(glm::vec2(500, 380), QUIT_BUTTON, "quit");
+	//button5.buttonSetUp(glm::vec2(450, 440), MAIN_MENU_BUTTON, "main menu");
+
 	//add all the buttons to the button vector for easy access
-	buttons.push_back(m_playButton);
-	buttons.push_back(m_howToPlayButton);
-	buttons.push_back(m_highScoresButton);
-	buttons.push_back(m_quitButton);
+	buttons.push_back(button1);
+	buttons.push_back(button2);
+	buttons.push_back(button3);
+	buttons.push_back(button4);
+	//buttons.push_back(button5);
 
 	//lower the volume since too loud
-	TheAudioManager::Instance()->setMusicVolume(20);
+	TheAudioManager::Instance()->setMusicVolume(15);
 
 	//background music
 	//music by bensound
-	TheAudioManager::Instance()->load("../Assets/sound/bensound-endlessmotion.mp3",
+	TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
 		"Background", sound_type::SOUND_MUSIC);
 
+	////music by bensound
+	//TheAudioManager::Instance()->load("../Assets/sound/bensound-endlessmotion.mp3",
+	//	"Background", sound_type::SOUND_MUSIC);
+
 	TheAudioManager::Instance()->playMusic("Background", -1);
+
+	TheTextureManager::Instance()->load("../Assets/textures/MainMenu_background.png",
+		"MainMenu_background", SDL_Manager::GetInstance()->GetRenderer());
+	//TheTextureManager::Instance()->getTextureSize
+	/*int textureWidth, textureHeight;
+	SDL_QueryTexture("MainMenu_background", NULL, NULL, &textureWidth, &textureHeight);*/
 }
 
 
@@ -49,18 +71,28 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 
 	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(pRenderer);
-
+	
+	
+	TheTextureManager::Instance()->draw("MainMenu_background",
+		SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 	//Title
-	sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "Main Menu", White);
+	sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "Cat-and", White);
 	tTemp = SDL_CreateTextureFromSurface(pRenderer, sTemp);
 	SDL_RenderCopy(pRenderer, tTemp, NULL, &m_rTitle); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 
 	SDL_FreeSurface(sTemp);
 	SDL_DestroyTexture(tTemp);
 
+	SDL_Surface* sTemp1;
+	SDL_Texture* tTemp1;
+	sTemp1 = TTF_RenderText_Solid(m_pDefaultFontSans, "Mouse", White);
+	tTemp1 = SDL_CreateTextureFromSurface(pRenderer, sTemp1);
+	SDL_RenderCopy(pRenderer, tTemp1, NULL, &m_rHowToPlay);
 
+	SDL_FreeSurface(sTemp1);
+	SDL_DestroyTexture(tTemp1);
 
-	//check if mouse if over the button
+	////check if mouse if over the button
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	if (event.type == SDL_MOUSEMOTION)
@@ -88,16 +120,11 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 	{
 		button.draw();
 	}
-	/*button1.draw();
-	button2.draw();
-	button3.draw();
-	button4.draw();
-	*/
 
-	//draw the mouse hitbox to see
-	SDL_SetRenderDrawColor(pRenderer,255,225,255,255);
-	SDL_RenderFillRect(pRenderer, &mouseHitBox);
-	SDL_RenderDrawRect(pRenderer, &mouseHitBox);
+	////draw the mouse hitbox to see
+	//SDL_SetRenderDrawColor(pRenderer,255,225,255,255);
+	//SDL_RenderFillRect(pRenderer, &mouseHitBox);
+	//SDL_RenderDrawRect(pRenderer, &mouseHitBox);
     
     SDL_RenderPresent(pRenderer);
 }

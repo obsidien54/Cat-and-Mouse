@@ -4,6 +4,8 @@
 #include "SDL_ttf.h"
 
 #include "Input_Manager.h"
+#include "TextureManager.h"
+#include "SDL_Manager.h"
 
 #include "Player.h"
 #include "Cat.h"
@@ -56,12 +58,12 @@ private:
 	std::string m_fontTextLevel;
 	SDL_Surface* m_pTextSurfaceLevel;
 	SDL_Texture* m_pTextTextureLevel;
-	SDL_Rect m_textRectLevel = { 300,10 };
+	SDL_Rect m_textRectLevel = { 320,10 };
 	//Score
 	std::string m_fontTextScore;
 	SDL_Surface* m_pTextSurfaceScore;
 	SDL_Texture* m_pTextTextureScore;
-	SDL_Rect m_textRectScore = { 650,10 };
+	SDL_Rect m_textRectScore = { 580,10 };
 	
 public:
 	static Game* GetInstance() {
@@ -75,7 +77,9 @@ public:
 	bool Init(SDL_Renderer* m_pRenderer);
 	void CreateGameObjects();
 	void SetUpTileVariables();
+	void SetUpTileVariables(int level);
 	void BuildForegroundLayer();
+	void BuildForegroundLayer(int level);
 	void BuildBackgroundLayer();
 	bool Running() { return m_bRunning; }
 	void Update();
@@ -84,10 +88,22 @@ public:
 	void ChangeCatsToWhite();
 	void ChangeCatsToOriginalColors();
 	void HandlePlayerAndCatInteractions();
-
+	
+	void IncrementLevel();
 	void IncrementScore(int score);
+	void SetScore(int score);
+	int GetScore();
 	void SetAbilityStartTimer(Uint32 time);
 	Uint32 GetAbilityStartTimer();
+
+	void GamePaused();
+	void PlayerWon();
+	void PlayerLost();
+
+	void ResetCat1();
+	void ResetCat2();
+	void ResetCat3();
+	void ResetCat4();
 
 	void UpdateCats();
 	void Clean();

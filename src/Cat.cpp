@@ -3,15 +3,17 @@
 #include <iostream>
 #include <vector>
 
-Cat::Cat(SDL_Rect s, SDL_Rect d) {
+Cat::Cat(SDL_Rect s, SDL_Rect d, int cat) {
 	m_rSrc = s;
 	m_rDst = d;
-	dir = 'd';
+	dir = 'w';
 	m_moveSpeed = 2;
 	angle = 0;
 	center.x = center.y = m_rDst.w / 2;
-	m_State = C_State::SEEK;
+	m_State = C_State::IDLE;
 	checkBound = false;
+	frames = 0;
+	m_CatNum = cat;
 }
 
 bool Cat::IsWhite()
@@ -21,6 +23,11 @@ bool Cat::IsWhite()
 
 bool Cat::IsVulnerable() { return m_bIsVulnerable; }
 bool Cat::IsDead() { return m_bIsDead; }
+
+void Cat::SetDead(bool d)
+{
+	m_bIsDead = d;
+}
 
 char Cat::GetDir() { return dir; }
 
@@ -113,6 +120,26 @@ void Cat::TargetPlayer()
 
 void Cat::TargetScatter()
 {
+	switch (m_CatNum)
+	{
+	case 0:
+		SetTargetX(1);
+		SetTargetY(1);
+		break;
+	case 1:
+		SetTargetX(1);
+		SetTargetY(21);
+		break;
+	case 2:
+		SetTargetX(21);
+		SetTargetY(1);
+		break;
+	case 3:
+		SetTargetX(21);
+		SetTargetY(21);
+		break;
+
+	}
 }
 void Cat::TargetDeath()
 {
@@ -131,7 +158,7 @@ void Cat::DistanceNorth()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('w');
+			newDir = 'w';
 		}
 	}
 }
@@ -148,7 +175,7 @@ void Cat::DistanceEast()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('d');
+			newDir = 'd';
 		}
 	}
 }
@@ -165,7 +192,7 @@ void Cat::DistanceSouth()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('s');
+			newDir = 's';
 		}
 	}
 }
@@ -182,7 +209,7 @@ void Cat::DistanceWest()
 		if (distance > temp)
 		{
 			distance = temp;
-			SetDir('a');
+			newDir = 'a';
 		}
 	}
 }
@@ -218,6 +245,8 @@ void Cat::Seek()
 						break;
 					}
 				}
+				SetDir(newDir);
+				newDir = 'q';
 				//std::cout << "---------" << std::endl;
 				//std::cout << "shortest : " << GetDir() << " | Distance :" << distance << std::endl;
 				//std::cout << "---------" << std::endl;
@@ -362,20 +391,118 @@ void Cat::Update()
 	switch (GetState())
 	{
 	case C_State::IDLE:
+		if (Game::GetInstance()->GetPlayer()->getNumCheese() < 137 - (m_CatNum * 10))
+		{
+			SetDestinationY(GetDst().y - 32);
+			SetDestinationX(GetDst().x);
+			SetState(C_State::WAKEUP);
+			SetDir('w');
+		}
 		break;
 	case C_State::WAKEUP:
+		SetMoving(true);
+		if (IsMoving()) {
+			Animate();
+			if (GetDestinationX() > GetDst().x) {
+				MoveX(1);
+			}
+			else if (GetDestinationX() < GetDst().x) {
+				MoveX(-1);
+			}
+			else if (GetDestinationY() > GetDst().y) {
+				MoveY(1);
+			}
+			else if (GetDestinationY() < GetDst().y) {
+				MoveY(-1);
+			}
+			// if cat has gotten to destination then set moving to false
+			else if (GetDestinationX() == GetDst().x && GetDestinationY() == GetDst().y) {
+				SetMoving(false);
+				SetState(C_State::SCATTER);
+				frames = 0;
+			}
+		}
 		break;
 	case C_State::SCATTER:
-		TargetScatter();
-		Seek();
+		if (frames >= 1500)
+		{
+			SetState(C_State::SEEK);
+			switch (GetDir())
+			{
+			case 'w':
+				SetDir('s');
+				break;
+			case 'd':
+				SetDir('a');
+				break;
+			case 'a':
+				SetDir('d');
+				break;
+			case 's':
+				SetDir('w');
+				break;
+			}
+			frames = 0;
+		}
+		else
+		{
+			frames++;
+			TargetScatter();
+			Seek();
+		}
 		break;
 	case C_State::SEEK:
-		TargetPlayer();
-		Seek();
+		if (frames >= 1500)
+		{
+			SetState(C_State::SCATTER);
+			switch (GetDir())
+			{
+			case 'w':
+				SetDir('s');
+				break;
+			case 'd':
+				SetDir('a');
+				break;
+			case 'a':
+				SetDir('d');
+				break;
+			case 's':
+				SetDir('w');
+				break;
+			}
+			frames = 0;
+		}
+		else
+		{
+			frames++;
+			TargetPlayer();
+			Seek();
+		}
 		break;
 	case C_State::DEATH:
-		TargetDeath();
-		Seek();
+		frames++;
+		if (frames >= 600)
+		{
+			cout << "CAT " << m_CatNum << " RESPAWN" << endl;
+			switch (m_CatNum)
+			{
+			case 0:
+				Game::GetInstance()->ResetCat1();
+				break;
+			case 1:
+				Game::GetInstance()->ResetCat2();
+				break;
+			case 2:
+				Game::GetInstance()->ResetCat3();
+				break;
+			case 3:
+				Game::GetInstance()->ResetCat4();
+				break;
+			}
+			SetDestinationY(GetDst().y - 32);
+			SetDestinationX(GetDst().x);
+			SetState(C_State::WAKEUP);
+		}
 		break;
 	}
 }
@@ -383,4 +510,6 @@ void Cat::Update()
 void Cat::Die() {
 	m_bIsDead = true;
 	m_rSrc = {};
+	SetState(C_State::DEATH);
+	frames = 0;
 }

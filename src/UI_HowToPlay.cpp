@@ -3,17 +3,14 @@
 UI_HowToPlay::UI_HowToPlay()
 {
     //cout << "Instance of a UI HowToPlay Created" << endl;
-    m_rTitle.x = 100;  //controls the rect's x coordinate 
-    m_rTitle.y = 100; // controls the rect's y coordinte
-    m_rTitle.w = 300; // controls the width of the rect
-    m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
+	m_rTitle.x = 350;  //controls the rect's x coordinate 
+	m_rTitle.y = 30; // controls the rect's y coordinte
+	m_rTitle.w = 200; // controls the width of the rect
+	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
-    m_rBack.x = m_rTitle.x + 150;  //controls the rect's x coordinate 
-    m_rBack.y = m_rTitle.y + 280; // controls the rect's y coordinte
-    m_rBack.w = m_rTitle.w * 0.5; // controls the width of the rect
-    m_rBack.h = m_rTitle.h * 0.5; // These are all specific to ONE TEXT Title ... Data driven design
+   
 
-	mouseHitBox = { 0,0,20,20 };
+	mouseHitBox = { 0,0,2,2 };
 	m_mainMenuButton.buttonSetUp(glm::vec2(368, 570), MAIN_MENU_BUTTON, "main menu");
 	buttons.push_back(m_mainMenuButton);
 }
@@ -25,25 +22,21 @@ bool UI_HowToPlay::IsMouseOverButton(int buttonNum)
 
 Button UI_HowToPlay::GetButton(int buttonNumber)
 {
-	return buttons[buttonNumber-1];
+	return buttons[buttonNumber - 1];
 }
-/*
-UI_HowToPlay* UI_HowToPlay::GetInstance()
-{
-    static UI_HowToPlay* instance = new UI_HowToPlay();
-
-    return instance;
-}
-*/
-
 
 void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
 {
     SDL_Surface* sTemp;
     SDL_Texture* tTemp;
-    
+
+	SDL_RenderClear(pRenderer);
+	
+	TheTextureManager::Instance()->draw("MainMenu_background",
+		SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+
     //Title
-    SDL_RenderClear(pRenderer);
+    
     sTemp = TTF_RenderText_Solid(m_pDefaultFontSans, "How To Play", White);
     tTemp = SDL_CreateTextureFromSurface(pRenderer, sTemp);
     SDL_RenderCopy(pRenderer, tTemp, NULL, &m_rTitle); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
@@ -63,7 +56,7 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
     
     SDL_FreeSurface(sTemp1);
     SDL_DestroyTexture(tTemp1);
-
+    
 	//draw the buttons and their state
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -93,15 +86,13 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
 		button.draw();
 	}
 
-	//draw the mouse hitbox to see
-	SDL_SetRenderDrawColor(pRenderer, 255, 225, 255, 255);
-	SDL_RenderFillRect(pRenderer, &mouseHitBox);
-	SDL_RenderDrawRect(pRenderer, &mouseHitBox);
-    
+	////draw the mouse hitbox to see
+	//SDL_SetRenderDrawColor(pRenderer, 255, 225, 255, 255);
+	//SDL_RenderFillRect(pRenderer, &mouseHitBox);
+	//SDL_RenderDrawRect(pRenderer, &mouseHitBox);
+
     SDL_RenderPresent(pRenderer);
 }
-
-
 
 SDL_Rect UI_HowToPlay::GetRect(unsigned short i)
 {
