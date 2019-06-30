@@ -255,9 +255,12 @@ void Game::HandlePlayerAndCatInteractions() {
 
 void Game::IncrementLevel()
 {
-	m_currLevel++;
-	BuildForegroundLayer(m_currLevel);
+	//m_currLevel++;
+	m_levelNum += 1; //increase level counter by 1
+	m_currLevel = rand() % 2; //choose a random level to load between 0 and 1
+	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
+	//reset cats to fit the level
 	ResetCat1();
 	ResetCat2();
 	ResetCat3();
@@ -286,6 +289,11 @@ void Game::SetAbilityStartTimer(Uint32 time)
 Uint32 Game::GetAbilityStartTimer()
 {
 	return m_abilityStartTimer;
+}
+
+int Game::GetCurrLevel()
+{
+	return m_currLevel;
 }
 
 void Game::GamePaused()

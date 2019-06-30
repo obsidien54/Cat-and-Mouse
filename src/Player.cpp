@@ -117,14 +117,23 @@ void Player::m_HandleEatingCheese() {
 
 	if (getNumCheese() <= 0)
 	{
-		Game::GetInstance()->PlayerWon();
-		Game::GetInstance()->IncrementLevel();
-		m_numCheese = 173;
-		SDL_Delay(2000);
-		m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
-		m_iDestinationX = 11;
-		m_iDestinationY = 18;
-		m_bIsMoving = false;
+		m_GoToNextLevel();
+		////Game::GetInstance()->PlayerWon(); //want to make the game an infinite loop so comment this out to have to end condition
+		//Game::GetInstance()->IncrementLevel();
+		//if (Game::GetInstance()->GetCurrLevel() == 0)
+		//{
+		//	m_numCheese = 136;
+		//}
+		//else if (Game::GetInstance()->GetCurrLevel() == 1)
+		//{
+		//	m_numCheese = 173;
+		//}
+		//
+		//SDL_Delay(2000);
+		//m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+		//m_iDestinationX = 11;
+		//m_iDestinationY = 18;
+		//m_bIsMoving = false;
 	}
 }
 
@@ -153,14 +162,24 @@ void Player::m_HandleEatingMysteryCheese() {
 	}
 	if (getNumCheese() <= 0) 
 	{
-		Game::GetInstance()->PlayerWon();
-		Game::GetInstance()->IncrementLevel();
-		m_numCheese = 173;
-		SDL_Delay(2000);
-		m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
-		m_iDestinationX = 11;
-		m_iDestinationY = 18;
-		m_bIsMoving = false;
+		m_GoToNextLevel();
+
+		////Game::GetInstance()->PlayerWon();
+		//Game::GetInstance()->IncrementLevel();
+		////set the num of cheese based on which level map we are at
+		//if (Game::GetInstance()->GetCurrLevel() == 0)
+		//{
+		//	m_numCheese = 136;
+		//}
+		//else if (Game::GetInstance()->GetCurrLevel() == 1)
+		//{
+		//	m_numCheese = 173;
+		//}
+		//SDL_Delay(2000);
+		//m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+		//m_iDestinationX = 11;
+		//m_iDestinationY = 18;
+		//m_bIsMoving = false;
 	}
 }
 
@@ -236,6 +255,26 @@ void Player::m_MovePlayer()
 		}
 	}
 	
+}
+
+void Player::m_GoToNextLevel()
+{
+	Game::GetInstance()->IncrementLevel();
+	//set the num of cheese based on which level map we are at
+	if (Game::GetInstance()->GetCurrLevel() == 0)
+	{
+		m_numCheese = 136;
+	}
+	else if (Game::GetInstance()->GetCurrLevel() == 1)
+	{
+		m_numCheese = 173;
+	}
+	SDL_Delay(2000);
+	m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+	m_iDestinationX = 11;
+	m_iDestinationY = 18;
+	m_bIsMoving = false;
+
 }
 
 Player::Player(SDL_Rect s, SDL_Rect d)

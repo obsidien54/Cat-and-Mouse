@@ -30,6 +30,8 @@ private:
 
 	int m_numCheese = 136;
 
+	void m_GoToNextLevel();
+
 public:
 	Player(SDL_Rect s, SDL_Rect d);
 	SDL_Point center; // pivot point of our mouse

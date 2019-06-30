@@ -96,6 +96,8 @@ public:
 	void SetAbilityStartTimer(Uint32 time);
 	Uint32 GetAbilityStartTimer();
 
+	int GetCurrLevel(); //get the currentl level map we are at
+
 	void GamePaused();
 	void PlayerWon();
 	void PlayerLost();

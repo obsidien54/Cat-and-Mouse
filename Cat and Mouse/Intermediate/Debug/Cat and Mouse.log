@@ -1,74 +1,13 @@
-﻿  AudioManager.cpp
-  Button.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(121,27): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(122,27): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(123,30): warning C4244:  '=': conversion from 'T' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(123,30): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(123,30): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(123,30): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(123,30): warning C4244:         ]
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(124,30): warning C4244:  '=': conversion from 'T' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(124,30): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(124,30): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(124,30): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(124,30): warning C4244:         ]
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(136,17): warning C4244:  'initializing': conversion from 'T' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(136,17): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(136,17): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(136,17): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(136,17): warning C4244:         ]
-  Cat.cpp
+﻿  Cat.cpp
   Game.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(137,17): warning C4244:  'initializing': conversion from 'T' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(137,17): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(137,17): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(137,17): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Button.cpp(137,17): warning C4244:         ]
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Game.cpp(17,23): warning C4244:  '=': conversion from 'Uint64' to 'Uint32', possible loss of data
-  Game_Manager.cpp
-  Input_Manager.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Game.cpp(25,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\src\Game.cpp(17,23): warning C4244:  '=': conversion from 'Uint64' to 'Uint32', possible loss of data
   Main.cpp
   Player.cpp
-  PowerUp.cpp
-  SDL_Manager.cpp
-  Sprite.cpp
-  TextureManager.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\Input_Manager.cpp(62,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(84,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(85,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(128,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(129,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(173,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(174,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(217,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(218,15): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(237,11): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(237,11): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(237,11): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(237,11): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(237,11): warning C4244:         ]
-  Tile.cpp
   UI_GameOver.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(238,11): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(238,11): warning C4244:         with
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(238,11): warning C4244:         [
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(238,11): warning C4244:             T=float
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\TextureManager.cpp(238,11): warning C4244:         ]
-  UI_HowToPlay.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_GameOver.cpp(46,20): warning C4018:  '<': signed/unsigned mismatch
-  UI_Levels.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_HowToPlay.cpp(69,20): warning C4018:  '<': signed/unsigned mismatch
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_Levels.cpp(13,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\src\Game.cpp(25,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   UI_MainMenu.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_Levels.cpp(14,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\src\UI_GameOver.cpp(46,20): warning C4018:  '<': signed/unsigned mismatch
   UI_Manager.cpp
-  UI_Menu.cpp
-  UI_Scores.cpp
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_MainMenu.cpp(104,20): warning C4018:  '<': signed/unsigned mismatch
   Generating Code...
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_Scores.cpp(69,20): warning C4018:  '<': signed/unsigned mismatch
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_Scores.cpp(69,20): warning C4018: C:\Users\Michael\source\repos\Cat-and-Mouse\src\PowerUp.cpp(32) : warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
-C:\Users\Michael\source\repos\Cat-and-Mouse\src\UI_Scores.cpp(69,20): warning C4018: C:\Users\Michael\source\repos\Cat-and-Mouse\src\Input_Manager.cpp(71) : warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
-  LINK : C:\Users\Michael\Source\Repos\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe not found or not built by the last incremental link; performing full link
-  Cat and Mouse.vcxproj -> C:\Users\Michael\Source\Repos\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe
+E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\src\UI_MainMenu.cpp(104,20): warning C4018:  '<': signed/unsigned mismatch
+  Cat and Mouse.vcxproj -> E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe
