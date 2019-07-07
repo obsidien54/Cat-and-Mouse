@@ -111,29 +111,13 @@ void Player::m_HandleEatingCheese() {
 		}
 		Game::GetInstance()->IncrementScore(10);
 		setNumCheese(getNumCheese() - 1);
-		TheAudioManager::Instance()->mixVolume(4);
+		TheAudioManager::Instance()->mixVolume(85);
 		TheAudioManager::Instance()->playSound("cheese", 0);
 	}
 
 	if (getNumCheese() <= 0)
 	{
 		m_GoToNextLevel();
-		////Game::GetInstance()->PlayerWon(); //want to make the game an infinite loop so comment this out to have to end condition
-		//Game::GetInstance()->IncrementLevel();
-		//if (Game::GetInstance()->GetCurrLevel() == 0)
-		//{
-		//	m_numCheese = 136;
-		//}
-		//else if (Game::GetInstance()->GetCurrLevel() == 1)
-		//{
-		//	m_numCheese = 173;
-		//}
-		//
-		//SDL_Delay(2000);
-		//m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
-		//m_iDestinationX = 11;
-		//m_iDestinationY = 18;
-		//m_bIsMoving = false;
 	}
 }
 
@@ -163,23 +147,6 @@ void Player::m_HandleEatingMysteryCheese() {
 	if (getNumCheese() <= 0) 
 	{
 		m_GoToNextLevel();
-
-		////Game::GetInstance()->PlayerWon();
-		//Game::GetInstance()->IncrementLevel();
-		////set the num of cheese based on which level map we are at
-		//if (Game::GetInstance()->GetCurrLevel() == 0)
-		//{
-		//	m_numCheese = 136;
-		//}
-		//else if (Game::GetInstance()->GetCurrLevel() == 1)
-		//{
-		//	m_numCheese = 173;
-		//}
-		//SDL_Delay(2000);
-		//m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
-		//m_iDestinationX = 11;
-		//m_iDestinationY = 18;
-		//m_bIsMoving = false;
 	}
 }
 

@@ -71,7 +71,7 @@ void UI_Scores::Render(SDL_Renderer* pRenderer)
 		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
 		{
 			buttons[i].setState(HOVER); //change the state
-			std::cout << "hovering over button" << std::endl;
+			//std::cout << "hovering over button" << std::endl;
 		}
 		else
 		{

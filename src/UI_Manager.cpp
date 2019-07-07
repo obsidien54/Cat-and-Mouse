@@ -10,7 +10,8 @@ UI_Manager::UI_Manager()
     //m_pHowToPlay = UI_HowToPlay::GetInstance();
     //m_pScores = UI_Scores::GetInstance();
 	
-	
+	TheAudioManager::Instance()->load("../Assets/sound/12 - Crash Man (1).wav",
+		"Background", sound_type::SOUND_MUSIC);
 
     cout << "Instance of a UI Manager Created" << endl;
 }
@@ -74,6 +75,8 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 				if (m_pMainMenu.GetButton(1).getState() == HOVER)
 				{
 					bGameIsRunning = true;
+					TheAudioManager::Instance()->playMusic("Background", -1);
+
 					cout << "Game will start" << endl;
 				}
 				if (m_pMainMenu.GetButton(2).getState() == HOVER)
