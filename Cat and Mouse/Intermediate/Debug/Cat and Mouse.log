@@ -1,2 +1,19 @@
-﻿  UI_Manager.cpp
+﻿  Cat.cpp
+  Game.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\commonincludes.h(7): warning C4005: 'LIVEINCREASETHRESHOLD': macro redefinition
+  e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.h(19): note: see previous definition of 'LIVEINCREASETHRESHOLD'
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.cpp(17): warning C4244: '=': conversion from 'Uint64' to 'Uint32', possible loss of data
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.cpp(25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Main.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\commonincludes.h(7): warning C4005: 'LIVEINCREASETHRESHOLD': macro redefinition
+  e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.h(19): note: see previous definition of 'LIVEINCREASETHRESHOLD'
+  Player.cpp
+  UI_GameOver.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\ui_gameover.cpp(46): warning C4018: '<': signed/unsigned mismatch
+  UI_MainMenu.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\ui_mainmenu.cpp(104): warning C4018: '<': signed/unsigned mismatch
+  UI_Manager.cpp
+e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\commonincludes.h(7): warning C4005: 'LIVEINCREASETHRESHOLD': macro redefinition
+  e:\michael\documents\george brown\second semester\game 1014 game production ii\github\cat-and-mouse\src\game.h(19): note: see previous definition of 'LIVEINCREASETHRESHOLD'
+  Generating Code...
   Cat and Mouse.vcxproj -> E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub\Cat-and-Mouse\bin\Debug\Cat and Mouse.exe

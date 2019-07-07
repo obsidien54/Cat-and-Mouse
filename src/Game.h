@@ -16,6 +16,7 @@
 #define COLS 23
 #define TILESIZE 32
 #define SPRITESIZE 64
+#define LIFEINCREASETHRESHOLD 3000 //how much score you need to get a life
 
 class Player;
 
@@ -95,6 +96,9 @@ public:
 	int GetScore();
 	void SetAbilityStartTimer(Uint32 time);
 	Uint32 GetAbilityStartTimer();
+
+	int GetLives();
+	void IncrementLives();
 
 	int GetCurrLevel(); //get the currentl level map we are at
 

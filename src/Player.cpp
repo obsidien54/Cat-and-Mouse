@@ -110,6 +110,7 @@ void Player::m_HandleEatingCheese() {
 			Level->m_Map[GetY()][GetX()].SetTileVariables('F');
 		}
 		Game::GetInstance()->IncrementScore(10);
+		m_UpdateLives();
 		setNumCheese(getNumCheese() - 1);
 		TheAudioManager::Instance()->mixVolume(85);
 		TheAudioManager::Instance()->playSound("cheese", 0);
@@ -129,7 +130,10 @@ void Player::m_HandleEatingMysteryCheese() {
 		// Change tile to a normal blank tile with its associated variables
 		Level->m_Map[GetY()][GetX()].SetSrc('B');
 		Level->m_Map[GetY()][GetX()].SetTileVariables('F');
-		Game::GetInstance()->IncrementScore(20); //increase score when eating mystery cheese
+		Game::GetInstance()->IncrementScore(10); //increase score when eating mystery cheese
+		m_UpdateLives();
+		Game::GetInstance()->IncrementScore(10); //increase score when eating mystery cheese
+		m_UpdateLives();
 		setNumCheese(getNumCheese()-1);
 
 
@@ -242,6 +246,16 @@ void Player::m_GoToNextLevel()
 	m_iDestinationY = 18;
 	m_bIsMoving = false;
 
+}
+
+void Player::m_UpdateLives()
+{
+	if (Game::GetInstance()->GetScore() % LIFEINCREASETHRESHOLD == 0)
+	{
+		//increase lives by 1
+		Game::GetInstance()->IncrementLives(); //has built in check to make sure lives are less than 5
+
+	}
 }
 
 Player::Player(SDL_Rect s, SDL_Rect d)

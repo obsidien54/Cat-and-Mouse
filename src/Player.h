@@ -5,6 +5,7 @@
 #include "Input_Manager.h"
 #include "Game.h"
 #include "AudioManager.h"
+//#include "CommonIndludes.h"
 
 class Game;
 
@@ -31,6 +32,7 @@ private:
 	int m_numCheese = 136;
 
 	void m_GoToNextLevel();
+	void m_UpdateLives();
 
 public:
 	Player(SDL_Rect s, SDL_Rect d);

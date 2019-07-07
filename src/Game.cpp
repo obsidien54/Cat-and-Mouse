@@ -223,7 +223,14 @@ void Game::HandlePlayerAndCatInteractions() {
 				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
 				{
 					m_pCats[i]->Die(); // Cats need to be respawned in the center
-					m_scoreNum += 100;
+					for (int i = 1; i <=10; i++)
+					{
+						m_scoreNum += i *10;
+						if (m_scoreNum % LIFEINCREASETHRESHOLD == 0)
+						{
+							IncrementLives();
+						}
+					}
 				}
 				// Else player dies
 				else
@@ -289,6 +296,20 @@ void Game::SetAbilityStartTimer(Uint32 time)
 Uint32 Game::GetAbilityStartTimer()
 {
 	return m_abilityStartTimer;
+}
+
+int Game::GetLives()
+{
+	return m_livesNum;
+}
+
+//increase lives by 1 if below max of 5
+void Game::IncrementLives()
+{
+	if( m_livesNum < 5)
+	{
+		m_livesNum++;
+	}
 }
 
 int Game::GetCurrLevel()
