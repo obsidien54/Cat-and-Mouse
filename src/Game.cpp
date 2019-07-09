@@ -168,6 +168,11 @@ Level* Game::GetLevel()
 	return &m_level;
 }
 
+Cat * Game::GetCat(int num)
+{
+	return m_pCats[num];
+}
+
 Input_Manager* Game::GetInputManager()
 {
 	return &m_Input;
@@ -490,12 +495,9 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	}
 
 	// Render cats
-	for (int i = 0; i < 4; i++) {
-		if (!m_pCats[i]->IsDead())
-		{
+	for (int i = 0; i < 4; i++) 
+	{
 			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
-		}
-
 	}
 
 	// Render player
@@ -529,6 +531,12 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_DestroyTexture(m_pTextTextureLives);
 	SDL_DestroyTexture(m_pTextTextureLevel);
 	SDL_DestroyTexture(m_pTextTextureScore);
+
+	////temp rectangle for targeting square
+	//SDL_Rect targetSquare = { m_pCats[3]->GetTargetX() * 32,  m_pCats[3]->GetTargetY() * 32, 32,32 };
+	//SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 0);
+	//SDL_RenderFillRect(m_pRenderer, &targetSquare);
+	//SDL_RenderDrawRect(m_pRenderer, &targetSquare);
 
 	SDL_RenderPresent(m_pRenderer);
 }

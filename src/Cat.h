@@ -7,6 +7,8 @@ enum C_State {
 	WAKEUP,
 	SCATTER,
 	SEEK,
+	DYING,
+	BACK2PEN,
 	DEATH
 };
 enum CatDirection {
@@ -36,6 +38,9 @@ private:
 	void DistanceEast();
 	void DistanceSouth();
 	void DistanceWest();
+	int m_DistanceToMouseSquared();
+
+
 
 public:
 	char newDir;
@@ -83,4 +88,6 @@ public:
 	int frameX;
 	int angle;
 	SDL_Point center;
+
+	void SetMoveSpeed(int m);
 };

@@ -114,8 +114,88 @@ void Cat::MoveY(int dir)
 
 void Cat::TargetPlayer()
 {
-	SetTargetX(Game::GetInstance()->GetPlayer()->GetX());
-	SetTargetY(Game::GetInstance()->GetPlayer()->GetY());
+	switch (m_CatNum)
+	{
+	case 0: //first cat will target the player directly
+		SetTargetX(Game::GetInstance()->GetPlayer()->GetX());
+		SetTargetY(Game::GetInstance()->GetPlayer()->GetY());
+		break;
+	case 1:
+		if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 0) //if the player is moving up
+		{
+			SetTargetX(Game::GetInstance()->GetPlayer()->GetX());
+			SetTargetY(Game::GetInstance()->GetPlayer()->GetY() - 4 );
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 90) //if the player is moving right
+		{
+			SetTargetX(Game::GetInstance()->GetPlayer()->GetX() + 4);
+			SetTargetY(Game::GetInstance()->GetPlayer()->GetY());
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 180) //if the player is moving down
+		{
+			SetTargetX(Game::GetInstance()->GetPlayer()->GetX());
+			SetTargetY(Game::GetInstance()->GetPlayer()->GetY() + 4);
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 270) //if the player is moving left
+		{
+			SetTargetX(Game::GetInstance()->GetPlayer()->GetX() - 4 );
+			SetTargetY(Game::GetInstance()->GetPlayer()->GetY());
+		}
+		break;
+	case 2:
+		//find the tile 2 spaces ahead of the mouse
+		int tempTileX, tempTileY;
+		if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 0) //if the player is moving up
+		{
+			tempTileX = (Game::GetInstance()->GetPlayer()->GetX());
+			tempTileY = (Game::GetInstance()->GetPlayer()->GetY() - 2);
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 90) //if the player is moving right
+		{
+			tempTileX = (Game::GetInstance()->GetPlayer()->GetX() + 2);
+			tempTileY = (Game::GetInstance()->GetPlayer()->GetY());
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 180) //if the player is moving down
+		{
+			tempTileX = (Game::GetInstance()->GetPlayer()->GetX());
+			tempTileY = (Game::GetInstance()->GetPlayer()->GetY() + 2);
+		}
+		else if (Game::GetInstance()->GetPlayer()->GetPlayerAngle() == 270) //if the player is moving left
+		{
+			tempTileX = (Game::GetInstance()->GetPlayer()->GetX() - 2);
+			tempTileY = (Game::GetInstance()->GetPlayer()->GetY());
+		}
+
+		//create the "vector between the first cat and the tile 2 ahead of the mouse"
+		int vectorX, vectorY;
+		vectorX = tempTileX - Game::GetInstance()->GetCat(0)->GetX();
+		vectorY = tempTileY - Game::GetInstance()->GetCat(0)->GetY();
+
+		//add the vector to the tile 2 ahead of the cat
+		int targetX, targetY;
+		targetX = tempTileX + vectorX;
+		targetY = tempTileY + vectorY;
+
+
+		//set the targets for the cat
+		SetTargetX(targetX);
+		SetTargetY(targetY);
+
+		break;
+	case 3:
+
+		if (m_DistanceToMouseSquared() >= 64) //if more than 8 tiles away (since using squared distance 8 squared is 64)
+		{
+			SetTargetX(Game::GetInstance()->GetPlayer()->GetX());
+			SetTargetY(Game::GetInstance()->GetPlayer()->GetY());
+		}
+		else
+		{
+			SetTargetX(21);
+			SetTargetY(21);
+		}
+		break;
+	}
 }
 
 void Cat::TargetScatter()
@@ -141,9 +221,13 @@ void Cat::TargetScatter()
 
 	}
 }
+
 void Cat::TargetDeath()
 {
+	SetTargetX(11);
+	SetTargetY(9);
 }
+
 // helper function for seek
 void Cat::DistanceNorth()
 {
@@ -213,6 +297,15 @@ void Cat::DistanceWest()
 		}
 	}
 }
+
+//retrun the squared distance form the cat to the mouse
+int Cat::m_DistanceToMouseSquared()
+{
+	int distance;
+	distance = (Game::GetInstance()->GetPlayer()->GetX() - GetX())* (Game::GetInstance()->GetPlayer()->GetX() - GetX()) +
+				(Game::GetInstance()->GetPlayer()->GetY() - GetY())* (Game::GetInstance()->GetPlayer()->GetY() - GetY());
+	return distance;
+}
 void Cat::Seek()
 {
 	distance = 999999;
@@ -254,7 +347,7 @@ void Cat::Seek()
 		}
 	}
 	// if not moving then move in a direction
-	if (!IsDead() && !IsMoving()) {
+	if (!IsMoving()) {
 		if (GetDir() == 'w') {
 			// If not an obstacle then sets the new destination square
 			if (!Game::GetInstance()->GetLevel()->m_Map[GetY() - 1][GetX()].isObstacle()) {
@@ -424,7 +517,7 @@ void Cat::Update()
 		}
 		break;
 	case C_State::SCATTER:
-		if (frames >= 1500)
+		if (frames >= 750)
 		{
 			SetState(C_State::SEEK);
 			switch (GetDir())
@@ -479,6 +572,47 @@ void Cat::Update()
 			Seek();
 		}
 		break;
+	case C_State::BACK2PEN:
+		SetMoving(true);
+
+		if (IsMoving()) {
+			Animate();
+			if (GetDestinationX() > GetDst().x) {
+				MoveX(1);
+			}
+			else if (GetDestinationX() < GetDst().x) {
+				MoveX(-1);
+			}
+			else if (GetDestinationY() > GetDst().y) {
+				MoveY(1);
+			}
+			else if (GetDestinationY() < GetDst().y) {
+				MoveY(-1);
+			}
+			// if cat has gotten to destination then set moving to false
+			else if (GetDestinationX() == GetDst().x && GetDestinationY() == GetDst().y) {
+				SetMoving(false);
+				SetState(C_State::DEATH);
+				frames = 0;
+				SetMoveSpeed(2);
+			}
+		}
+		break;
+	case C_State::DYING:
+		TargetDeath();
+		Seek();
+		if (!IsMoving())
+		{
+			if (GetX() == GetTargetX() && GetY() == GetTargetY())
+			{
+				cout << "CAT " << m_CatNum << " back to pen" << endl;
+				SetState(C_State::BACK2PEN);
+				frames = 0;
+				SetDestinationY(GetDst().y + 64);
+				SetDestinationX(GetDst().x);
+			}
+		}
+		break;
 	case C_State::DEATH:
 		frames++;
 		if (frames >= 600)
@@ -507,9 +641,18 @@ void Cat::Update()
 	}
 }
 
-void Cat::Die() {
-	m_bIsDead = true;
-	m_rSrc = {};
-	SetState(C_State::DEATH);
-	frames = 0;
+
+void Cat::Die()
+{
+	SetDead(true);
+	SetState(C_State::DYING);
+	m_rSrc = { m_CatNum * 192, 0, SPRITESIZE, SPRITESIZE };
+	ResetCell();
+	SetMoveSpeed(2);
 }
+
+void Cat::SetMoveSpeed(int m)
+{
+	m_moveSpeed = m;
+}
+

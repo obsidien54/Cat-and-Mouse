@@ -73,6 +73,7 @@ public:
 	}
 	Player* GetPlayer();
 	Level* GetLevel();
+	Cat* GetCat(int num);
 	Input_Manager* GetInputManager();
 
 	bool Init(SDL_Renderer* m_pRenderer);
