@@ -235,15 +235,50 @@ void Player::m_GoToNextLevel()
 	if (Game::GetInstance()->GetCurrLevel() == 0)
 	{
 		m_numCheese = 136;
+		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 13;
+		
 	}
 	else if (Game::GetInstance()->GetCurrLevel() == 1)
 	{
 		m_numCheese = 173;
+		m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 18;
+	}
+	else if (Game::GetInstance()->GetCurrLevel() == 2)
+	{
+		m_numCheese = 140;
+		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 13;
+	}
+	else if (Game::GetInstance()->GetCurrLevel() == 3)
+	{
+		m_numCheese = 162;
+		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 13;
+	}
+	else if (Game::GetInstance()->GetCurrLevel() == 4)
+	{
+		m_numCheese = 134;
+		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 13;
+	}
+	else if (Game::GetInstance()->GetCurrLevel() == 5)
+	{
+		m_numCheese = 254;
+		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+		m_iDestinationX = 11;
+		m_iDestinationY = 13;
 	}
 	SDL_Delay(2000);
-	m_rDst = { TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE };
-	m_iDestinationX = 11;
-	m_iDestinationY = 18;
+	//m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
+	//m_iDestinationX = 11;
+	//m_iDestinationY = 13;
 	m_bIsMoving = false;
 
 }

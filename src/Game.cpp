@@ -107,6 +107,7 @@ void Game::SetUpTileVariables()
 void Game::SetUpTileVariables(int level)
 {
 	std::string varFileName = "../Assets/Level" + to_string(level) + "Variables.txt";
+	//std::string varFileName = "../Assets/Level5Variables.txt";
 	std::ifstream varFile(varFileName);
 
 	for (int row = 0; row < ROWS; row++) {
@@ -142,6 +143,7 @@ void Game::BuildForegroundLayer()
 void Game::BuildForegroundLayer(int level)
 {
 	std::string mapFileName = "../Assets/Level" + to_string(level) + "Map.txt";
+	//std::string mapFileName = "../Assets/Level5Map.txt";
 	std::ifstream mapFile(mapFileName);
 
 	if (!mapFile) {
@@ -269,7 +271,7 @@ void Game::IncrementLevel()
 {
 	//m_currLevel++;
 	m_levelNum += 1; //increase level counter by 1
-	m_currLevel = rand() % 2; //choose a random level to load between 0 and 1
+	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
 	//reset cats to fit the level
@@ -395,7 +397,7 @@ void Game::PlayerLost()
 		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
 	}
 	else if (m_currLevel == 1) {
-		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE });
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
 		m_pPlayer->SetDestinationX(11);
 		m_pPlayer->SetDestinationY(13);
 		m_pPlayer->SetMoving(false);
