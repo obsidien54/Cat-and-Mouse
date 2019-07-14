@@ -185,7 +185,7 @@ void Game::Update()
 {
 	
 	HandlePlayerAndCatInteractions();
-	if (m_pPlayer->isDying() == false)
+	if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
 	{
 		m_pPlayer->update();
 		UpdateCats();
@@ -227,13 +227,19 @@ void Game::ChangeCatsToOriginalColors()
 void Game::HandlePlayerAndCatInteractions() {
 	// Handles player eating a cat
 	
-		for (int i = 0; i < 4; i++) {
-			// If player collides with cat..
-			if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
-				// Destroy cat if powered up
-				if (!m_pCats[i]->IsDead())
+	for (int i = 0; i < 4; i++) {
+		// If player collides with cat..
+		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
+			// Destroy cat if powered up
+			if (!m_pCats[i]->IsDead())
+			{
+				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
 				{
-					if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
+					if (m_pCats[i]->IsVulnerable() == false)
+					{
+						m_pCats[i]->SetDying(true);
+					}
+					if (m_pCats[i]->IsDying() == false)
 					{
 						m_pCats[i]->Die(); // Cats need to be respawned in the center
 						for (int i = 1; i <= 10; i++)
@@ -245,41 +251,42 @@ void Game::HandlePlayerAndCatInteractions() {
 							}
 						}
 					}
-					// Else player dies
-					else
-					{
-						//Game::GetInstance()->PlayerLost();
+				}
+				// Else player dies
+				else
+				{
+					//Game::GetInstance()->PlayerLost();
 
 						
-						if (m_pPlayer->GetInvulnerable() == false)
+					if (m_pPlayer->GetInvulnerable() == false)
+					{
+						m_pPlayer->SetDying(true);
+					}
+					if (m_pPlayer->isDying() == false)
+					{
+						m_livesNum -= 1;
+						Game::GetInstance()->PlayerLost();
+						if (m_livesNum == 0)
 						{
-							m_pPlayer->SetDying(true);
-						}
-						if (m_pPlayer->isDying() == false)
-						{
-							m_livesNum -= 1;
-							Game::GetInstance()->PlayerLost();
-							if (m_livesNum == 0)
-							{
-								SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
-								TheTextureManager::Instance()->draw("Game_Over",
-									SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
-								SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
-								Game::GetInstance()->SetScore(0);
+							SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+							TheTextureManager::Instance()->draw("Game_Over",
+								SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+							Game::GetInstance()->SetScore(0);
 
-								SDL_Delay(3000);
-								//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
-								m_pPlayer->Die();
-								m_livesNum = 3;
-								m_bRunning = false;
+							SDL_Delay(3000);
+							//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
+							m_pPlayer->Die();
+							m_livesNum = 3;
+							m_bRunning = false;
 
-								//want to change the ui to the Game over screen
-								UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
-							}
+							//want to change the ui to the Game over screen
+							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
 						}
 					}
 				}
 			}
+		}
 		
 	}
 }
@@ -580,6 +587,12 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 		}
 	}
 
+	//update cat sprites before render
+	m_pCats[0]->Animate();
+	m_pCats[1]->Animate();
+	m_pCats[2]->Animate();
+	m_pCats[3]->Animate();
+
 	// Render cats
 	for (int i = 0; i < 4; i++) 
 	{
@@ -587,6 +600,8 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	}
 
 	m_pPlayer->animate();
+
+	
 
 	// Render player
 	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(),m_pPlayer->GetPlayerAngle(),&m_pPlayer->center,SDL_FLIP_NONE);

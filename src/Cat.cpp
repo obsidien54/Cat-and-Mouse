@@ -59,18 +59,40 @@ bool Cat::IsMoving() { return m_bIsMoving; }
 
 void Cat::Animate()
 {
-	if (m_iFrame == m_iFrameMax)
+	if (m_bIsDying != true) //if cat is not in dying animation
 	{
-		m_iFrame = 0;
-		m_iSprite++;
-		if (m_iSprite == m_iSpriteMax)
+		if (m_iFrame == m_iFrameMax)
 		{
-			m_iSprite = 0;
-			m_rSrc.x -= m_rSrc.w * 3;
+			m_iFrame = 0;
+			m_iSprite++;
+			if (m_iSprite == m_iSpriteMax)
+			{
+				m_iSprite = 0;
+				m_rSrc.x -= m_rSrc.w * 3;
+			}
+			//m_rSrc.x = m_CatNum* 192 + m_iSprite * m_rSrc.w;
+			m_rSrc.x += m_rSrc.w;
 		}
-		m_rSrc.x += m_rSrc.w;
+		m_iFrame++;
 	}
-	m_iFrame++;
+	else if (m_bIsDying == true) //if cat is in dying animation
+	{
+		m_bIsVulnerable = true;
+		if (m_iDeathFrame == m_iDeathFrameMax)
+		{
+			m_iDeathFrame = 0;
+			m_iDeathSprite++;
+			if (m_iDeathSprite == m_iDeathSpriteMax)
+			{
+				//m_rSrc.x -= m_rSrc.w * 3;
+				m_bIsDying = false; //get out of dying animation
+
+			}
+			m_rSrc.x = 5 * 192 + m_iDeathSprite * m_rSrc.w; //choose among the death animations
+			//m_rSrc.x = m_iDeathSprite * m_rSrc.w *3;
+		}
+		m_iDeathFrame++;
+	}
 }
 
 void Cat::ResetCell() { m_iSprite = 0; m_iFrame = 0; }
@@ -441,7 +463,7 @@ void Cat::Seek()
 	}
 	// if moving continue moving till
 	if (IsMoving()) {
-		Animate();
+		//Animate(); //moved to game render function
 		if (GetDestinationX() > GetDst().x) {
 			MoveX(1);
 		}
@@ -478,6 +500,16 @@ void Cat::SetVulnerable(bool b)
 	}
 }
 
+void Cat::SetDying(bool dying)
+{
+	m_bIsDying = dying;
+}
+
+bool Cat::IsDying()
+{
+	return m_bIsDying;
+}
+
 void Cat::Update()
 {
 	TargetPlayer();
@@ -495,7 +527,7 @@ void Cat::Update()
 	case C_State::WAKEUP:
 		SetMoving(true);
 		if (IsMoving()) {
-			Animate();
+			//Animate(); //moved to game render function
 			if (GetDestinationX() > GetDst().x) {
 				MoveX(1);
 			}
@@ -576,7 +608,7 @@ void Cat::Update()
 		SetMoving(true);
 
 		if (IsMoving()) {
-			Animate();
+			//Animate(); // moved to game render funciton
 			if (GetDestinationX() > GetDst().x) {
 				MoveX(1);
 			}
@@ -646,6 +678,7 @@ void Cat::Die()
 {
 	SetDead(true);
 	SetState(C_State::DYING);
+	m_bIsVulnerable = false;
 	m_rSrc = { m_CatNum * 192, 0, SPRITESIZE, SPRITESIZE };
 	ResetCell();
 	SetMoveSpeed(2);

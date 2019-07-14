@@ -22,6 +22,7 @@ enum CatDirection {
 class Cat : public Sprite {
 private:
 	bool m_bIsVulnerable = false, m_bIsDead = false, m_bIsMoving = false;
+	bool m_bIsDying = false;
 	int m_IDestinationX, m_IDestinationY;
 	char dir;
 	int m_iTargetX, m_iTargetY;
@@ -30,6 +31,10 @@ private:
 	int m_iSpriteMax = 3;
 	int m_iFrameMax = 6;
 	int m_iFrame = 0;
+	int m_iDeathFrame = 0; // current death frame
+	int m_iDeathSprite = 0; //death sprite counter
+	int m_iDeathFrameMax = 10; //number of frames to display each death sprite
+	int m_iDeathSpriteMax = 3; //number of death sprites in animation
 	int m_State;
 	bool checkBound;
 	int m_moveSpeed;
@@ -83,6 +88,8 @@ public:
 	void Update();
 
 	void SetVulnerable(bool b);
+	void SetDying(bool dying);
+	bool IsDying();
 	void Die();
 	int frame;
 	int frameX;
