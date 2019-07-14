@@ -77,7 +77,7 @@ void Player::m_HandleMovement()
 	m_HandleEatingCheese();
 	m_HandleEatingMysteryCheese();
 	m_MovePlayer();
-	animate();
+	//animate();
 }
 
 void Player::m_HandleWarping()
@@ -323,6 +323,11 @@ bool Player::isDead()
 	return m_bIsDead; 
 }
 
+bool Player::isDying()
+{
+	return m_bIsDying;
+}
+
 bool Player::isCurrentlyInWall()
 {
 	return m_bCurrentlyInWall;
@@ -416,24 +421,46 @@ Ability Player::GetAbility()
 
 void Player::update()
 {
-	m_HandlePlayerAbilities();
-	m_HandleMovement();
+	if (m_bIsDying == false) //only update when player not in dying animation
+	{
+		m_HandlePlayerAbilities();
+		m_HandleMovement();
+	}
 }
 
 // new animation function for mouse
 void Player::animate()
 {
-	if (m_iFrame == m_iFrameMax)
+	if (m_bIsDying != true) //if player is not in dying animation
 	{
-		m_iFrame = 0;
-		m_iSprite++;
-		if (m_iSprite == m_iSpriteMax)
+		if (m_iFrame == m_iFrameMax)
 		{
-			m_iSprite = 0;
+			m_iFrame = 0;
+			m_iSprite++;
+			if (m_iSprite == m_iSpriteMax)
+			{
+				m_iSprite = 0;
+			}
+			m_rSrc.x = m_iSprite * m_rSrc.w;
 		}
-		m_rSrc.x = m_iSprite * m_rSrc.w;
+		m_iFrame++;
 	}
-	m_iFrame++;
+	else if (m_bIsDying == true) //if player is in dying animation
+	{
+		m_bInvulnerable = true;
+		if (m_iDeathFrame == m_iDeathFrameMax)
+		{
+			m_iDeathFrame = 0;
+			m_iDeathSprite++;
+			if (m_iDeathSprite == m_iDeathSpriteMax)
+			{
+				m_bIsDying = false; //get out of dying animation
+				
+			}
+			m_rSrc.x = m_iDeathSprite * m_rSrc.w;
+		}
+		m_iDeathFrame++;
+	}
 }
 
 
@@ -464,6 +491,25 @@ void Player::MoveRight()
 void Player::SetPlayerSpeed(int speed)
 {
 	m_iMoveSpeed = speed;
+}
+
+void Player::SetDying(bool dying)
+{
+	m_bIsDying = dying;
+	if (dying == true)
+	{
+		m_iDeathSprite = 4;
+	}
+}
+
+void Player::SetInvulnerable(bool vuln)
+{
+	m_bInvulnerable = vuln;
+}
+
+bool Player::GetInvulnerable()
+{
+	return m_bInvulnerable;
 }
 
 void Player::SetPlayerAngle(int ang)

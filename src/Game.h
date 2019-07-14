@@ -111,6 +111,7 @@ public:
 	void ResetCat2();
 	void ResetCat3();
 	void ResetCat4();
+	void ResetCats();
 
 	void UpdateCats();
 	void Clean();

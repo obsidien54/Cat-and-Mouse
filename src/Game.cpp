@@ -181,10 +181,15 @@ Input_Manager* Game::GetInputManager()
 }
 
 
-void Game::Update() {
+void Game::Update() 
+{
+	
 	HandlePlayerAndCatInteractions();
-	m_pPlayer->update();
-	UpdateCats();
+	if (m_pPlayer->isDying() == false)
+	{
+		m_pPlayer->update();
+		UpdateCats();
+	}
 
 	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
 	//For debugging purposes
@@ -221,49 +226,61 @@ void Game::ChangeCatsToOriginalColors()
 
 void Game::HandlePlayerAndCatInteractions() {
 	// Handles player eating a cat
-	for (int i = 0; i < 4; i++) {
-		// If player collides with cat..
-		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
-			// Destroy cat if powered up
-			if (!m_pCats[i]->IsDead())
-			{
-				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
+	
+		for (int i = 0; i < 4; i++) {
+			// If player collides with cat..
+			if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
+				// Destroy cat if powered up
+				if (!m_pCats[i]->IsDead())
 				{
-					m_pCats[i]->Die(); // Cats need to be respawned in the center
-					for (int i = 1; i <=10; i++)
+					if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
 					{
-						m_scoreNum += i *10;
-						if (m_scoreNum % LIFEINCREASETHRESHOLD == 0)
+						m_pCats[i]->Die(); // Cats need to be respawned in the center
+						for (int i = 1; i <= 10; i++)
 						{
-							IncrementLives();
+							m_scoreNum += i * 10;
+							if (m_scoreNum % LIFEINCREASETHRESHOLD == 0)
+							{
+								IncrementLives();
+							}
+						}
+					}
+					// Else player dies
+					else
+					{
+						//Game::GetInstance()->PlayerLost();
+
+						
+						if (m_pPlayer->GetInvulnerable() == false)
+						{
+							m_pPlayer->SetDying(true);
+						}
+						if (m_pPlayer->isDying() == false)
+						{
+							m_livesNum -= 1;
+							Game::GetInstance()->PlayerLost();
+							if (m_livesNum == 0)
+							{
+								SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+								TheTextureManager::Instance()->draw("Game_Over",
+									SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+								SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+								Game::GetInstance()->SetScore(0);
+
+								SDL_Delay(3000);
+								//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
+								m_pPlayer->Die();
+								m_livesNum = 3;
+								m_bRunning = false;
+
+								//want to change the ui to the Game over screen
+								UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
+							}
 						}
 					}
 				}
-				// Else player dies
-				else
-				{
-					Game::GetInstance()->PlayerLost();
-					m_livesNum -= 1;
-					if (m_livesNum == 0)
-					{
-						SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
-						TheTextureManager::Instance()->draw("Game_Over",
-							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
-						SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
-						Game::GetInstance()->SetScore(0);
-
-						SDL_Delay(3000);
-						//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
-						m_pPlayer->Die();
-						m_livesNum = 3;
-						m_bRunning = false;
-
-						//want to change the ui to the Game over screen
-						UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
-					}
-				}
 			}
-		}
+		
 	}
 }
 
@@ -274,11 +291,7 @@ void Game::IncrementLevel()
 	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
-	//reset cats to fit the level
-	ResetCat1();
-	ResetCat2();
-	ResetCat3();
-	ResetCat4();
+	ResetCats();
 	
 }
 
@@ -378,40 +391,54 @@ void Game::PlayerLost()
 		SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 		Game::GetInstance()->SetScore(0);
 	}*/
-	SDL_Delay(3000);
+	//SDL_Delay(3000);
 	//CreateGameObjects();
+
+	
+
 	if (m_currLevel == 0) {
 		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
 		m_pPlayer->SetDestinationX(11);
 		m_pPlayer->SetDestinationY(13);
 		m_pPlayer->SetMoving(false);
 
-		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
-		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
-		m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
-		m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
-
-		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
-		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
-		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
-		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+		ResetCats();
 	}
 	else if (m_currLevel == 1) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(18);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 2) {
 		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
 		m_pPlayer->SetDestinationX(11);
 		m_pPlayer->SetDestinationY(13);
 		m_pPlayer->SetMoving(false);
 
-		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 0);
-		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 1);
-		m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 2);
-		m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 3);
-
-		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
-		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
-		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
-		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+		ResetCats();
 	}
+	else if (m_currLevel == 3) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 4) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+
+	}
+
+	m_pPlayer->SetInvulnerable(false);
 	
 }
 
@@ -423,6 +450,18 @@ void Game::ResetCat1()
 	}
 	else if (m_currLevel == 1) {
 		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
 		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
 	}
 
@@ -438,6 +477,18 @@ void Game::ResetCat2()
 		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 1);
 		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
 	}
+	else if (m_currLevel == 2) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
 
 }
 
@@ -449,6 +500,18 @@ void Game::ResetCat3()
 	}
 	else if (m_currLevel == 1) {
 		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
 		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
 	}
 }
@@ -463,6 +526,27 @@ void Game::ResetCat4()
 		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 3);
 		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
 	}
+	else if (m_currLevel == 2) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+}
+
+void Game::ResetCats()
+{
+	//reset cats to fit the level
+	ResetCat1();
+	ResetCat2();
+	ResetCat3();
+	ResetCat4();
 }
 
 
@@ -501,6 +585,8 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	{
 			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
 	}
+
+	m_pPlayer->animate();
 
 	// Render player
 	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(),m_pPlayer->GetPlayerAngle(),&m_pPlayer->center,SDL_FLIP_NONE);
@@ -549,6 +635,7 @@ void Game::HandleEvents() {
 		switch (event.type) {
 		case SDL_QUIT:
 			m_bRunning = false;
+			m_livesNum = 3;
 			break;
 		}
 	}

@@ -12,7 +12,8 @@ class Game;
 class Player : public Sprite 
 {
 private:
-	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false;;
+	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false, m_bIsDying = false;
+	bool m_bInvulnerable = false;
 	int m_iDestinationX, m_iDestinationY;
 	int m_iMoveSpeed = 4;
 	int m_iAngle; // angle of mouse
@@ -20,6 +21,10 @@ private:
 	int m_iSprite = 0; //sprite counter
 	int m_iFrameMax = 5; //number of frames to display each sprite
 	int m_iSpriteMax = 3; //number of sprites in anumation
+	int m_iDeathFrame = 0; // current frame
+	int m_iDeathSprite = 0; //sprite counter
+	int m_iDeathFrameMax = 4; //number of frames to display each sprite
+	int m_iDeathSpriteMax = 10; //number of sprites in anumation
 	Ability m_ability = Ability::ENTER_WALL;
 
 	void m_HandlePlayerAbilities();
@@ -44,6 +49,7 @@ public:
 	bool isMoving();
 	bool isPoweredUp();
 	bool isDead();
+	bool isDying();
 	bool isCurrentlyInWall();
 	bool enteredWall();
 
@@ -71,6 +77,10 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void SetPlayerSpeed(int speed); //allow us to change player speed
+	void SetDying(bool dying);
+	void SetInvulnerable(bool vuln);
+
+	bool GetInvulnerable();
 
 	void SetPlayerAngle( int ang); //angle for rotation of image
 	int GetPlayerAngle();
