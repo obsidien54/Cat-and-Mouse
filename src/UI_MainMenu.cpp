@@ -45,13 +45,13 @@ UI_MainMenu::UI_MainMenu()
 	TheAudioManager::Instance()->setMusicVolume(128);
 
 	//background music
-	//music by bensound
+	
 	TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
 		"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	////music by bensound
 	//TheAudioManager::Instance()->load("../Assets/sound/bensound-endlessmotion.mp3",
-	//	"Background", sound_type::SOUND_MUSIC);
+	//	"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1);
 

@@ -48,6 +48,41 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 
 	TheTextureManager::Instance()->load("../Assets/textures/background.png",
 		"background main", SDL_Manager::GetInstance()->GetRenderer());
+
+	//LOAD IN SOUND EFFECTS
+	TheAudioManager::Instance()->load("../Assets/sound/GameOver.wav",
+		"GameOver", sound_type::SOUND_SFX);
+
+	//player death sound
+	TheAudioManager::Instance()->load("../Assets/sound/Death.wav",
+		"Death", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/CatDeath.wav",
+		"CatDeath", sound_type::SOUND_SFX);
+
+	//play upon level completion
+	TheAudioManager::Instance()->load("../Assets/sound/Victory.wav",
+		"Victory", sound_type::SOUND_SFX);
+
+	//load the sound files that revolve around the player. WHen using them just use the audiomanager play function
+	TheAudioManager::Instance()->load("../Assets/sound/Cheese.wav",
+		"cheese", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/Powerup4.wav",
+		"powerup", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/WallAbility.wav",
+		"wall ability", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/EnterWall.wav",
+		"enter wall", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/LifeUp.wav",
+		"LifeUp", sound_type::SOUND_SFX);
+
+	//music from  patrickdearteaga.com by Patrick de Arteaga
+	TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
+		"Mystery Phase", sound_type::SOUND_MUSIC);
 					
 	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
 	std::cout << "Font creation success!" << std::endl;
@@ -188,7 +223,7 @@ void Game::Update()
 	if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
 	{
 		m_pPlayer->update();
-		UpdateCats();
+		//UpdateCats();
 	}
 
 	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
@@ -202,6 +237,7 @@ void Game::Update()
 
 void Game::ChangeCatsToWhite()
 {
+	Mix_PausedMusic();
 	if (!m_pCats[0]->IsWhite())
 	{
 		for (int i = 0; i < 4; i++)
@@ -210,10 +246,12 @@ void Game::ChangeCatsToWhite()
 			m_pCats[i]->SetSrc({ 768,0,SPRITESIZE,SPRITESIZE });
 		}
 	}
+	TheAudioManager::Instance()->playMusic("Mystery Phase", 0);
 }
 
 void Game::ChangeCatsToOriginalColors()
 {
+	Mix_HaltMusic();
 	for (int i = 0; i < 4; i++)
 	{
 		if (!m_pCats[i]->IsDead())
@@ -222,6 +260,7 @@ void Game::ChangeCatsToOriginalColors()
 			m_pCats[i]->SetSrc({ i * 192,0,SPRITESIZE,SPRITESIZE });  //turn cats back to original color
 		}
 	}
+	TheAudioManager::Instance()->playMusic("Background", -1);
 }
 
 void Game::HandlePlayerAndCatInteractions() {
@@ -238,6 +277,7 @@ void Game::HandlePlayerAndCatInteractions() {
 					if (m_pCats[i]->IsVulnerable() == false)
 					{
 						m_pCats[i]->SetDying(true);
+						TheAudioManager::Instance()->playSound("CatDeath", 0);
 					}
 					if (m_pCats[i]->IsDying() == false)
 					{
@@ -261,10 +301,12 @@ void Game::HandlePlayerAndCatInteractions() {
 					if (m_pPlayer->GetInvulnerable() == false)
 					{
 						m_pPlayer->SetDying(true);
+						TheAudioManager::Instance()->playSound("Death", 0);
 					}
 					if (m_pPlayer->isDying() == false)
 					{
 						m_livesNum -= 1;
+						
 						Game::GetInstance()->PlayerLost();
 						if (m_livesNum == 0)
 						{
@@ -272,6 +314,8 @@ void Game::HandlePlayerAndCatInteractions() {
 							TheTextureManager::Instance()->draw("Game_Over",
 								SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+							Mix_HaltMusic();
+							TheAudioManager::Instance()->playSound("GameOver", 2);
 							Game::GetInstance()->SetScore(0);
 
 							SDL_Delay(3000);
@@ -282,6 +326,8 @@ void Game::HandlePlayerAndCatInteractions() {
 
 							//want to change the ui to the Game over screen
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
+							
+
 						}
 					}
 				}
@@ -335,6 +381,7 @@ void Game::IncrementLives()
 {
 	if( m_livesNum < 5)
 	{
+		TheAudioManager::Instance()->playSound("LifeUp", 0);
 		m_livesNum++;
 	}
 }
@@ -651,6 +698,8 @@ void Game::HandleEvents() {
 		case SDL_QUIT:
 			m_bRunning = false;
 			m_livesNum = 3;
+			Mix_HaltMusic();
+			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
 			break;
 		}
 	}

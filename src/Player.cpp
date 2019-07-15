@@ -35,6 +35,7 @@ void Player::m_HandlePlayerAbilities()
 						SetMoving(true);
 						SetCurrentlyInWall(true);
 						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
 					}
 					break;
 				case 180: // facing down
@@ -44,6 +45,7 @@ void Player::m_HandlePlayerAbilities()
 						SetMoving(true);
 						SetCurrentlyInWall(true);
 						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
 					}
 					break;
 				case 90: // facing right
@@ -53,6 +55,7 @@ void Player::m_HandlePlayerAbilities()
 						SetMoving(true);
 						SetCurrentlyInWall(true);
 						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
 					}
 					break;
 				case 270: // facing left
@@ -62,6 +65,7 @@ void Player::m_HandlePlayerAbilities()
 						SetMoving(true);
 						SetCurrentlyInWall(true);
 						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
 					}
 					break;
 				}
@@ -93,6 +97,7 @@ void Player::m_HandleWarping()
 		SetDestinationX(4 * TILESIZE);
 		SetMoving(true);
 	}
+
 }
 
 void Player::m_HandleEatingCheese() {
@@ -103,7 +108,8 @@ void Player::m_HandleEatingCheese() {
 		// Change tile to a normal blank tile with its associated variables
 		Level->m_Map[GetY()][GetX()].SetSrc('B');
 
-		if (Level->m_Map[GetY()][GetX()].isIntersection()) {
+		if (Level->m_Map[GetY()][GetX()].isIntersection()) 
+		{
 			Level->m_Map[GetY()][GetX()].SetTileVariables('I');
 		}
 		else {
@@ -118,6 +124,7 @@ void Player::m_HandleEatingCheese() {
 
 	if (getNumCheese() <= 0)
 	{
+		TheAudioManager::Instance()->playSound("Victory", 2);
 		m_GoToNextLevel();
 	}
 }
@@ -137,7 +144,7 @@ void Player::m_HandleEatingMysteryCheese() {
 		setNumCheese(getNumCheese()-1);
 
 
-		TheAudioManager::Instance()->playSound("powerup", 0); //play sound effect for mystery cheese
+		
 
 		// Grant player a random ability and start the timer
 		Game::GetInstance()->SetAbilityStartTimer(SDL_GetTicks());
@@ -146,6 +153,15 @@ void Player::m_HandleEatingMysteryCheese() {
 
 		if (GetAbility() == DEFEAT_CATS) {
 			Game::GetInstance()->ChangeCatsToWhite();
+		}
+
+		if (GetAbility() == DEFEAT_CATS) 
+		{
+			TheAudioManager::Instance()->playSound("powerup", 0); //play sound effect for mystery cheese
+		}
+		if (GetAbility() == ENTER_WALL) 
+		{
+			TheAudioManager::Instance()->playSound("wall ability", 0); //play sound effect for mystery cheese
 		}
 	}
 	if (getNumCheese() <= 0) 
@@ -295,12 +311,6 @@ void Player::m_UpdateLives()
 
 Player::Player(SDL_Rect s, SDL_Rect d)
 {
-	//load the sound files that revolve around the player. WHen using them just use the audiomanager play function
-	TheAudioManager::Instance()->load("../Assets/sound/Cheese.wav",
-		"cheese", sound_type::SOUND_SFX);
-
-	TheAudioManager::Instance()->load("../Assets/sound/Powerup4.wav",
-		"powerup", sound_type::SOUND_SFX);
 
 	m_rSrc = s;
 	m_rDst = d;
