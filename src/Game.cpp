@@ -223,7 +223,7 @@ void Game::Update()
 	if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
 	{
 		m_pPlayer->update();
-		//UpdateCats();
+		UpdateCats();
 	}
 
 	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
