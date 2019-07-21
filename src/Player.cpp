@@ -292,6 +292,10 @@ void Player::m_GoToNextLevel()
 		m_iDestinationY = 13;
 	}
 	SDL_Delay(2000);
+	//enable the coundown mechanism
+	Game::GetInstance()->SetCountdown(true);
+
+
 	//m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
 	//m_iDestinationX = 11;
 	//m_iDestinationY = 13;

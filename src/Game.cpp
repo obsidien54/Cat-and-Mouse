@@ -17,6 +17,8 @@ Game::Game()
 	m_fps = (Uint64)round(1 / (long double)FPS * 1000);
 }
 
+
+
 bool Game::Init(SDL_Renderer* m_pRenderer) 
 {
 	//BuildBackgroundLayer();
@@ -48,6 +50,21 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 
 	TheTextureManager::Instance()->load("../Assets/textures/background.png",
 		"background main", SDL_Manager::GetInstance()->GetRenderer());
+	
+	//load countdown images
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_5.png",
+		"count 5", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_4.png",
+		"count 4", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_3.png",
+		"count 3", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_2.png",
+		"count 2", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_1.png",
+		"count 1", SDL_Manager::GetInstance()->GetRenderer());
+
+	//every day
+	//which numbers were done?
 
 	//LOAD IN SOUND EFFECTS
 	TheAudioManager::Instance()->load("../Assets/sound/GameOver.wav",
@@ -218,14 +235,15 @@ Input_Manager* Game::GetInputManager()
 
 void Game::Update() 
 {
-	
-	HandlePlayerAndCatInteractions();
-	if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
+	if (!m_isCountdown)
 	{
-		m_pPlayer->update();
-		UpdateCats();
+		HandlePlayerAndCatInteractions();
+		if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
+		{
+			m_pPlayer->update();
+			//UpdateCats();
+		}
 	}
-
 	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
 	//For debugging purposes
 	/*cout << "Is Moving: " <<  m_pPlayer->isMoving() << endl;
@@ -323,6 +341,7 @@ void Game::HandlePlayerAndCatInteractions() {
 							m_pPlayer->Die();
 							m_livesNum = 3;
 							m_bRunning = false;
+							m_isCountdown = true;
 
 							//want to change the ui to the Game over screen
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
@@ -384,6 +403,11 @@ void Game::IncrementLives()
 		TheAudioManager::Instance()->playSound("LifeUp", 0);
 		m_livesNum++;
 	}
+}
+
+void Game::SetCountdown(bool b)
+{
+	m_isCountdown = b;
 }
 
 int Game::GetCurrLevel()
@@ -688,7 +712,54 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	//SDL_RenderFillRect(m_pRenderer, &targetSquare);
 	//SDL_RenderDrawRect(m_pRenderer, &targetSquare);
 
+	//render the countdown
+	m_RenderCountdown();
+
 	SDL_RenderPresent(m_pRenderer);
+}
+
+void Game::m_RenderCountdown()
+{
+	//render out the timer
+	if (m_isCountdown)
+	{
+		if (m_countdownFrame < 60)
+		{
+			TheTextureManager::Instance()->draw("count 5", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 120)
+		{
+			TheTextureManager::Instance()->draw("count 4", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 180)
+		{
+			TheTextureManager::Instance()->draw("count 3", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 240)
+		{
+			TheTextureManager::Instance()->draw("count 2", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 300)
+		{
+			TheTextureManager::Instance()->draw("count 1", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else
+		{
+			//leave the loop of the timer
+			m_isCountdown = false;
+			m_countdownFrame = 0;
+		}
+	}
 }
 
 void Game::HandleEvents() {
@@ -701,6 +772,7 @@ void Game::HandleEvents() {
 			m_scoreNum = 0;
 			Mix_HaltMusic();
 			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
+			m_isCountdown = true;
 			break;
 		}
 	}

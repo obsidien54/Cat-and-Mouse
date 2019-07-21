@@ -101,6 +101,10 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 				}
 			}
 		}
+		if (event.type == SDL_QUIT)
+		{
+			bSDLRunning = false;
+		}
 	}
 	
 

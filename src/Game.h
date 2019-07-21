@@ -43,6 +43,12 @@ private:
 	int m_currLevel = 0;
 	Level m_level;
 	Level m_bg;
+
+	//countdown variables
+	bool m_isCountdown = true;
+	int m_countdownFrame = 0;
+	void m_RenderCountdown();
+
 	//Scoring and level Tracking
 	int m_scoreNum = 0;
 	int m_levelNum = 1;
@@ -100,6 +106,9 @@ public:
 
 	int GetLives();
 	void IncrementLives();
+
+	//alter the countdown settings
+	void SetCountdown(bool b);
 
 	int GetCurrLevel(); //get the currentl level map we are at
 
