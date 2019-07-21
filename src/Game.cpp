@@ -698,6 +698,7 @@ void Game::HandleEvents() {
 		case SDL_QUIT:
 			m_bRunning = false;
 			m_livesNum = 3;
+			m_scoreNum = 0;
 			Mix_HaltMusic();
 			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
 			break;
