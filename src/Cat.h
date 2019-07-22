@@ -28,6 +28,7 @@ private:
 	//bool m_bIsVulnerable = false;
 	bool m_bIsDead = false, m_bIsMoving = false;
 	bool m_bIsDying = false;
+	bool m_reverse = false;
 	int m_IDestinationX, m_IDestinationY;
 	char dir;
 	int m_iTargetX, m_iTargetY;
@@ -56,6 +57,10 @@ private:
 	void FleeDistanceSouth();
 	void FleeDistanceWest();
 	void Flee();
+	//////
+	void setReverse(bool b);
+	bool getReverse();
+	void TransistionReverse();
 	void ReverseDirection();
 	/////
 	int m_DistanceToMouseSquared();

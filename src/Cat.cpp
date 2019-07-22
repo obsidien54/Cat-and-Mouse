@@ -46,10 +46,10 @@ void Cat::SetAllVulnerable(bool b)
 {
 	if (IsAllVulnerable() != b)
 	{
-		Game::GetInstance()->GetCat(0)->ReverseDirection();
-		Game::GetInstance()->GetCat(1)->ReverseDirection();
-		Game::GetInstance()->GetCat(2)->ReverseDirection();
-		Game::GetInstance()->GetCat(3)->ReverseDirection();
+		Game::GetInstance()->GetCat(0)->setReverse(true);
+		Game::GetInstance()->GetCat(1)->setReverse(true);
+		Game::GetInstance()->GetCat(2)->setReverse(true);
+		Game::GetInstance()->GetCat(3)->setReverse(true);
 	}
 	m_sIsVulnerable = b;
 }
@@ -215,6 +215,7 @@ void Cat::MoveY(int dir)
 
 void Cat::ReverseDirection()
 {
+	//return;
 	switch (GetDir())
 	{
 	case 'w':
@@ -658,6 +659,31 @@ void Cat::Flee()
 	}
 }
 
+void Cat::setReverse(bool b)
+{
+	if (m_reverse == true && b == true)
+	{
+		m_reverse = false;
+		return;
+	}
+	m_reverse = b;
+}
+
+bool Cat::getReverse()
+{
+	return m_reverse;
+}
+
+void Cat::TransistionReverse()
+{
+	if (!IsMoving())
+	{
+		ReverseDirection();
+		setReverse(false);
+		
+	}
+}
+
 
 
 //// end flee
@@ -843,17 +869,98 @@ bool Cat::IsDying()
 
 void Cat::Update()
 {
+	if (getReverse())
+	{
+		TransistionReverse();
+		if (getReverse())
+		{
+			if (IsMoving()) {
+				//Animate(); //moved to game render function
+				if (GetDestinationX() > GetDst().x) {
+					MoveX(1);
+				}
+				else if (GetDestinationX() < GetDst().x) {
+					MoveX(-1);
+				}
+				else if (GetDestinationY() > GetDst().y) {
+					MoveY(1);
+				}
+				else if (GetDestinationY() < GetDst().y) {
+					MoveY(-1);
+				}
+				// if cat has gotten to destination then set moving to false
+				else if (GetDestinationX() == GetDst().x && GetDestinationY() == GetDst().y) {
+					SetMoving(false);
+					//SetState(C_State::SCATTER);
+					//SetAllState(C_State::SCATTER);
+					//frames = 0;
+				}
+			}
+			return;
+		}
+	}
+
 	switch (GetState())
 	{
 	case C_State::IDLE:
 		break;
 	case C_State::WAITING:
-		if (Game::GetInstance()->GetPlayer()->getNumCheese() < 137 - (m_CatNum * 10))
+		switch (Game::GetInstance()->GetCurrLevel())
 		{
-			SetDestinationY(GetDst().y - 64);
-			SetDestinationX(GetDst().x);
-			SetState(C_State::WAKEUP);
-			SetDir('w');
+		case 0:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 137 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
+		case 1:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 174 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
+		case 2:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 141 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
+		case 3:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 162 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
+		case 4:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 135 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
+		case 5:
+			if (Game::GetInstance()->GetPlayer()->getNumCheese() < 255 - (m_CatNum * 10))
+			{
+				SetDestinationY(GetDst().y - 64);
+				SetDestinationX(GetDst().x);
+				SetState(C_State::WAKEUP);
+				SetDir('w');
+			}
+			break;
 		}
 		break;
 	case C_State::WAKEUP:
