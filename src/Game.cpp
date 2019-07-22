@@ -92,6 +92,12 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	TheAudioManager::Instance()->load("../Assets/sound/LifeUp.wav",
 		"LifeUp", sound_type::SOUND_SFX);
 
+	//countdown timer sounds
+	TheAudioManager::Instance()->load("../Assets/sound/Blip_Select_High.wav",
+		"Timer High", sound_type::SOUND_SFX);
+	TheAudioManager::Instance()->load("../Assets/sound/Blip_Select_Low.wav",
+		"Timer Low", sound_type::SOUND_SFX);
+
 	//music from  patrickdearteaga.com by Patrick de Arteaga
 	TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
 		"Mystery Phase", sound_type::SOUND_MUSIC);
@@ -275,9 +281,10 @@ void Game::HandlePlayerAndCatInteractions() {
 							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 							Mix_HaltMusic();
-							TheAudioManager::Instance()->playSound("GameOver", 2);
+							TheAudioManager::Instance()->playSound("GameOver", 1);
 							Game::GetInstance()->SetScore(0);
 
+							//a delay before switching to the game over screen state after this
 							SDL_Delay(3000);
 							m_livesNum = 3;
 							m_bRunning = false;
@@ -296,7 +303,6 @@ void Game::HandlePlayerAndCatInteractions() {
 
 void Game::IncrementLevel()
 {
-	//m_currLevel++;
 	m_levelNum += 1; //increase level counter by 1
 	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
 	BuildForegroundLayer(m_currLevel); //build the random level
@@ -660,30 +666,50 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 5", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
+			if(m_countdownFrame == 10)
+			{
+				TheAudioManager::Instance()->playSound("Timer Low", 0);
+			}
 			m_countdownFrame++;
 		}
 		else if (m_countdownFrame < 120)
 		{
 			TheTextureManager::Instance()->draw("count 4", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
+			if (m_countdownFrame == 70)
+			{
+				TheAudioManager::Instance()->playSound("Timer Low", 0);
+			}
 			m_countdownFrame++;
 		}
 		else if (m_countdownFrame < 180)
 		{
 			TheTextureManager::Instance()->draw("count 3", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
+			if (m_countdownFrame == 130)
+			{
+				TheAudioManager::Instance()->playSound("Timer Low", 0);
+			}
 			m_countdownFrame++;
 		}
 		else if (m_countdownFrame < 240)
 		{
 			TheTextureManager::Instance()->draw("count 2", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
+			if (m_countdownFrame == 190)
+			{
+				TheAudioManager::Instance()->playSound("Timer Low", 0);
+			}
 			m_countdownFrame++;
 		}
 		else if (m_countdownFrame < 300)
 		{
 			TheTextureManager::Instance()->draw("count 1", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
+			if (m_countdownFrame == 250)
+			{
+				TheAudioManager::Instance()->playSound("Timer High", 0);
+			}
 			m_countdownFrame++;
 		}
 		else
