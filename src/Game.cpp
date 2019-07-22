@@ -17,8 +17,6 @@ Game::Game()
 	m_fps = (Uint64)round(1 / (long double)FPS * 1000);
 }
 
-
-
 bool Game::Init(SDL_Renderer* m_pRenderer) 
 {
 	//BuildBackgroundLayer();
@@ -50,7 +48,7 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 
 	TheTextureManager::Instance()->load("../Assets/textures/background.png",
 		"background main", SDL_Manager::GetInstance()->GetRenderer());
-	
+
 	//load countdown images
 	TheTextureManager::Instance()->load("../Assets/textures/countdown_5.png",
 		"count 5", SDL_Manager::GetInstance()->GetRenderer());
@@ -62,9 +60,6 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 		"count 2", SDL_Manager::GetInstance()->GetRenderer());
 	TheTextureManager::Instance()->load("../Assets/textures/countdown_1.png",
 		"count 1", SDL_Manager::GetInstance()->GetRenderer());
-
-	//every day
-	//which numbers were done?
 
 	//LOAD IN SOUND EFFECTS
 	TheAudioManager::Instance()->load("../Assets/sound/GameOver.wav",
@@ -142,20 +137,6 @@ void Game::CreateGameObjects()
 	m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
 }
 
-
-void Game::SetUpTileVariables()
-{
-	std::ifstream varFile("../Assets/Level0Variables.txt");
-	for (int row = 0; row < ROWS; row++) {
-		for (int col = 0; col < COLS; col++) {
-			char temp;
-			varFile >> temp;
-			m_level.m_Map[row][col].SetTileVariables(temp);
-		}
-	}
-	varFile.close();
-}
-
 void Game::SetUpTileVariables(int level)
 {
 	std::string varFileName = "../Assets/Level" + to_string(level) + "Variables.txt";
@@ -170,26 +151,6 @@ void Game::SetUpTileVariables(int level)
 		}
 	}
 	varFile.close();
-}
-
-void Game::BuildForegroundLayer()
-{
-	// Build tilemap
-
-	std::ifstream mapFile("../Assets/Level0Map.txt");
-	if (!mapFile) {
-		std::cout << "bg file not detected" << std::endl;
-	}
-
-	for (int row = 0; row < ROWS; row++) {
-		for (int col = 0; col < COLS; col++) {
-			char temp;
-			mapFile >> temp;
-			m_level.m_Map[row][col].SetSrc(temp);
-			m_level.m_Map[row][col].SetDst({ TILESIZE * col, TILESIZE * row, TILESIZE, TILESIZE });
-		}
-	}
-	mapFile.close();
 }
 
 void Game::BuildForegroundLayer(int level)
@@ -221,12 +182,10 @@ Level* Game::GetLevel()
 {
 	return &m_level;
 }
-
 Cat * Game::GetCat(int num)
 {
 	return m_pCats[num];
 }
-
 Input_Manager* Game::GetInputManager()
 {
 	return &m_Input;
@@ -235,15 +194,18 @@ Input_Manager* Game::GetInputManager()
 
 void Game::Update() 
 {
+	
 	if (!m_isCountdown)
 	{
 		HandlePlayerAndCatInteractions();
 		if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
 		{
 			m_pPlayer->update();
-			//UpdateCats();
+			UpdateCats();
 		}
 	}
+
+
 	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
 	//For debugging purposes
 	/*cout << "Is Moving: " <<  m_pPlayer->isMoving() << endl;
@@ -288,9 +250,9 @@ void Game::HandlePlayerAndCatInteractions() {
 		// If player collides with cat..
 		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
 			// Destroy cat if powered up
-			if (!m_pCats[i]->IsDead())
+			if (! m_pCats[i]->IsDead()) // check if cat is alive
 			{
-				if (m_pPlayer->GetAbility() == Ability::DEFEAT_CATS)
+				if (m_pPlayer->GetAbility() == DEFEAT_CATS)
 				{
 					if (m_pCats[i]->IsVulnerable() == false)
 					{
@@ -312,41 +274,34 @@ void Game::HandlePlayerAndCatInteractions() {
 				}
 				// Else player dies
 				else
-				{
-					//Game::GetInstance()->PlayerLost();
-
-						
+				{ 
 					if (m_pPlayer->GetInvulnerable() == false)
 					{
 						m_pPlayer->SetDying(true);
 						TheAudioManager::Instance()->playSound("Death", 0);
 					}
-					if (m_pPlayer->isDying() == false)
+					if (m_pPlayer->isDead() == true)
 					{
-						m_livesNum -= 1;
-						
+						m_livesNum--;
 						Game::GetInstance()->PlayerLost();
+
 						if (m_livesNum == 0)
 						{
 							SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
 							TheTextureManager::Instance()->draw("Game_Over",
-								SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 							Mix_HaltMusic();
 							TheAudioManager::Instance()->playSound("GameOver", 2);
 							Game::GetInstance()->SetScore(0);
 
 							SDL_Delay(3000);
-							//Game::GetInstance()->SetScore(Game::GetInstance()->GetScore() - 400);
-							m_pPlayer->Die();
 							m_livesNum = 3;
 							m_bRunning = false;
 							m_isCountdown = true;
 
-							//want to change the ui to the Game over screen
+								//want to change the ui to the Game over screen
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
-							
-
 						}
 					}
 				}
@@ -366,7 +321,6 @@ void Game::IncrementLevel()
 	ResetCats();
 	
 }
-
 void Game::IncrementScore(int score)
 {
 	m_scoreNum += score;
@@ -384,7 +338,6 @@ void Game::SetAbilityStartTimer(Uint32 time)
 {
 	m_abilityStartTimer = time;
 }
-
 Uint32 Game::GetAbilityStartTimer()
 {
 	return m_abilityStartTimer;
@@ -394,7 +347,6 @@ int Game::GetLives()
 {
 	return m_livesNum;
 }
-
 //increase lives by 1 if below max of 5
 void Game::IncrementLives()
 {
@@ -515,7 +467,10 @@ void Game::PlayerLost()
 		ResetCats();
 
 	}
-
+	m_pPlayer->SetAbility(NONE);
+	m_pPlayer->SetSprite(0);
+	m_pPlayer->SetDying(false);
+	m_pPlayer->setDeath(false);
 	m_pPlayer->SetInvulnerable(false);
 	
 }
@@ -544,7 +499,6 @@ void Game::ResetCat1()
 	}
 
 }
-
 void Game::ResetCat2()
 {
 	if (m_currLevel == 0) {
@@ -569,7 +523,6 @@ void Game::ResetCat2()
 	}
 
 }
-
 void Game::ResetCat3()
 {
 	if (m_currLevel == 0) {
@@ -593,7 +546,6 @@ void Game::ResetCat3()
 		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
 	}
 }
-
 void Game::ResetCat4()
 {
 	if (m_currLevel == 0) {
@@ -617,7 +569,6 @@ void Game::ResetCat4()
 		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
 	}
 }
-
 void Game::ResetCats()
 {
 	//reset cats to fit the level
@@ -626,8 +577,6 @@ void Game::ResetCats()
 	ResetCat3();
 	ResetCat4();
 }
-
-
 void Game::UpdateCats()
 {
 	m_pCats[0]->Update();
@@ -794,6 +743,7 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
+	SetScore(0);
 	//SDL_DestroyWindow(m_pWindow);
 	//SDL_DestroyRenderer(m_pRenderer);
 	//IMG_Quit();

@@ -13,18 +13,15 @@ class Player : public Sprite
 {
 private:
 	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false, m_bIsDying = false;
+
 	bool m_bInvulnerable = false;
 	int m_iDestinationX, m_iDestinationY;
 	int m_iMoveSpeed = 4;
 	int m_iAngle; // angle of mouse
-	int m_iFrame = 0; // current frame
-	int m_iSprite = 0; //sprite counter
-	int m_iFrameMax = 5; //number of frames to display each sprite
-	int m_iSpriteMax = 3; //number of sprites in animation
-	int m_iDeathFrame = 0; // current death frame
-	int m_iDeathSprite = 4; //death sprite counter, start at 4th sprite in the sheet
-	int m_iDeathFrameMax = 10; //number of frames to display each death sprite
-	int m_iDeathSpriteMax = 10; //number of death sprites in animation
+
+	int frame = 0;
+	int sprite = 0;
+	bool spriteChanged = false;
 	Ability m_ability = Ability::ENTER_WALL;
 
 	void m_HandlePlayerAbilities();
@@ -45,11 +42,17 @@ public:
 	
 	void update();
 	void animate(); // animates mouse
-	
+	void PlayAnim(int start, int end, int fps);
 	bool isMoving();
 	bool isPoweredUp();
+	void SetSprite(int sf)
+	{
+		sprite = sf;
+	}
 	bool isDead();
+	void setDeath(bool d);
 	bool isDying();
+
 	bool isCurrentlyInWall();
 	bool enteredWall();
 
@@ -84,7 +87,6 @@ public:
 
 	void SetPlayerAngle( int ang); //angle for rotation of image
 	int GetPlayerAngle();
-	int GetPlayerFrame();
 
 	void setNumCheese(int num);
 	int getNumCheese();

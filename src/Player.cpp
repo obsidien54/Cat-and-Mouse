@@ -15,13 +15,14 @@ void Player::m_HandlePlayerAbilities()
 		}
 		break;
 	case Ability::ENTER_WALL:
-
+		
 		// Remove ability after one time use
 		if (!isMoving() && !isCurrentlyInWall()) {
 			if (enteredWall()) {
 				SetCurrentlyInWall(false);
 				SetEnteredWall(false);
 				SetAbility(Ability::NONE);
+				sprite = 0;
 				std::cout << "Enter Walls Ability Expired" << std::endl;
 			}
 			if (Game::GetInstance()->GetInputManager()->KeyDown(SDL_SCANCODE_RETURN)) {
@@ -315,28 +316,30 @@ void Player::m_UpdateLives()
 
 Player::Player(SDL_Rect s, SDL_Rect d)
 {
-
 	m_rSrc = s;
 	m_rDst = d;
 	center.x = center.y = 16;
 	m_iAngle = 0;
+	m_ability = NONE;
 }
-
 
 bool Player::isMoving()
 {
 	return m_bIsMoving;
 }
-
 bool Player::isPoweredUp()
 { 
 	return m_bIsPoweredUp; 
 }
+
 bool Player::isDead() 
 { 
 	return m_bIsDead; 
 }
-
+void Player::setDeath(bool d)
+{
+	m_bIsDead = d;
+}
 bool Player::isDying()
 {
 	return m_bIsDying;
@@ -346,7 +349,6 @@ bool Player::isCurrentlyInWall()
 {
 	return m_bCurrentlyInWall;
 }
-
 bool Player::enteredWall()
 {
 	return m_bEnteredWall;
@@ -365,69 +367,54 @@ int Player::GetDestinationX()
 {
 	return m_iDestinationX;
 }
-
 int Player::GetDestinationY()
 {
 	return m_iDestinationY;
 }
-
 void Player::SetDestinationX(int destX)
 {
 	m_iDestinationX = destX;
 }
-
 void Player::SetDestinationY(int destY)
 {
 	m_iDestinationY = destY;
 }
-
 void Player::SetMoving(bool b)
 {
 	m_bIsMoving = b;
 }
-
 void Player::SetCurrentlyInWall(bool b)
 {
 	m_bCurrentlyInWall = b;
 }
-
 void Player::SetEnteredWall(bool b)
 {
 	m_bEnteredWall = b;
 }
-
 int Player::GetRightEdgeTile()
 {
 	return (m_rDst.x %32 ==0 ? m_rDst.x / 32: m_rDst.x /32 +1);
 }
-
 int Player::GetLeftEdgeTile()
 {
 	return m_rDst.x / 32;
 }
-
 int Player::GetTopEdgeTile()
 {
 	return m_rDst.y / 32;
 }
-
 int Player::GetBottomEdgeTile()
 {
 	return (m_rDst.y % 32 == 0 ? m_rDst.y / 32 : m_rDst.y / 32 + 1);
 }
-
-
-
 void Player::SetPowered(bool b) 
 { 
 	m_bIsPoweredUp = b; 
 }
-
 void Player::SetAbility(Ability a)
 {
 	m_ability = a;
 }
-
 Ability Player::GetAbility()
 {
 	return m_ability;
@@ -440,62 +427,63 @@ void Player::update()
 		m_HandlePlayerAbilities();
 		m_HandleMovement();
 	}
+	
 }
 
 // new animation function for mouse
 void Player::animate()
 {
-	if (m_bIsDying != true) //if player is not in dying animation
+
+	if (m_bIsDying == false && m_ability != ENTER_WALL) //if player is not in dying animation
 	{
-		if (m_iFrame == m_iFrameMax)
-		{
-			m_iFrame = 0;
-			m_iSprite++;
-			if (m_iSprite == m_iSpriteMax)
-			{
-				m_iSprite = 0;
-			}
-			m_rSrc.x = m_iSprite * m_rSrc.w;
-		}
-		m_iFrame++;
+		PlayAnim(0,3,5);
 	}
-	else if (m_bIsDying == true) //if player is in dying animation
+	else if (m_bIsDying == true && m_ability !=DEFEAT_CATS) //if player is in dying animation
 	{
-		m_bInvulnerable = true;
-		if (m_iDeathFrame == m_iDeathFrameMax)
+		
+		PlayAnim(4,10,5);
+		cout << sprite << endl;
+		if (sprite==9)
 		{
-			m_iDeathFrame = 0;
-			m_iDeathSprite++;
-			if (m_iDeathSprite == m_iDeathSpriteMax)
-			{
-				m_bIsDying = false; //get out of dying animation
-				
-			}
-			m_rSrc.x = m_iDeathSprite * m_rSrc.w;
+			m_bIsDead = true;
 		}
-		m_iDeathFrame++;
+	}
+	else if (m_bIsDying == false && m_ability == ENTER_WALL)
+	{
+		PlayAnim(11, 14, 5);
 	}
 }
 
+void Player::PlayAnim(int start, int end, int fps) // plays an animation
+{
+	if (frame==fps)
+	{
+		frame = 0;
+		sprite++;
+		if (sprite>=end)
+		{
+			sprite = start;
+		}
+		m_rSrc.x = sprite * m_rSrc.w;
+	}
+	frame++;
+}
 
 void Player::MoveUp()
 {
 		SetPlayerAngle(0);
 		m_rDst.y -= m_iMoveSpeed;
 }
-
 void Player::MoveDown()
 {
 		SetPlayerAngle(180);
 		m_rDst.y += m_iMoveSpeed;
 }
-
 void Player::MoveLeft()
 {
 		SetPlayerAngle(270);
 		m_rDst.x -= m_iMoveSpeed;
 }
-
 void Player::MoveRight()
 {
 		SetPlayerAngle(90);
@@ -510,17 +498,12 @@ void Player::SetPlayerSpeed(int speed)
 void Player::SetDying(bool dying)
 {
 	m_bIsDying = dying;
-	if (dying == true)
-	{
-		m_iDeathSprite = 4;
-	}
 }
 
 void Player::SetInvulnerable(bool vuln)
 {
 	m_bInvulnerable = vuln;
 }
-
 bool Player::GetInvulnerable()
 {
 	return m_bInvulnerable;
@@ -530,23 +513,15 @@ void Player::SetPlayerAngle(int ang)
 {
 	m_iAngle = ang;
 }
-
-
 int Player::GetPlayerAngle()
 {
 	return m_iAngle;
-}
-
-int Player::GetPlayerFrame()
-{
-	return m_iFrame;
 }
 
 void Player::setNumCheese(int num)
 {
 	m_numCheese = num;
 }
-
 int Player::getNumCheese()
 {
 	return m_numCheese;
