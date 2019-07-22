@@ -5,111 +5,208 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
+#include "PowerUp.h"
+#include "AudioManager.h"
+#include "UI_Manager.h"
+#include <random>
+#include <ctime>
 
-#define ROWS 31
-#define COLS 31
 
-Game::Game() {
-	m_fps = (Uint32)round(1 / (long double)FPS * 1000);
+Game::Game() 
+{
+	m_fps = (Uint64)round(1 / (long double)FPS * 1000);
 }
 
-bool Game::Init(const char* title, int xpos, int ypos, int width, int height, int flags) {
-	// Attempt to initialize SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) { // 0 is error code meaning success
-		std::cout << "SDL init success!" << std::endl;
-		// Initialize window
-		m_pWindow = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-		if (m_pWindow != nullptr) { // Window init success
-			std::cout << "Window creation successful!" << std::endl;
-			m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
+bool Game::Init(SDL_Renderer* m_pRenderer) 
+{
+	//BuildBackgroundLayer();
+	BuildForegroundLayer(0);
+	SetUpTileVariables(0);
+	srand(time(0));
 
-			if (m_pRenderer != nullptr) { // Renderer init success
-				std::cout << "Renderer creation success!" << std::endl;
+	CreateGameObjects();
 
-				if (IMG_Init(IMG_INIT_PNG) != 0) {
-					// Create pixel maps.
-					SDL_Surface* tileSurface = IMG_Load("Assets/textures/Tiles.png");
-					SDL_Surface* playerSurface = IMG_Load("Assets/textures/mouse.png");
-					SDL_Surface* ghostsSurface = IMG_Load("Assets/textures/Cats.png");
-					m_pTileTexture = SDL_CreateTextureFromSurface(m_pRenderer, tileSurface);
-					m_pPlayerTexture = SDL_CreateTextureFromSurface(m_pRenderer, playerSurface);
-					m_pGhostsTexture = SDL_CreateTextureFromSurface(m_pRenderer, ghostsSurface);
-					SDL_FreeSurface(tileSurface);
-					SDL_FreeSurface(playerSurface);
-					SDL_FreeSurface(ghostsSurface);
-					std::cout << "Pixel maps creation success!" << std::endl;
-				}
-				else {
-					return 1; // Image init fail
-				}
-			}
-			else {
-				std::cout << "Renderer init fail!" << std::endl;
-				return false; //Renderer init fail
-			}
-		}
-		else {
-			std::cout << "Window init fail!" << std::endl;
-			return false; // Window init fail
-		}
+	m_bRunning = true;
+
+
+	SDL_Surface* tileSurface = IMG_Load("../Assets/textures/Tiles.png");
+	SDL_Surface* playerSurface = IMG_Load("../Assets/textures/mouse.png");
+	SDL_Surface* ghostsSurface = IMG_Load("../Assets/textures/Cats.png");
+	m_pTileTexture = SDL_CreateTextureFromSurface(m_pRenderer, tileSurface);
+	m_pPlayerTexture = SDL_CreateTextureFromSurface(m_pRenderer, playerSurface);
+	m_pGhostsTexture = SDL_CreateTextureFromSurface(m_pRenderer, ghostsSurface);
+	SDL_FreeSurface(tileSurface);
+	SDL_FreeSurface(playerSurface);
+	SDL_FreeSurface(ghostsSurface);
+	if (m_pTileTexture != nullptr) // One of the pointers are checked as an example
+	{
+		std::cout << "Pixel maps creation success!" << std::endl;
 	}
-	else {
-		std::cout << "SDL init fail!" << std::endl;
-		return false; // SDL init fail
-	}
+
+	TheTextureManager::Instance()->load("../Assets/textures/Game_Over.png",
+		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
+
+	TheTextureManager::Instance()->load("../Assets/textures/background.png",
+		"background main", SDL_Manager::GetInstance()->GetRenderer());
+
+	//load countdown images
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_5.png",
+		"count 5", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_4.png",
+		"count 4", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_3.png",
+		"count 3", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_2.png",
+		"count 2", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/countdown_1.png",
+		"count 1", SDL_Manager::GetInstance()->GetRenderer());
+
+	//LOAD IN SOUND EFFECTS
+	TheAudioManager::Instance()->load("../Assets/sound/GameOver.wav",
+		"GameOver", sound_type::SOUND_SFX);
+
+	//player death sound
+	TheAudioManager::Instance()->load("../Assets/sound/Death.wav",
+		"Death", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/CatDeath.wav",
+		"CatDeath", sound_type::SOUND_SFX);
+
+	//play upon level completion
+	TheAudioManager::Instance()->load("../Assets/sound/Victory.wav",
+		"Victory", sound_type::SOUND_SFX);
+
+	//load the sound files that revolve around the player. WHen using them just use the audiomanager play function
+	TheAudioManager::Instance()->load("../Assets/sound/Cheese.wav",
+		"cheese", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/Powerup4.wav",
+		"powerup", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/WallAbility.wav",
+		"wall ability", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/EnterWall.wav",
+		"enter wall", sound_type::SOUND_SFX);
+
+	TheAudioManager::Instance()->load("../Assets/sound/LifeUp.wav",
+		"LifeUp", sound_type::SOUND_SFX);
+
+	//music from  patrickdearteaga.com by Patrick de Arteaga
+	TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
+		"Mystery Phase", sound_type::SOUND_MUSIC);
+					
+	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
+	std::cout << "Font creation success!" << std::endl;
+	
+
+	return true;
+}
+
+void Game::BuildBackgroundLayer()
+{
 	// build background layer
-	std::ifstream bgFile("Assets/bg.txt");
+	std::ifstream bgFile("../Assets/bg.txt");
+	if (!bgFile) {
+		std::cout << "bg file not detected" << std::endl;
+	}
+
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			char i;
 			bgFile >> i;
 			m_bg.m_Map[row][col].SetSrc(i);
-			m_bg.m_Map[row][col].SetTileVariables(i);
-			m_bg.m_Map[row][col].SetDst({ 32 * col, 32 * row, 32, 32 });
+			m_bg.m_Map[row][col].SetDst({ TILESIZE * col, TILESIZE * row, TILESIZE, TILESIZE });
 		}
 	}
 	bgFile.close();
-	// Build tilemap
-	std::ifstream mapFile("Assets/Level0.txt");
+}
+
+void Game::CreateGameObjects()
+{
+	// Spawn Player and Ghosts
+	m_pPlayer = new Player({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+	m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+	m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+	m_pCats[2] = new Cat({ 384, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+	m_pCats[3] = new Cat({ 576, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+
+	m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+}
+
+void Game::SetUpTileVariables(int level)
+{
+	std::string varFileName = "../Assets/Level" + to_string(level) + "Variables.txt";
+	//std::string varFileName = "../Assets/Level5Variables.txt";
+	std::ifstream varFile(varFileName);
+
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			char temp;
+			varFile >> temp;
+			m_level.m_Map[row][col].SetTileVariables(temp);
+		}
+	}
+	varFile.close();
+}
+
+void Game::BuildForegroundLayer(int level)
+{
+	std::string mapFileName = "../Assets/Level" + to_string(level) + "Map.txt";
+	//std::string mapFileName = "../Assets/Level5Map.txt";
+	std::ifstream mapFile(mapFileName);
+
+	if (!mapFile) {
+		std::cout << "bg file not detected" << std::endl;
+	}
+
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			char temp;
 			mapFile >> temp;
 			m_level.m_Map[row][col].SetSrc(temp);
-			m_level.m_Map[row][col].SetTileVariables(temp);
-			m_level.m_Map[row][col].SetDst({ 32 * col, 32 * row, 32, 32 });
+			m_level.m_Map[row][col].SetDst({ TILESIZE * col, TILESIZE * row, TILESIZE, TILESIZE });
 		}
 	}
 	mapFile.close();
-
-	m_iKeyStates = SDL_GetKeyboardState(NULL);
-	// Spawn Player and Ghosts
-	// Starting coordinate: 15, 17
-	m_pPlayer = new Player({ 0, 0, 32, 32 }, { 32 * 15, 32 * 17, 32, 32 });
-	m_pCats[0] = new Cat({ 0, 0, 32, 32 }, { 32 * 14, 32 * 15, 32, 32 });
-	m_pCats[1] = new Cat({ 96, 0, 32, 32 }, { 32 * 15, 32 * 15, 32, 32 });
-	m_pCats[2] = new Cat({ 192, 0, 32, 32 }, { 32 * 16, 32 * 15, 32, 32 });
-	m_pCats[3] = new Cat({ 288, 0, 32, 32 }, { 32 * 10, 32 * 8, 32, 32 });
-	m_bRunning = true;
-	return true;
 }
 
-bool Game::KeyDown(SDL_Scancode c) {
-	if (m_iKeyStates != nullptr) {
-		if (m_iKeyStates[c] == true) {
-			return true;
-		}
-		else {
-			return false;
+Player* Game::GetPlayer()
+{
+	return m_pPlayer;
+}
+Level* Game::GetLevel()
+{
+	return &m_level;
+}
+Cat * Game::GetCat(int num)
+{
+	return m_pCats[num];
+}
+Input_Manager* Game::GetInputManager()
+{
+	return &m_Input;
+}
+
+
+void Game::Update() 
+{
+	
+	if (!m_isCountdown)
+	{
+		HandlePlayerAndCatInteractions();
+		if (m_pPlayer->isDying() == false && !m_pCats[0]->IsDying() && !m_pCats[1]->IsDying() && !m_pCats[2]->IsDying() && !m_pCats[3]->IsDying())
+		{
+			m_pPlayer->update();
+			UpdateCats();
 		}
 	}
-	return false;
-}
 
-void Game::Update() {
-	PlayerGhostsInteractions();
-	PlayerMovements();
-	CatMovements();
+
+	//std::cout << "Currently In Wall " << m_pPlayer->isCurrentlyInWall() << std::endl;
 	//For debugging purposes
 	/*cout << "Is Moving: " <<  m_pPlayer->isMoving() << endl;
 	cout << "Destination X: " << m_pPlayer->GetDestinationX() << endl;
@@ -118,321 +215,484 @@ void Game::Update() {
 	cout << "Rect Y: " << m_pPlayer->GetDst().y << endl;*/
 }
 
-void Game::PlayerGhostsInteractions() {
-	if (m_pPlayer->isPoweredUp()) {
-		// Player is only powered up for 10 seconds
-		if (SDL_GetTicks() - m_powerUpStartTimer > 10000) {
-			m_pPlayer->SetPowered(false);
+void Game::ChangeCatsToWhite()
+{
+	Mix_HaltMusic();
+	TheAudioManager::Instance()->playMusic("Mystery Phase", 0);
+}
 
-			// After 10 seconds, return ghosts to their original state
-			for (int i = 0; i < 4; i++) {
-				m_pCats[i]->SetVulnerable(false);
-				if (!m_pCats[i]->isDead()) {
-					m_pCats[i]->SetSrc({ i * 32, 0, 32, 32 });
-				}
-			}
-		}
-	}
+void Game::ChangeCatsToOriginalColors()
+{
+	Mix_HaltMusic();
+	TheAudioManager::Instance()->playMusic("Background", -1);
+}
 
-	// Handles player eating a mystery cheese
-	if (m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].isPowerUp() /*&& !m_pPlayer->isMoving()*/) {
-		m_pPlayer->SetPowered(true);
-		// Change tile to a normal blank tile with its associated variables
-		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
-		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
-
-		m_powerUpStartTimer = SDL_GetTicks();
-
-		// Make cats vulnerable
-		for (int i = 0; i < 4; i++) {
-			m_pCats[i]->SetVulnerable(true);
-		}
-	}
-
+void Game::HandlePlayerAndCatInteractions() {
 	// Handles player eating a cat
+	
 	for (int i = 0; i < 4; i++) {
+		if (!m_pCats[i]->IsDead()) // check if cat is alive
+		{
 		// If player collides with cat..
-		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP()) /*&& !m_pPlayer->isMoving()*/) {
+		if (SDL_HasIntersection(m_pPlayer->GetDstP(), m_pCats[i]->GetDstP())) {
 			// Destroy cat if powered up
-			if (!m_pCats[i]->isDead())
-			{
-				if (m_pPlayer->isPoweredUp())
+			
+				if (m_pPlayer->GetAbility() == DEFEAT_CATS)
 				{
-					m_pCats[i]->Die();
+					m_pCats[i]->SetDying(true);
+					TheAudioManager::Instance()->playSound("CatDeath", 0);
+
+					if (m_pCats[i]->IsDying() == false)
+					{
+						m_pCats[i]->Die(); // Cats need to be respawned in the center
+						for (int i = 1; i <= 10; i++)
+						{
+							m_scoreNum += i * 10;
+							if (m_scoreNum % LIFEINCREASETHRESHOLD == 0)
+							{
+								IncrementLives();
+							}
+						}
+					}
 				}
 				// Else player dies
 				else
-				{
-					m_pPlayer->Die();
-					m_bRunning = false;
+				{ 
+					if (m_pPlayer->GetInvulnerable() == false)
+					{
+						m_pPlayer->SetDying(true);
+						TheAudioManager::Instance()->playSound("Death", 0);
+					}
+					if (m_pPlayer->isDead() == true)
+					{
+						m_livesNum--;
+						Game::GetInstance()->PlayerLost();
+
+						if (m_livesNum == 0)
+						{
+							SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+							TheTextureManager::Instance()->draw("Game_Over",
+							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+							Mix_HaltMusic();
+							TheAudioManager::Instance()->playSound("GameOver", 2);
+							Game::GetInstance()->SetScore(0);
+
+							SDL_Delay(3000);
+							m_livesNum = 3;
+							m_bRunning = false;
+							m_isCountdown = true;
+
+								//want to change the ui to the Game over screen
+							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
+						}
+					}
 				}
 			}
 		}
+		
 	}
 }
 
-// Tile based movement with obstacle detection
-void Game::PlayerMovements() {
-	// Player eating a pellet
-	if (m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].isPoint())
-	{
-		// Change tile to a normal blank tile with its associated variables
-		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetSrc('B');
-		m_level.m_Map[m_pPlayer->GetY()][m_pPlayer->GetX()].SetTileVariables('B');
-	}
-
-
-
-	//player movement input handling
-
-	if (!m_pPlayer->isDead())
-	{
-		if (KeyDown(SDL_SCANCODE_W))
-		{
-			if (!m_level.m_Map[m_pPlayer->GetBottomEdgeTile() - 1][m_pPlayer->GetRightEdgeTile()].isObstacle() &&
-				!m_level.m_Map[m_pPlayer->GetBottomEdgeTile() - 1][m_pPlayer->GetLeftEdgeTile()].isObstacle()) //check that the right and left are clear for the character to move up
-			{
-
-				m_pPlayer->MoveUp();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_S))
-		{
-			if (!m_level.m_Map[m_pPlayer->GetTopEdgeTile() + 1][m_pPlayer->GetRightEdgeTile()].isObstacle() &&
-				!m_level.m_Map[m_pPlayer->GetTopEdgeTile() + 1][m_pPlayer->GetLeftEdgeTile()].isObstacle()) //check that the right and left are clear for the character to move down
-			{
-
-				m_pPlayer->MoveDown();
-			}
-		}
-		if (KeyDown(SDL_SCANCODE_A))
-		{
-			if (!m_level.m_Map[m_pPlayer->GetBottomEdgeTile()][m_pPlayer->GetRightEdgeTile() - 1].isObstacle() &&
-				!m_level.m_Map[m_pPlayer->GetTopEdgeTile()][m_pPlayer->GetRightEdgeTile() - 1].isObstacle())
-			{
-
-				m_pPlayer->MoveLeft();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_D))
-		{
-			if (!m_level.m_Map[m_pPlayer->GetBottomEdgeTile()][m_pPlayer->GetLeftEdgeTile() + 1].isObstacle() &&
-				!m_level.m_Map[m_pPlayer->GetTopEdgeTile()][m_pPlayer->GetLeftEdgeTile() + 1].isObstacle())
-			{
-
-
-				m_pPlayer->MoveRight();
-			}
-		}
-		else if (KeyDown(SDL_SCANCODE_ESCAPE))
-		{
-			m_bRunning = false;
-		}
-
-	}
-
-	m_pPlayer->animate();
-}
-
-void Game::CatMovements()
+void Game::IncrementLevel()
 {
-	int CATINDEX = 3;
-	int distance = 99999;
-	int temp = 0;
-	// Check if the square cat is on is an intersection
-	if (m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX()].isIntersection())
-	{
-		// if north is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle() && m_pCats[CATINDEX]->getDir() != 's')
-		{
-			temp = 0;// reseting and checking the distance
-			temp += (m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX())*(m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX());
-			temp += (m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() - 1))*(m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() - 1));
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('w');
-			}
-		}
-		// if east is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle() && m_pCats[CATINDEX]->getDir() != 'a')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() + 1))*(m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() + 1));
-			temp += (m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY())*(m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY());
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('d');
-			}
-		}
-		// if south is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle() && m_pCats[CATINDEX]->getDir() != 'w')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX())*(m_pPlayer->GetX() - m_pCats[CATINDEX]->GetX());
-			temp += (m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() + 1))*(m_pPlayer->GetY() - (m_pCats[CATINDEX]->GetY() + 1));
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('s');
-			}
-		}
-		// if west is not an obstacle and if the direction is the opposite of the checking direction to prevent U-turn
-		if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle() && m_pCats[CATINDEX]->getDir() != 'd')
-		{
-			temp = 0;
-			temp += (m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() - 1))*(m_pPlayer->GetX() - (m_pCats[CATINDEX]->GetX() - 1));
-			temp += (m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY())*(m_pPlayer->GetY() - m_pCats[CATINDEX]->GetY());
-			if (distance > temp)
-			{
-				distance = temp;
-				m_pCats[CATINDEX]->setDir('a');
-			}
-		}
-	}
-	// if not moving then move in a direction
-	if (!m_pCats[CATINDEX]->isDead() && !m_pCats[CATINDEX]->isMoving()) {
-		if (m_pCats[CATINDEX]->getDir() == 'w') {
-			// If not an obstacle then sets the new destination square
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y - 32);
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else // if Obstacle it will check for another route
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 's') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y + 32);
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 'a') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() - 1].isObstacle())
-			{
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x - 32);
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('d');
-				}
-			}
-		}
-		else if (m_pCats[CATINDEX]->getDir() == 'd') {
-			if (!m_level.m_Map[m_pCats[CATINDEX]->GetY()][m_pCats[CATINDEX]->GetX() + 1].isObstacle()) {
-				m_pCats[CATINDEX]->SetDestinationX(m_pCats[CATINDEX]->GetDst().x + 32);
-				m_pCats[CATINDEX]->SetDestinationY(m_pCats[CATINDEX]->GetDst().y);
-				m_pCats[CATINDEX]->SetMoving(true);
-			}
-			else
-			{
-				if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() - 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('w');
-				}
-				else if (!m_level.m_Map[m_pCats[CATINDEX]->GetY() + 1][m_pCats[CATINDEX]->GetX()].isObstacle())
-				{
-					m_pCats[CATINDEX]->setDir('s');
-				}
-				else
-				{
-					m_pCats[CATINDEX]->setDir('a');
-				}
-			}
-		}
-	}
-	// if moving continue moving till
-	if (m_pCats[CATINDEX]->isMoving()) {
-		if (m_pCats[CATINDEX]->GetDestinationX() > m_pCats[CATINDEX]->GetDst().x) {
-			m_pCats[CATINDEX]->MoveX(1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationX() < m_pCats[CATINDEX]->GetDst().x) {
-			m_pCats[CATINDEX]->MoveX(-1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationY() > m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->MoveY(1);
-		}
-		else if (m_pCats[CATINDEX]->GetDestinationY() < m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->MoveY(-1);
-		}
-		// if cat has gotten to destination then set moving to false
-		else if (m_pCats[CATINDEX]->GetDestinationX() == m_pCats[CATINDEX]->GetDst().x && m_pCats[CATINDEX]->GetDestinationY() == m_pCats[CATINDEX]->GetDst().y) {
-			m_pCats[CATINDEX]->SetMoving(false);
-		}
+	//m_currLevel++;
+	m_levelNum += 1; //increase level counter by 1
+	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
+	BuildForegroundLayer(m_currLevel); //build the random level
+	SetUpTileVariables(m_currLevel);
+	ResetCats();
+	
+}
+void Game::IncrementScore(int score)
+{
+	m_scoreNum += score;
+}
+void Game::SetScore(int score)
+{
+	m_scoreNum = score;
+}
+int Game::GetScore()
+{
+	return m_scoreNum;
+}
 
+void Game::SetAbilityStartTimer(Uint32 time)
+{
+	m_abilityStartTimer = time;
+}
+Uint32 Game::GetAbilityStartTimer()
+{
+	return m_abilityStartTimer;
+}
+
+int Game::GetLives()
+{
+	return m_livesNum;
+}
+//increase lives by 1 if below max of 5
+void Game::IncrementLives()
+{
+	if( m_livesNum < 5)
+	{
+		TheAudioManager::Instance()->playSound("LifeUp", 0);
+		m_livesNum++;
+	}
+}
+
+void Game::SetCountdown(bool b)
+{
+	m_isCountdown = b;
+}
+
+int Game::GetCurrLevel()
+{
+	
+	return m_currLevel;
+}
+
+void Game::GamePaused()
+{
+	SDL_Event event;
+	bool temp = false;
+
+	while (SDL_PollEvent(&event) != 0 && !temp)
+	{
+		if (event.type == SDL_KEYDOWN)
+		{
+			temp = true;
+		}
+	}
+}
+
+void Game::PlayerWon()
+{
+	std::cout << "The player has won" << std::endl;
+	// load picture in the contructor
+	// Render picture
+	
+
+	if (m_currLevel == 0) {
+		BuildForegroundLayer(1);
+		m_levelNum += 1;
+	}
+	else {
+		SDL_Delay(3000);
+		Game::GetInstance()->StopRunning();
+	}
+}
+
+void Game::PlayerLost()
+{
+	std::cout << "The player has lost" << std::endl;
+	// load picture in the contructor
+	// Render picture
+	//m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+
+	/*m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
+	m_pCats[1]->SetDst(TILESIZE * 19, TILESIZE * 3);
+	m_pCats[2]->SetDst(TILESIZE * 3, TILESIZE * 19);
+	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);*/
+	
+
+	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
+	/*if (m_livesNum == 0)
+	{
+		SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
+		TheTextureManager::Instance()->draw("Game_Over",
+			SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+		SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
+		Game::GetInstance()->SetScore(0);
+	}*/
+	//SDL_Delay(3000);
+	//CreateGameObjects();
+
+	
+
+	if (m_currLevel == 0) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 1) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(18);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 2) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 3) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+	}
+	else if (m_currLevel == 4) {
+		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
+		m_pPlayer->SetDestinationX(11);
+		m_pPlayer->SetDestinationY(13);
+		m_pPlayer->SetMoving(false);
+
+		ResetCats();
+
+	}
+	m_pPlayer->SetAbility(NONE);
+	m_pPlayer->SetSprite(0);
+	m_pPlayer->SetDying(false);
+	m_pPlayer->setDeath(false);
+	m_pPlayer->SetInvulnerable(false);
+	
+}
+
+void Game::ResetCat1()
+{
+	if (m_currLevel == 0) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[0] = new Cat({ 0, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 0);
+		m_pCats[0]->SetPriority(CatDirection::C_UP, CatDirection::C_LEFT, CatDirection::C_DOWN, CatDirection::C_RIGHT);
 	}
 
 }
+void Game::ResetCat2()
+{
+	if (m_currLevel == 0) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[1] = new Cat({ 192, 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 1);
+		m_pCats[1]->SetPriority(CatDirection::C_DOWN, CatDirection::C_LEFT, CatDirection::C_UP, CatDirection::C_RIGHT);
+	}
 
-void Game::Render() {
+}
+void Game::ResetCat3()
+{
+	if (m_currLevel == 0) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[2] = new Cat({ 2 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 2);
+		m_pCats[2]->SetPriority(CatDirection::C_DOWN, CatDirection::C_RIGHT, CatDirection::C_UP, CatDirection::C_LEFT);
+	}
+}
+void Game::ResetCat4()
+{
+	if (m_currLevel == 0) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 1) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 16, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 2) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 3) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+	else if (m_currLevel == 4) {
+		m_pCats[3] = new Cat({ 3 * 192 , 0, SPRITESIZE, SPRITESIZE }, { TILESIZE * 11, TILESIZE * 11, TILESIZE, TILESIZE }, 3);
+		m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
+	}
+}
+void Game::ResetCats()
+{
+	//reset cats to fit the level
+	ResetCat1();
+	ResetCat2();
+	ResetCat3();
+	ResetCat4();
+}
+void Game::UpdateCats()
+{
+	m_pCats[0]->Update();
+	m_pCats[1]->Update();
+	m_pCats[2]->Update();
+	m_pCats[3]->Update();
+}
+
+void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
-	// draw background tile map
-	for (int row = 0; row < ROWS; row++)
-	{
-		for (int col = 0; col < COLS; col++) {
-			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
-		}
-	}
-	// Render map
+	//// draw background tile map
+	//for (int row = 0; row < ROWS; row++)
+	//{
+	//	for (int col = 0; col < COLS; col++) {
+	//		SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
+	//	}
+	//}
+
+	//full background image, need to render level map overtop
+	TheTextureManager::Instance()->draw("background main",
+		SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
+
+	//// Render map
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_level.m_Map[row][col].GetSrcP(), m_level.m_Map[row][col].GetDstP());
 		}
 	}
 
-	// Render ghosts
-	for (int i = 0; i < 4; i++) {
-		SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
+	//update cat sprites before render
+	m_pCats[0]->Animate();
+	m_pCats[1]->Animate();
+	m_pCats[2]->Animate();
+	m_pCats[3]->Animate();
+
+	// Render cats
+	for (int i = 0; i < 4; i++) 
+	{
+			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
 	}
 
+	m_pPlayer->animate();
+
+	
+
 	// Render player
-	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(), m_pPlayer->GetPlayerAngle(), &m_pPlayer->center, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(),m_pPlayer->GetPlayerAngle(),&m_pPlayer->center,SDL_FLIP_NONE);
+
+	//render text
+	//lives text creation
+	m_fontTextLives = "Lives: " + std::to_string(m_livesNum);
+	m_pTextSurfaceLives = TTF_RenderText_Solid(m_pFont, m_fontTextLives.c_str(), m_colour);
+	m_pTextTextureLives = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceLives);
+	SDL_FreeSurface(m_pTextSurfaceLives);
+	SDL_QueryTexture(m_pTextTextureLives, NULL, NULL, &m_textRectLives.w, &m_textRectLives.h);
+	//level text creation
+	m_fontTextLevel = "Level: " + std::to_string(m_levelNum);
+	m_pTextSurfaceLevel = TTF_RenderText_Solid(m_pFont, m_fontTextLevel.c_str(), m_colour);
+	m_pTextTextureLevel = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceLevel);
+	SDL_FreeSurface(m_pTextSurfaceLevel);
+	SDL_QueryTexture(m_pTextTextureLevel, NULL, NULL, &m_textRectLevel.w, &m_textRectLevel.h);
+	//score text creation
+	m_fontTextScore = "Score: " + std::to_string(m_scoreNum);
+	m_pTextSurfaceScore = TTF_RenderText_Solid(m_pFont, m_fontTextScore.c_str(), m_colour);
+	m_pTextTextureScore = SDL_CreateTextureFromSurface(m_pRenderer, m_pTextSurfaceScore);
+	SDL_FreeSurface(m_pTextSurfaceScore);
+	SDL_QueryTexture(m_pTextTextureScore, NULL, NULL, &m_textRectScore.w, &m_textRectScore.h);
+	//render out the texts
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureLives, NULL, &m_textRectLives);
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureLevel, NULL, &m_textRectLevel);
+	SDL_RenderCopy(m_pRenderer, m_pTextTextureScore, NULL, &m_textRectScore);
+
+	//destroy the textures so we can create new ones
+	SDL_DestroyTexture(m_pTextTextureLives);
+	SDL_DestroyTexture(m_pTextTextureLevel);
+	SDL_DestroyTexture(m_pTextTextureScore);
+
+	////temp rectangle for targeting square
+	//SDL_Rect targetSquare = { m_pCats[3]->GetTargetX() * 32,  m_pCats[3]->GetTargetY() * 32, 32,32 };
+	//SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 0);
+	//SDL_RenderFillRect(m_pRenderer, &targetSquare);
+	//SDL_RenderDrawRect(m_pRenderer, &targetSquare);
+
+	//render the countdown
+	m_RenderCountdown();
 
 	SDL_RenderPresent(m_pRenderer);
+}
+
+void Game::m_RenderCountdown()
+{
+	//render out the timer
+	if (m_isCountdown)
+	{
+		if (m_countdownFrame < 60)
+		{
+			TheTextureManager::Instance()->draw("count 5", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 120)
+		{
+			TheTextureManager::Instance()->draw("count 4", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 180)
+		{
+			TheTextureManager::Instance()->draw("count 3", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 240)
+		{
+			TheTextureManager::Instance()->draw("count 2", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else if (m_countdownFrame < 300)
+		{
+			TheTextureManager::Instance()->draw("count 1", 368, 250,
+				SDL_Manager::GetInstance()->GetRenderer(), true);
+			m_countdownFrame++;
+		}
+		else
+		{
+			//leave the loop of the timer
+			m_isCountdown = false;
+			m_countdownFrame = 0;
+		}
+	}
 }
 
 void Game::HandleEvents() {
@@ -441,6 +701,11 @@ void Game::HandleEvents() {
 		switch (event.type) {
 		case SDL_QUIT:
 			m_bRunning = false;
+			m_livesNum = 3;
+			m_scoreNum = 0;
+			Mix_HaltMusic();
+			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
+			m_isCountdown = true;
 			break;
 		}
 	}
@@ -462,9 +727,10 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
-	SDL_DestroyWindow(m_pWindow);
-	SDL_DestroyRenderer(m_pRenderer);
-	IMG_Quit();
-	SDL_Quit();
+	SetScore(0);
+	//SDL_DestroyWindow(m_pWindow);
+	//SDL_DestroyRenderer(m_pRenderer);
+	//IMG_Quit();
+	//SDL_Quit();
 }
 
