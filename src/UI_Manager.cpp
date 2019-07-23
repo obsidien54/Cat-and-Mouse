@@ -10,8 +10,12 @@ UI_Manager::UI_Manager()
     //m_pHowToPlay = UI_HowToPlay::GetInstance();
     //m_pScores = UI_Scores::GetInstance();
 	
-	TheAudioManager::Instance()->load("../Assets/sound/12 - Crash Man (1).wav",
-		"Background", sound_type::SOUND_MUSIC);
+	// Video game music composed my Takashi Tateishi
+	TheAudioManager::Instance()->load("../Assets/sound/Andre Menu Music.mp3",
+		"Main_Menu_Background", sound_type::SOUND_MUSIC);
+
+	/*TheAudioManager::Instance()->load("../Assets/sound/12 - Crash Man (1).wav",
+		"Background", sound_type::SOUND_MUSIC);*/
 
 	TheAudioManager::Instance()->load("../Assets/sound/Button.wav",
 		"Button", sound_type::SOUND_SFX);

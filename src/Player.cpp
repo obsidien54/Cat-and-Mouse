@@ -133,7 +133,7 @@ void Player::m_HandleEatingCheese() {
 
 	if (getNumCheese() <= 0)
 	{
-		TheAudioManager::Instance()->playSound("Victory", 2);
+		TheAudioManager::Instance()->playSound("Victory", 0);
 		m_GoToNextLevel();
 	}
 }

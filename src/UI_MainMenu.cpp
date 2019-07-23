@@ -46,7 +46,11 @@ UI_MainMenu::UI_MainMenu()
 
 	//background music
 	
-	TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
+	/*TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
+		"Main_Menu_Background", sound_type::SOUND_MUSIC);*/
+
+		// Video game music composed my Takashi Tateishi
+	TheAudioManager::Instance()->load("../Assets/sound/Andre Menu Music.mp3",
 		"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	////music by bensound
