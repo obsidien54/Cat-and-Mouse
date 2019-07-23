@@ -282,6 +282,10 @@ void Game::HandlePlayerAndCatInteractions() {
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 							Mix_HaltMusic();
 							TheAudioManager::Instance()->playSound("GameOver", 1);
+
+							ofstream outFile("../Assets/highscores.txt", ios::app);
+							outFile << m_scoreNum << std::endl;
+
 							Game::GetInstance()->SetScore(0);
 
 							//a delay before switching to the game over screen state after this
@@ -291,6 +295,7 @@ void Game::HandlePlayerAndCatInteractions() {
 							m_isCountdown = true;
 
 								//want to change the ui to the Game over screen
+							UI_Scores::RetrieveHighscores();
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
 						}
 					}

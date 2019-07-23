@@ -27,6 +27,7 @@ public:
 
 	UI_GameOver();
 	void Render(SDL_Renderer* pRenderer);
+	void RenderScores(SDL_Renderer* pRenderer);
 
 	bool IsMouseOverButton(int buttonNum);
 

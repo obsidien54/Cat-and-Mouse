@@ -92,6 +92,7 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 				if (m_pMainMenu.GetButton(3).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
+					UI_Scores::RetrieveHighscores();
 					SetScreenIndex(eMenu::SCORES); // Via enums
 				}
 				if (m_pMainMenu.GetButton(4).getState() == HOVER)
