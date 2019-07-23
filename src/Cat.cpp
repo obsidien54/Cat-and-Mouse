@@ -14,7 +14,7 @@ Cat::Cat(SDL_Rect s, SDL_Rect d, int cat) {
 	m_moveSpeed = 2;
 	angle = 0;
 	center.x = center.y = m_rDst.w / 2;
-	SetAllState(C_State::WAITING);
+	//SetAllState(C_State::WAITING);
 	SetState(C_State::WAITING);
 	checkBound = false;
 	SetDying(false);
@@ -32,10 +32,6 @@ void Cat::Sync()
 	}
 }
 
-bool Cat::IsWhite()
-{
-	return m_rSrc.x == 768 && m_rSrc.y == 0;
-}
 
 bool Cat::IsAllVulnerable()
 {
@@ -153,6 +149,7 @@ void Cat::Animate()
 			m_iDeathSprite++;
 			if (m_iDeathSprite == m_iDeathSpriteMax)
 			{
+				m_iDeathSprite = 0;
 				m_bIsDying = false; //get out of dying animation
 				this->Die();
 			}
@@ -1079,7 +1076,7 @@ void Cat::Update()
 		if (frames >= 600)
 		{
 			cout << "CAT " << m_CatNum << " RESPAWN" << endl;
-			switch (m_CatNum)
+			/*switch (m_CatNum)
 			{
 			case 0:
 				Game::GetInstance()->ResetCat1();
@@ -1093,7 +1090,21 @@ void Cat::Update()
 			case 3:
 				Game::GetInstance()->ResetCat4();
 				break;
-			}
+			}*/
+
+			dir = 'w';
+			m_moveSpeed = 2;
+			angle = 0;
+			//center.x = center.y = m_rDst.w / 2;
+			//SetAllState(C_State::WAITING);
+			SetState(C_State::WAITING);
+			checkBound = false;
+			SetDying(false);
+			SetDead(false);
+			frames = 0;
+			m_iSprite = 0;
+			m_iFrame = 0;
+			SetDead(false);
 			SetDestinationY(GetDst().y - 32);
 			SetDestinationX(GetDst().x);
 			SetState(C_State::WAKEUP);
