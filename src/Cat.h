@@ -25,6 +25,8 @@ private:
 	static bool m_sIsVulnerable;
 	static bool m_sBlinking;
 	static int m_sState;
+	static int m_ScatterLength;
+
 	//bool m_bIsVulnerable = false;
 	bool m_bIsDead = false, m_bIsMoving = false;
 	bool m_bIsDying = false;
@@ -68,7 +70,8 @@ private:
 
 
 public:
-
+	void UpdateScatterLength();
+	void ResetScatterLength() { m_ScatterLength = 780; }
 	char newDir;
 	int distance;
 	int frames;

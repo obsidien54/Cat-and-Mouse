@@ -18,7 +18,7 @@ private:
 	int m_iDestinationX, m_iDestinationY;
 	int m_iMoveSpeed = 4;
 	int m_iAngle; // angle of mouse
-
+	int m_AbilityLength = 10500;
 	int frame = 0;
 	int sprite = 0;
 	bool spriteChanged = false;
@@ -35,11 +35,12 @@ private:
 
 	void m_GoToNextLevel();
 	void m_UpdateLives();
-
+	
 public:
 	Player(SDL_Rect s, SDL_Rect d);
 	SDL_Point center; // pivot point of our mouse
-	
+	void UpdateAbilityLength();
+	void ResetAbilityLength() { m_AbilityLength = 10500; }
 	void update();
 	void animate(); // animates mouse
 	void PlayAnim(int start, int end, int fps);

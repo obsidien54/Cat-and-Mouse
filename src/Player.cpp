@@ -8,7 +8,7 @@ void Player::m_HandlePlayerAbilities()
 		return;
 		break;
 	case Ability::DEFEAT_CATS:
-		if (SDL_GetTicks() - Game::GetInstance()->GetAbilityStartTimer() > 10000)
+		if (SDL_GetTicks() - Game::GetInstance()->GetAbilityStartTimer() > m_AbilityLength)
 		{
 			SetAbility(Ability::NONE);
 			Game::GetInstance()->ChangeCatsToOriginalColors();
@@ -17,7 +17,7 @@ void Player::m_HandlePlayerAbilities()
 
 			std::cout << "Defeat Cats Ability Expired" << std::endl;
 		}
-		else if (SDL_GetTicks() - Game::GetInstance()->GetAbilityStartTimer() > 7000)
+		else if (SDL_GetTicks() - Game::GetInstance()->GetAbilityStartTimer() > m_AbilityLength - 3000)
 		{
 			Game::GetInstance()->GetCat(0)->SetBlinking(true);
 		}
@@ -129,6 +129,7 @@ void Player::m_HandleEatingCheese() {
 		setNumCheese(getNumCheese() - 1);
 		TheAudioManager::Instance()->mixVolume(85);
 		TheAudioManager::Instance()->playSound("cheese", 0);
+		
 	}
 
 	if (getNumCheese() <= 0)
@@ -321,6 +322,18 @@ void Player::m_UpdateLives()
 		//increase lives by 1
 		Game::GetInstance()->IncrementLives(); //has built in check to make sure lives are less than 5
 
+	}
+}
+
+void Player::UpdateAbilityLength()
+{
+	if (m_AbilityLength - (Game::GetInstance()->GetLevelNum() * 500) < 6000)
+	{
+		m_AbilityLength = 6000;
+	}
+	else
+	{
+		m_AbilityLength = m_AbilityLength - (Game::GetInstance()->GetLevelNum() * 500);
 	}
 }
 

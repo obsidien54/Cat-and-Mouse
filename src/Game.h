@@ -72,6 +72,7 @@ private:
 	SDL_Texture* m_pTextTextureScore;
 	SDL_Rect m_textRectScore = { 580,10 };
 	
+
 public:
 	static Game* GetInstance() {
 		static Game* instance = new Game();
@@ -81,7 +82,7 @@ public:
 	Level* GetLevel();
 	Cat* GetCat(int num);
 	Input_Manager* GetInputManager();
-
+	int GetLevelNum();
 	bool Init(SDL_Renderer* m_pRenderer);
 	void CreateGameObjects();
 	void SetUpTileVariables();

@@ -6,6 +6,18 @@
 int Cat::m_sState = C_State::WAITING;
 bool Cat::m_sIsVulnerable = false;
 bool Cat::m_sBlinking = false;
+int Cat::m_ScatterLength = 780;
+void Cat::UpdateScatterLength()
+{
+	if (m_ScatterLength - (Game::GetInstance()->GetLevelNum() * 30) < 180)
+	{
+		m_ScatterLength = 180;
+	}
+	else
+	{
+		m_ScatterLength = m_ScatterLength - (Game::GetInstance()->GetLevelNum() * 50);
+	}
+}
 
 Cat::Cat(SDL_Rect s, SDL_Rect d, int cat) {
 	m_rSrc = s;
@@ -995,7 +1007,7 @@ void Cat::Update()
 			Seek();
 		}
 		else {
-			if (frames >= 750)
+			if (frames >= m_ScatterLength)
 			{
 				SetAllState(C_State::SEEK);
 			}

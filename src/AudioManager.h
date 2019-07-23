@@ -34,6 +34,7 @@ public:
 
 	//volume from 0-128
 	void setMusicVolume(int volume);
+	//volume from 0-128
 	void mixVolume(int volume);
 	//void mixVolumeChunk(int volume); // Not operational
 
