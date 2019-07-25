@@ -16,6 +16,7 @@
 #define COLS 23
 #define TILESIZE 32
 #define SPRITESIZE 64
+#define DEFAULTDARKNESSWIDTH 15000
 #define LIFEINCREASETHRESHOLD 3000 //how much score you need to get a life
 
 class Player;
@@ -48,6 +49,8 @@ private:
 	bool m_isCountdown = true;
 	int m_countdownFrame = 0;
 	void m_RenderCountdown();
+	//DARKNESS VALUES
+	int DarknessWidth = DEFAULTDARKNESSWIDTH;
 
 	//Scoring and level Tracking
 	int m_scoreNum = 0;
@@ -72,17 +75,18 @@ private:
 	SDL_Texture* m_pTextTextureScore;
 	SDL_Rect m_textRectScore = { 580,10 };
 	
-
 public:
 	static Game* GetInstance() {
 		static Game* instance = new Game();
 		return instance;
 	}
+	void SetDarknessWidth(int i);
+	int GetDarknessWidth();
 	Player* GetPlayer();
 	Level* GetLevel();
 	Cat* GetCat(int num);
 	Input_Manager* GetInputManager();
-	int GetLevelNum();
+
 	bool Init(SDL_Renderer* m_pRenderer);
 	void CreateGameObjects();
 	void SetUpTileVariables();

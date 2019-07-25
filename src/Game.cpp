@@ -45,6 +45,8 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 
 	TheTextureManager::Instance()->load("../Assets/textures/Game_Over.png",
 		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/darkk.png",
+		"Darkness", SDL_Manager::GetInstance()->GetRenderer());
 
 	TheTextureManager::Instance()->load("../Assets/textures/background.png",
 		"background main", SDL_Manager::GetInstance()->GetRenderer());
@@ -98,12 +100,8 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	TheAudioManager::Instance()->load("../Assets/sound/Blip_Select_Low.wav",
 		"Timer Low", sound_type::SOUND_SFX);
 
-	////music from  patrickdearteaga.com by Patrick de Arteaga
-	//TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
-	//	"Mystery Phase", sound_type::SOUND_MUSIC);
-
-
-	TheAudioManager::Instance()->load("../Assets/sound/fight.wav",
+	//music from  patrickdearteaga.com by Patrick de Arteaga
+	TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
 		"Mystery Phase", sound_type::SOUND_MUSIC);
 					
 	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
@@ -184,6 +182,16 @@ void Game::BuildForegroundLayer(int level)
 	mapFile.close();
 }
 
+void Game::SetDarknessWidth(int i)
+{
+	DarknessWidth = i;
+}
+
+int Game::GetDarknessWidth()
+{
+	return DarknessWidth;
+}
+
 Player* Game::GetPlayer()
 {
 	return m_pPlayer;
@@ -201,15 +209,23 @@ Input_Manager* Game::GetInputManager()
 	return &m_Input;
 }
 
-int Game::GetLevelNum()
-{
-	return m_levelNum;
-}
 
-
-void Game::Update() 
+void Game::Update()
 {
-	
+	if (!m_isCountdown) 
+	{
+		if (m_levelNum > 3)
+		{
+			if (DarknessWidth > 3500)
+			{
+				DarknessWidth -= (m_levelNum-3);
+			}
+			else
+			{
+				DarknessWidth = 3600;
+			}
+		}
+	}
 	if (!m_isCountdown)
 	{
 		HandlePlayerAndCatInteractions();
@@ -290,27 +306,22 @@ void Game::HandlePlayerAndCatInteractions() {
 							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 							Mix_HaltMusic();
-							TheAudioManager::Instance()->mixVolume(128);
 							TheAudioManager::Instance()->playSound("GameOver", 1);
 
 							ofstream outFile("../Assets/highscores.txt", ios::app);
 							outFile << m_scoreNum << std::endl;
 
-							
+							Game::GetInstance()->SetScore(0);
 
 							//a delay before switching to the game over screen state after this
 							SDL_Delay(3000);
 							m_livesNum = 3;
 							m_bRunning = false;
 							m_isCountdown = true;
-							m_currLevel = 0;
-							m_levelNum = 1;
 
 								//want to change the ui to the Game over screen
 							UI_Scores::RetrieveHighscores();
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
-							Game::GetInstance()->GetPlayer()->ResetAbilityLength();
-							Game::GetInstance()->GetCat(0)->ResetScatterLength();
 						}
 					}
 				}
@@ -327,12 +338,7 @@ void Game::IncrementLevel()
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
 	ResetCats();
-	Mix_HaltMusic();
-	m_pPlayer->UpdateAbilityLength();
-	m_pCats[0]->UpdateScatterLength();
-	TheAudioManager::Instance()->playMusic("Background", -1);
-
-	
+	DarknessWidth = DEFAULTDARKNESSWIDTH;
 }
 void Game::IncrementScore(int score)
 {
@@ -451,7 +457,7 @@ void Game::PlayerLost()
 	else if (m_currLevel == 1) {
 		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 18, TILESIZE, TILESIZE });
 		m_pPlayer->SetDestinationX(11);
-		m_pPlayer->SetDestinationY(17);
+		m_pPlayer->SetDestinationY(18);
 		m_pPlayer->SetMoving(false);
 
 		ResetCats();
@@ -620,7 +626,6 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 			SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_level.m_Map[row][col].GetSrcP(), m_level.m_Map[row][col].GetDstP());
 		}
 	}
-
 	//update cat sprites before render
 	m_pCats[0]->Animate();
 	m_pCats[1]->Animate();
@@ -633,12 +638,15 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
 	}
 
+	TheTextureManager::Instance()->draw("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16 - (DarknessWidth / 2), Game::GetInstance()->GetPlayer()->GetDst().y + 16 - (DarknessWidth / 2), DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE); 
+	//TheTextureManager::Instance()->draws("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16, Game::GetInstance()->GetPlayer()->GetDst().y + 16, DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE, false);
+
 	m_pPlayer->animate();
 
-	
 
 	// Render player
 	SDL_RenderCopyEx(m_pRenderer, m_pPlayerTexture, m_pPlayer->GetSrcP(), m_pPlayer->GetDstP(),m_pPlayer->GetPlayerAngle(),&m_pPlayer->center,SDL_FLIP_NONE);
+
 
 	//render text
 	//lives text creation
@@ -690,7 +698,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 5", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if(m_countdownFrame == 59)
+			if(m_countdownFrame == 10)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -700,7 +708,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 4", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 119)
+			if (m_countdownFrame == 70)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -710,7 +718,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 3", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 179)
+			if (m_countdownFrame == 130)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -720,7 +728,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 2", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 239)
+			if (m_countdownFrame == 190)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -730,7 +738,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 1", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 299)
+			if (m_countdownFrame == 250)
 			{
 				TheAudioManager::Instance()->playSound("Timer High", 0);
 			}
@@ -752,13 +760,10 @@ void Game::HandleEvents() {
 		case SDL_QUIT:
 			m_bRunning = false;
 			m_livesNum = 3;
-			m_currLevel = 0;
-			m_levelNum = 1;
+			m_scoreNum = 0;
 			Mix_HaltMusic();
 			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
 			m_isCountdown = true;
-			Game::GetInstance()->GetPlayer()->ResetAbilityLength();
-			Game::GetInstance()->GetCat(0)->ResetScatterLength();
 			break;
 		}
 	}
@@ -780,7 +785,7 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
-	//SetScore(0);
+	SetScore(0);
 	//SDL_DestroyWindow(m_pWindow);
 	//SDL_DestroyRenderer(m_pRenderer);
 	//IMG_Quit();
