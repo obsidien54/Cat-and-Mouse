@@ -813,7 +813,7 @@ void Game::HandleEvents() {
 			m_livesNum = 3;
 			m_currLevel = 0;
 			m_levelNum = 1;
-			m_scoreNum = 0;
+			//m_scoreNum = 0;
 			Mix_HaltMusic();
 			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
 			m_isCountdown = true;
