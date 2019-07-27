@@ -100,10 +100,14 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	TheAudioManager::Instance()->load("../Assets/sound/Blip_Select_Low.wav",
 		"Timer Low", sound_type::SOUND_SFX);
 
-	//music from  patrickdearteaga.com by Patrick de Arteaga
-	TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
+	////music from  patrickdearteaga.com by Patrick de Arteaga
+	//TheAudioManager::Instance()->load("../Assets/sound/Boss Fight.mp3",
+	//	"Mystery Phase", sound_type::SOUND_MUSIC);
+
+
+	TheAudioManager::Instance()->load("../Assets/sound/fight.wav",
 		"Mystery Phase", sound_type::SOUND_MUSIC);
-					
+
 	m_pFont = TTF_OpenFont("../Assets/text/junegull.ttf", 24);
 	std::cout << "Font creation success!" << std::endl;
 	
@@ -145,6 +149,19 @@ void Game::CreateGameObjects()
 	m_pCats[3]->SetPriority(CatDirection::C_UP, CatDirection::C_RIGHT, CatDirection::C_DOWN, CatDirection::C_LEFT);
 }
 
+void Game::SetUpTileVariables()
+{
+	std::ifstream varFile("../Assets/Level0Variables.txt");
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			char temp;
+			varFile >> temp;
+			m_level.m_Map[row][col].SetTileVariables(temp);
+		}
+	}
+	varFile.close();
+}
+
 void Game::SetUpTileVariables(int level)
 {
 	std::string varFileName = "../Assets/Level" + to_string(level) + "Variables.txt";
@@ -159,6 +176,26 @@ void Game::SetUpTileVariables(int level)
 		}
 	}
 	varFile.close();
+}
+
+void Game::BuildForegroundLayer()
+{
+	// Build tilemap
+
+	std::ifstream mapFile("../Assets/Level0Map.txt");
+	if (!mapFile) {
+		std::cout << "bg file not detected" << std::endl;
+	}
+
+	for (int row = 0; row < ROWS; row++) {
+		for (int col = 0; col < COLS; col++) {
+			char temp;
+			mapFile >> temp;
+			m_level.m_Map[row][col].SetSrc(temp);
+			m_level.m_Map[row][col].SetDst({ TILESIZE * col, TILESIZE * row, TILESIZE, TILESIZE });
+		}
+	}
+	mapFile.close();
 }
 
 void Game::BuildForegroundLayer(int level)
@@ -200,6 +237,12 @@ Level* Game::GetLevel()
 {
 	return &m_level;
 }
+
+int Game::GetLevelNum()
+{
+	return m_levelNum;
+}
+
 Cat * Game::GetCat(int num)
 {
 	return m_pCats[num];
@@ -306,22 +349,26 @@ void Game::HandlePlayerAndCatInteractions() {
 							SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
 							SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
 							Mix_HaltMusic();
+							TheAudioManager::Instance()->mixVolume(128);
 							TheAudioManager::Instance()->playSound("GameOver", 1);
 
 							ofstream outFile("../Assets/highscores.txt", ios::app);
 							outFile << m_scoreNum << std::endl;
 
-							Game::GetInstance()->SetScore(0);
 
 							//a delay before switching to the game over screen state after this
 							SDL_Delay(3000);
 							m_livesNum = 3;
 							m_bRunning = false;
 							m_isCountdown = true;
+							m_currLevel = 0;
+							m_levelNum = 1;
 
 								//want to change the ui to the Game over screen
 							UI_Scores::RetrieveHighscores();
 							UI_Manager::GetInstance()->SetScreenIndex(GAME_OVER);
+							Game::GetInstance()->GetPlayer()->ResetAbilityLength();
+							Game::GetInstance()->GetCat(0)->ResetScatterLength();
 						}
 					}
 				}
@@ -338,6 +385,10 @@ void Game::IncrementLevel()
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
 	ResetCats();
+	Mix_HaltMusic();
+	m_pPlayer->UpdateAbilityLength();
+	m_pCats[0]->UpdateScatterLength();
+	TheAudioManager::Instance()->playMusic("Background", -1);
 	DarknessWidth = DEFAULTDARKNESSWIDTH;
 }
 void Game::IncrementScore(int score)
@@ -698,7 +749,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 5", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if(m_countdownFrame == 10)
+			if(m_countdownFrame == 59)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -708,7 +759,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 4", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 70)
+			if (m_countdownFrame == 119)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -718,7 +769,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 3", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 130)
+			if (m_countdownFrame == 179)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -728,7 +779,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 2", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 190)
+			if (m_countdownFrame == 239)
 			{
 				TheAudioManager::Instance()->playSound("Timer Low", 0);
 			}
@@ -738,7 +789,7 @@ void Game::m_RenderCountdown()
 		{
 			TheTextureManager::Instance()->draw("count 1", 368, 250,
 				SDL_Manager::GetInstance()->GetRenderer(), true);
-			if (m_countdownFrame == 250)
+			if (m_countdownFrame == 299)
 			{
 				TheAudioManager::Instance()->playSound("Timer High", 0);
 			}
@@ -760,10 +811,14 @@ void Game::HandleEvents() {
 		case SDL_QUIT:
 			m_bRunning = false;
 			m_livesNum = 3;
+			m_currLevel = 0;
+			m_levelNum = 1;
 			m_scoreNum = 0;
 			Mix_HaltMusic();
 			TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1); //play the main menu background since returning to it
 			m_isCountdown = true;
+			Game::GetInstance()->GetPlayer()->ResetAbilityLength();
+			Game::GetInstance()->GetCat(0)->ResetScatterLength();
 			break;
 		}
 	}
@@ -785,7 +840,7 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
-	SetScore(0);
+	//SetScore(0);
 	//SDL_DestroyWindow(m_pWindow);
 	//SDL_DestroyRenderer(m_pRenderer);
 	//IMG_Quit();

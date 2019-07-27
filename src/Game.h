@@ -86,6 +86,7 @@ public:
 	Level* GetLevel();
 	Cat* GetCat(int num);
 	Input_Manager* GetInputManager();
+	int GetLevelNum();
 
 	bool Init(SDL_Renderer* m_pRenderer);
 	void CreateGameObjects();
