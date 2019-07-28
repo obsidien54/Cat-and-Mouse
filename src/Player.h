@@ -39,6 +39,7 @@ private:
 public:
 	Player(SDL_Rect s, SDL_Rect d);
 	SDL_Point center; // pivot point of our mouse
+	bool animChanged = false;
 	void UpdateAbilityLength();
 	void ResetAbilityLength() { m_AbilityLength = 10500; }
 	void update();

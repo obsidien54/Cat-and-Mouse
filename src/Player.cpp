@@ -170,6 +170,7 @@ void Player::m_HandleEatingMysteryCheese() {
 		}
 		if (GetAbility() == ENTER_WALL) 
 		{
+			animChanged = true;
 			Game::GetInstance()->ChangeCatsToOriginalColors();
 			Game::GetInstance()->GetCat(0)->SetAllVulnerable(false);
 			Game::GetInstance()->GetCat(0)->SetBlinking(false);
@@ -479,11 +480,16 @@ void Player::animate()
 
 void Player::PlayAnim(int start, int end, int fps) // plays an animation
 {
-	if (frame==fps)
+	if (animChanged)
+	{
+		sprite = start;
+		animChanged = false;
+	}
+	if (frame == fps)
 	{
 		frame = 0;
 		sprite++;
-		if (sprite>=end)
+		if (sprite >= end)
 		{
 			sprite = start;
 		}
