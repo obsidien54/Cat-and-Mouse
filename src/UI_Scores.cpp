@@ -47,7 +47,6 @@ void UI_Scores::RetrieveHighscores() {
 	for (int score : m_scores) {
 		std::cout << score << std::endl;
 	}
-
 }
 
 vector<int> UI_Scores::GetHighscores()

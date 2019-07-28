@@ -26,9 +26,10 @@ int main (int argc, char* argv[])
 
 	while (pSDL->IsRunning())
 	{
-
-		UI_Manager::GetInstance()->Start(pSDL->GetRenderer(), pSDL->IsRunning(), game->IsRunningByRef());
-		
+		if (!game->Running())
+		{
+			UI_Manager::GetInstance()->Start(pSDL->GetRenderer(), pSDL->IsRunning(), game->IsRunningByRef());
+		}
 		if (game->Running()) 
 		{
 			

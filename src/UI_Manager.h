@@ -45,7 +45,7 @@ private:
 	//SDL_Scancode aMainMenuButtonScanCodes[eMainButtons::Main_NUM_OF_BUTTONS];
     unsigned short m_iCurrentScreenIndex;
     //bool m_bWaitingForInput;
-    Input_Manager m_pInput;
+    //Input_Manager m_pInput;
 
     // Encapsulation of all Menu objects
     UI_MainMenu m_pMainMenu;
