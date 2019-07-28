@@ -8,7 +8,7 @@ UI_HowToPlay::UI_HowToPlay()
 	m_rTitle.w = 200; // controls the width of the rect
 	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
-   
+	TextureManager::Instance()->load("../Assets/textures/instructions.png", "Instructions", SDL_Manager::GetInstance()->GetRenderer());
 
 	mouseHitBox = { 0,0,2,2 };
 	m_mainMenuButton.buttonSetUp(glm::vec2(368, 570), MAIN_MENU_BUTTON, "main menu");
@@ -46,6 +46,9 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
     SDL_Surface* sTemp1;
     SDL_Texture* tTemp1;
 
+	// Instructions image
+	TextureManager::Instance()->draw("Instructions", 0, 0, SDL_Manager::GetInstance()->GetRenderer());
+
     // Back
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
     SDL_RenderDrawRect(pRenderer, &m_rBack);
@@ -71,7 +74,7 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
 		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
 		{
 			buttons[i].setState(HOVER); //change the state
-			std::cout << "hovering over button" << std::endl;
+			//std::cout << "hovering over button" << std::endl;
 		}
 		else
 		{

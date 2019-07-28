@@ -16,6 +16,8 @@
 #define COLS 23
 #define TILESIZE 32
 #define SPRITESIZE 64
+#define DEFAULTDARKNESSWIDTH 15000
+#define LIFEINCREASETHRESHOLD 3000 //how much score you need to get a life
 
 class Player;
 
@@ -42,6 +44,14 @@ private:
 	int m_currLevel = 0;
 	Level m_level;
 	Level m_bg;
+
+	//countdown variables
+	bool m_isCountdown = true;
+	int m_countdownFrame = 0;
+	void m_RenderCountdown();
+	//DARKNESS VALUES
+	int DarknessWidth = DEFAULTDARKNESSWIDTH;
+
 	//Scoring and level Tracking
 	int m_scoreNum = 0;
 	int m_levelNum = 1;
@@ -70,9 +80,13 @@ public:
 		static Game* instance = new Game();
 		return instance;
 	}
+	void SetDarknessWidth(int i);
+	int GetDarknessWidth();
 	Player* GetPlayer();
 	Level* GetLevel();
+	Cat* GetCat(int num);
 	Input_Manager* GetInputManager();
+	int GetLevelNum();
 
 	bool Init(SDL_Renderer* m_pRenderer);
 	void CreateGameObjects();
@@ -96,6 +110,14 @@ public:
 	void SetAbilityStartTimer(Uint32 time);
 	Uint32 GetAbilityStartTimer();
 
+	int GetLives();
+	void IncrementLives();
+
+	//alter the countdown settings
+	void SetCountdown(bool b);
+
+	int GetCurrLevel(); //get the currentl level map we are at
+
 	void GamePaused();
 	void PlayerWon();
 	void PlayerLost();
@@ -104,6 +126,7 @@ public:
 	void ResetCat2();
 	void ResetCat3();
 	void ResetCat4();
+	void ResetCats();
 
 	void UpdateCats();
 	void Clean();

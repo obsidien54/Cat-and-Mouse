@@ -5,20 +5,23 @@
 #include "Input_Manager.h"
 #include "Game.h"
 #include "AudioManager.h"
+//#include "CommonIndludes.h"
 
 class Game;
 
 class Player : public Sprite 
 {
 private:
-	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false;;
+	bool m_bIsPoweredUp = false, m_bIsDead = false, m_bIsMoving = false, m_bCurrentlyInWall = false, m_bEnteredWall = false, m_bIsDying = false;
+
+	bool m_bInvulnerable = false;
 	int m_iDestinationX, m_iDestinationY;
 	int m_iMoveSpeed = 4;
 	int m_iAngle; // angle of mouse
-	int m_iFrame = 0; // current frame
-	int m_iSprite = 0; //sprite counter
-	int m_iFrameMax = 5; //number of frames to display each sprite
-	int m_iSpriteMax = 3; //number of sprites in anumation
+	int m_AbilityLength = 10500;
+	int frame = 0;
+	int sprite = 0;
+	bool spriteChanged = false;
 	Ability m_ability = Ability::ENTER_WALL;
 
 	void m_HandlePlayerAbilities();
@@ -30,16 +33,28 @@ private:
 
 	int m_numCheese = 136;
 
+	void m_GoToNextLevel();
+	void m_UpdateLives();
+	
 public:
 	Player(SDL_Rect s, SDL_Rect d);
 	SDL_Point center; // pivot point of our mouse
-	
+	bool animChanged = false;
+	void UpdateAbilityLength();
+	void ResetAbilityLength() { m_AbilityLength = 10500; }
 	void update();
 	void animate(); // animates mouse
-	
+	void PlayAnim(int start, int end, int fps);
 	bool isMoving();
 	bool isPoweredUp();
+	void SetSprite(int sf)
+	{
+		sprite = sf;
+	}
 	bool isDead();
+	void setDeath(bool d);
+	bool isDying();
+
 	bool isCurrentlyInWall();
 	bool enteredWall();
 
@@ -67,10 +82,13 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void SetPlayerSpeed(int speed); //allow us to change player speed
+	void SetDying(bool dying);
+	void SetInvulnerable(bool vuln);
+
+	bool GetInvulnerable();
 
 	void SetPlayerAngle( int ang); //angle for rotation of image
 	int GetPlayerAngle();
-	int GetPlayerFrame();
 
 	void setNumCheese(int num);
 	int getNumCheese();

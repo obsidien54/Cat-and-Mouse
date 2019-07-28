@@ -17,7 +17,7 @@ enum sound_type
 
 //************LIST OF AUDIO FILES AND LOCATIONS BEING USED************//
 // UI_MainMenu.cpp contains the background music and its implementation
-//player.cpp contains the loading of the powerup and the cheese pickup sound effect
+//Game.cpp contains the loading of the powerup and the cheese pickup sound effect
 //powerup and cheese pickup are played in game.cpp where the mouse eats the cheese or there is a pickup done
 
 class AudioManager {
@@ -34,6 +34,7 @@ public:
 
 	//volume from 0-128
 	void setMusicVolume(int volume);
+	//volume from 0-128
 	void mixVolume(int volume);
 	//void mixVolumeChunk(int volume); // Not operational
 

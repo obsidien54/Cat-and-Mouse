@@ -4,9 +4,12 @@
 
 enum C_State {
 	IDLE,
+	WAITING,
 	WAKEUP,
 	SCATTER,
 	SEEK,
+	DYING,
+	BACK2PEN,
 	DEATH
 };
 enum CatDirection {
@@ -19,7 +22,15 @@ enum CatDirection {
 
 class Cat : public Sprite {
 private:
-	bool m_bIsVulnerable = false, m_bIsDead = false, m_bIsMoving = false;
+	static bool m_sIsVulnerable;
+	static bool m_sBlinking;
+	static int m_sState;
+	static int m_ScatterLength;
+
+	//bool m_bIsVulnerable = false;
+	bool m_bIsDead = false, m_bIsMoving = false;
+	bool m_bIsDying = false;
+	bool m_reverse = false;
 	int m_IDestinationX, m_IDestinationY;
 	char dir;
 	int m_iTargetX, m_iTargetY;
@@ -28,22 +39,49 @@ private:
 	int m_iSpriteMax = 3;
 	int m_iFrameMax = 6;
 	int m_iFrame = 0;
+	int m_iVurnerable = 0;
+	int m_iDeathFrame = 0; // current death frame
+	int m_iDeathSprite = 0; //death sprite counter
+	int m_iDeathFrameMax = 10; //number of frames to display each death sprite
+	int m_iDeathSpriteMax = 3; //number of death sprites in animation
 	int m_State;
 	bool checkBound;
 	int m_moveSpeed;
 	int DirectionPriority[4];
+	//////
 	void DistanceNorth();
 	void DistanceEast();
 	void DistanceSouth();
 	void DistanceWest();
+	/////
+	void FleeDistanceNorth();
+	void FleeDistanceEast();
+	void FleeDistanceSouth();
+	void FleeDistanceWest();
+	void Flee();
+	//////
+	void setReverse(bool b);
+	bool getReverse();
+	void TransistionReverse();
+	void ReverseDirection();
+	/////
+	int m_DistanceToMouseSquared();
+
+
 
 public:
+	void UpdateScatterLength();
+	void ResetScatterLength() { m_ScatterLength = 780; }
 	char newDir;
 	int distance;
 	int frames;
 	Cat(SDL_Rect s, SDL_Rect d, int cat = 0);
+	void Sync();
 	bool IsWhite();
-	bool IsVulnerable();
+	bool IsAllVulnerable();
+	void SetAllVulnerable(bool b);
+	void SetBlinking(bool b);
+	bool GetBlinking();
 	bool IsDead();
 	void SetDead(bool d);
 	bool IsMoving();
@@ -61,7 +99,9 @@ public:
 	void SetDestinationY(int destY);
 	void SetMoving(bool b);
 	void SetState(int state);
+	void SetAllState(int state);
 	int GetState();
+	int GetAllState();
 	void SetPriority(int first, int second, int third, int forth);
 	int GetPriority(int index);
 
@@ -77,10 +117,13 @@ public:
 	void Seek();
 	void Update();
 
-	void SetVulnerable(bool b);
+	void SetDying(bool dying);
+	bool IsDying();
 	void Die();
 	int frame;
 	int frameX;
 	int angle;
 	SDL_Point center;
+
+	void SetMoveSpeed(int m);
 };

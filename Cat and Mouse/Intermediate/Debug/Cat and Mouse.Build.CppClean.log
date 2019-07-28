@@ -1,27 +1,58 @@
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\vc141.pdb
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\vc141.idb
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\ui_scores.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\ui_menu.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\ui_manager.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\ui_mainmenu.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\ui_howtoplay.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\tile.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\sprite.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\sdl_manager.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\powerup.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\player.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\main.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\input_manager.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\game_manager.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\game.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\audiomanager.obj
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\bin\debug\cat and mouse.exe
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\bin\debug\cat and mouse.ilk
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\bin\debug\cat and mouse.pdb
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.command.1.tlog
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.read.1.tlog
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.write.1.tlog
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\link.command.1.tlog
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\link.read.1.tlog
-c:\users\wishn\onedrive\documents\github\cat-and-mouse\cat and mouse\intermediate\debug\cat and mouse.tlog\link.write.1.tlog
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\vc142.pdb
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\vc142.idb
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_scores.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_menu.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_manager.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_mainmenu.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_levels.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_howtoplay.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\ui_gameover.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\tile.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\texturemanager.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\sprite.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\sdl_manager.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\powerup.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\player.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\main.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\input_manager.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\game_manager.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\game.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\cat.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\button.obj
+c:\users\michael\source\repos\cat-and-mouse\cat and mouse\intermediate\debug\audiomanager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\vc142.pdb
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\vc142.idb
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_scores.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_menu.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_manager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_mainmenu.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_levels.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_howtoplay.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\ui_gameover.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\tile.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\texturemanager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\sprite.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\sdl_manager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\powerup.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\player.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\main.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\input_manager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\game_manager.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\game.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\button.obj
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\audiomanager.obj
+c:\users\michael\source\repos\cat-and-mouse\bin\debug\cat and mouse.ilk
+c:\users\michael\source\repos\cat-and-mouse\bin\debug\cat and mouse.exe
+c:\users\michael\source\repos\cat-and-mouse\bin\debug\cat and mouse.pdb
+e:\michael\desktop\github - master\bin\debug\cat and mouse.ilk
+e:\michael\desktop\github - master\bin\debug\cat and mouse.exe
+e:\michael\desktop\github - master\bin\debug\cat and mouse.pdb
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\vc141.idb
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\vc141.pdb
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.command.1.tlog
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.read.1.tlog
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\cl.write.1.tlog
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\link.command.1.tlog
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\link.read.1.tlog
+e:\michael\desktop\github - master\cat and mouse\intermediate\debug\cat and mouse.tlog\link.write.1.tlog

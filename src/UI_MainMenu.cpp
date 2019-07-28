@@ -42,18 +42,23 @@ UI_MainMenu::UI_MainMenu()
 	//buttons.push_back(button5);
 
 	//lower the volume since too loud
-	TheAudioManager::Instance()->setMusicVolume(15);
+	TheAudioManager::Instance()->setMusicVolume(128);
 
 	//background music
-	//music by bensound
-	TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
-		"Background", sound_type::SOUND_MUSIC);
+	
+	/*TheAudioManager::Instance()->load("../Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
+		"Main_Menu_Background", sound_type::SOUND_MUSIC);*/
+
+
+		// Video game music composed my Takashi Tateishi
+	TheAudioManager::Instance()->load("../Assets/sound/Andre Menu Music.mp3",
+		"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	////music by bensound
 	//TheAudioManager::Instance()->load("../Assets/sound/bensound-endlessmotion.mp3",
-	//	"Background", sound_type::SOUND_MUSIC);
+	//	"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
-	TheAudioManager::Instance()->playMusic("Background", -1);
+	TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1);
 
 	TheTextureManager::Instance()->load("../Assets/textures/MainMenu_background.png",
 		"MainMenu_background", SDL_Manager::GetInstance()->GetRenderer());
@@ -106,7 +111,7 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
 		{
 			buttons[i].setState(HOVER); //change the state
-			std::cout << "hovering over button" << std::endl;
+			//std::cout << "hovering over button" << std::endl;
 		}
 		else
 		{
