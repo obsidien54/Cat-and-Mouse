@@ -159,6 +159,7 @@ void Player::m_HandleEatingMysteryCheese() {
 		// Grant player a random ability and start the timer
 		Game::GetInstance()->SetAbilityStartTimer(SDL_GetTicks());
 		SetAbility(PowerUp::GenerateRandomAbility());
+		//SetAbility(ENTER_WALL);
 		std::cout << "Your current ability: " << (GetAbility() == DEFEAT_CATS ? "Defeat Cats" : "Enter Walls") << std::endl;
 
 		if (GetAbility() == DEFEAT_CATS) 

@@ -23,6 +23,16 @@
     <Text Include="..\Assets\Level0.txt" />
     <Text Include="..\Assets\Level0Map.txt" />
     <Text Include="..\Assets\Level0Variables.txt" />
+    <Text Include="..\Assets\Level1Map.txt" />
+    <Text Include="..\Assets\Level1Variables.txt" />
+    <Text Include="..\Assets\Level2Map.txt" />
+    <Text Include="..\Assets\Level2Variables.txt" />
+    <Text Include="..\Assets\Level3Map.txt" />
+    <Text Include="..\Assets\Level3Variables.txt" />
+    <Text Include="..\Assets\Level4Map.txt" />
+    <Text Include="..\Assets\Level4Variables.txt" />
+    <Text Include="..\Assets\Level5Map.txt" />
+    <Text Include="..\Assets\Level5Variables.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\AudioManager.h" />
