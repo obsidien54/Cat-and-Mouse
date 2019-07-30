@@ -689,7 +689,10 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 			SDL_RenderCopyEx(m_pRenderer, m_pGhostsTexture, m_pCats[i]->GetSrcP(), m_pCats[i]->GetDstP(), m_pCats[i]->angle, &m_pCats[i]->center, SDL_FLIP_NONE);
 	}
 
-	TheTextureManager::Instance()->draw("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16 - (DarknessWidth / 2), Game::GetInstance()->GetPlayer()->GetDst().y + 16 - (DarknessWidth / 2), DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE); 
+	if(GetLevelNum() > 3) //only show the darkenss from 4th level on
+	{
+		TheTextureManager::Instance()->draw("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16 - (DarknessWidth / 2), Game::GetInstance()->GetPlayer()->GetDst().y + 16 - (DarknessWidth / 2), DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE);
+	}
 	//TheTextureManager::Instance()->draws("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16, Game::GetInstance()->GetPlayer()->GetDst().y + 16, DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE, false);
 
 	m_pPlayer->animate();
