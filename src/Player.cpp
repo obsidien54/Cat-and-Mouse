@@ -293,7 +293,7 @@ void Player::m_GoToNextLevel()
 	}
 	else if (Game::GetInstance()->GetCurrLevel() == 4)
 	{
-		m_numCheese = 134;
+		m_numCheese = 138; //138 for more movable map, 134 for original design with rough corners
 		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
 		m_iDestinationX = 11;
 		m_iDestinationY = 13;
