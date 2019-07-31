@@ -382,6 +382,7 @@ void Game::IncrementLevel()
 {
 	m_levelNum += 1; //increase level counter by 1
 	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
+	//m_currLevel = 4;
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
 	ResetCats();

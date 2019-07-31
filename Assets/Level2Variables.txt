@@ -1,7 +1,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!
-!!!F!!OOOOOOOOOOO!!F!!!
+!!!t!!OOOOOOOOOOO!!T!!!
 !!!F!!OWWWWWWWWWO!!F!!!
 !!!OHOOOOWOPOWOOOOHO!!!
 !!!!OWWWOWOWOWOWWWO!!!!
@@ -17,7 +17,7 @@
 !!!!OWWWOWOWOWOWWWO!!!!
 !!!OHOHOOWOPOWOOHOHO!!!
 !!!F!!OWWWWWWWWWO!!F!!!
-!!!F!!OOOOOOOOOOO!!F!!!
+!!!b!!OOOOOOOOOOO!!B!!!
 !!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!

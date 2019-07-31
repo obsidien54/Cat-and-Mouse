@@ -69,58 +69,13 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 {
 	
     m_pMainMenu.Render(pRenderer);
-	//SDL_Event event;
-	////SDL_PollEvent(&event);
-
-	//while (SDL_PollEvent(&event) != 0)
-	//{
-	//	if (event.type == SDL_MOUSEBUTTONDOWN)
-	//	{
-	//		if (event.button.button == SDL_BUTTON_LEFT)
-	//		{
-	//			if (m_pMainMenu.GetButton(1).getState() == HOVER)
-	//			{
-	//				TheAudioManager::Instance()->playSound("Button", 0);
-	//				bGameIsRunning = true;
-	//				TheAudioManager::Instance()->playMusic("Background", -1);
-	//				Game::GetInstance()->SetScore(0);
-	//				
-
-	//				cout << "Game will start" << endl;
-	//			}
-	//			if (m_pMainMenu.GetButton(2).getState() == HOVER)
-	//			{
-	//				TheAudioManager::Instance()->playSound("Button", 0);
-	//				SetScreenIndex(eMenu::HOW_TO_PLAY);
-	//			}
-	//			if (m_pMainMenu.GetButton(3).getState() == HOVER)
-	//			{
-	//				TheAudioManager::Instance()->playSound("Button", 0);
-	//				UI_Scores::RetrieveHighscores();
-	//				SetScreenIndex(eMenu::SCORES); // Via enums
-	//			}
-	//			if (m_pMainMenu.GetButton(4).getState() == HOVER)
-	//			{
-	//				TheAudioManager::Instance()->playSound("Button", 0);
-	//				bSDLRunning = false;
-	//			}
-	//		}
-	//	}
-	//	if (event.type == SDL_QUIT)
-	//	{
-	//		bSDLRunning = false;
-	//	}
-	//}
-
 	SDL_Event event;
-	if (SDL_PollEvent(&event))
+	//SDL_PollEvent(&event);
+
+	while (SDL_PollEvent(&event) != 0)
 	{
-		switch (event.type)
+		if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
-		case SDL_QUIT:
-			bSDLRunning = false;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
 				cout << "clicking" << endl;
@@ -130,30 +85,76 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 					bGameIsRunning = true;
 					TheAudioManager::Instance()->playMusic("Background", -1);
 					Game::GetInstance()->SetScore(0);
-
+					
 
 					cout << "Game will start" << endl;
 				}
-				else if (m_pMainMenu.GetButton(2).getState() == HOVER)
+				if (m_pMainMenu.GetButton(2).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
 					SetScreenIndex(eMenu::HOW_TO_PLAY);
 				}
-				else if (m_pMainMenu.GetButton(3).getState() == HOVER)
+				if (m_pMainMenu.GetButton(3).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
 					UI_Scores::RetrieveHighscores();
 					SetScreenIndex(eMenu::SCORES); // Via enums
 				}
-				else if (m_pMainMenu.GetButton(4).getState() == HOVER)
+				if (m_pMainMenu.GetButton(4).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
 					bSDLRunning = false;
 				}
 			}
-			break;
+		}
+		if (event.type == SDL_QUIT)
+		{
+			bSDLRunning = false;
 		}
 	}
+
+	//SDL_Event event;
+	//if (SDL_PollEvent(&event))
+	//{
+	//	switch (event.type)
+	//	{
+	//	case SDL_QUIT:
+	//		bSDLRunning = false;
+	//		break;
+	//	case SDL_MOUSEBUTTONDOWN:
+	//		if (event.button.button == SDL_BUTTON_LEFT)
+	//		{
+	//			cout << "clicking" << endl;
+	//			if (m_pMainMenu.GetButton(1).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				bGameIsRunning = true;
+	//				TheAudioManager::Instance()->playMusic("Background", -1);
+	//				Game::GetInstance()->SetScore(0);
+
+
+	//				cout << "Game will start" << endl;
+	//			}
+	//			else if (m_pMainMenu.GetButton(2).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				SetScreenIndex(eMenu::HOW_TO_PLAY);
+	//			}
+	//			else if (m_pMainMenu.GetButton(3).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				UI_Scores::RetrieveHighscores();
+	//				SetScreenIndex(eMenu::SCORES); // Via enums
+	//			}
+	//			else if (m_pMainMenu.GetButton(4).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				bSDLRunning = false;
+	//			}
+	//		}
+	//		break;
+	//	}
+	//}
 	
 
 	//if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Potential change of scenes
