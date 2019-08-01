@@ -94,6 +94,9 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	TheAudioManager::Instance()->load("../Assets/sound/LifeUp.wav",
 		"LifeUp", sound_type::SOUND_SFX);
 
+	TheAudioManager::Instance()->load("../Assets/sound/WarpAbility.wav",
+		"warp ability", sound_type::SOUND_SFX);
+
 	//countdown timer sounds
 	TheAudioManager::Instance()->load("../Assets/sound/Blip_Select_High.wav",
 		"Timer High", sound_type::SOUND_SFX);

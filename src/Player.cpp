@@ -160,20 +160,20 @@ void Player::m_HandleWarping()
 		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
 		SetDestinationX(18 * TILESIZE);
 		SetMoving(true);
-		//TheAudioManager::Instance()->playSound("warp ability", 0);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
 	}
 	else if (Level->m_Map[GetY()][GetX()].isRightWarpTile() && !isMoving()) {
 		SetDst({ TILESIZE * 3 - TILESIZE, TILESIZE * 11, TILESIZE, TILESIZE });
 		SetDestinationX(4 * TILESIZE);
 		SetMoving(true);
-		//TheAudioManager::Instance()->playSound("warp ability", 0);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
 	}
 	else if (Level->m_Map[GetY()][GetX()].isTopLeftWarpTile() && !isMoving()) {
 		SetDst({ TILESIZE * 19 , TILESIZE * 18, TILESIZE, TILESIZE });
 		SetDestinationX(19 * TILESIZE);
 		SetDestinationY(TILESIZE * 18);
 		SetMoving(true);
-		//TheAudioManager::Instance()->playSound("warp ability", 0);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
 	}
 	 else if (Level->m_Map[GetY()][GetX()].isTopRightWarpTile() && !isMoving()) 
 	 {
@@ -197,7 +197,7 @@ void Player::m_HandleWarping()
 		SetDestinationX(3 * TILESIZE);
 		SetDestinationY(TILESIZE * 4);
 		SetMoving(true);
-		//TheAudioManager::Instance()->playSound("warp ability", 0);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
 	}
 
 }

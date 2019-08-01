@@ -1,4 +1,5 @@
 ﻿  Game.cpp
 E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub - post beta\src\Game.cpp(17,23): warning C4244:  '=': conversion from 'Uint64' to 'Uint32', possible loss of data
 E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub - post beta\src\Game.cpp(25,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  LINK : E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub - post beta\bin\Debug\Cat and Mouse.exe not found or not built by the last incremental link; performing full link
   Cat and Mouse.vcxproj -> E:\Michael\Documents\George Brown\Second Semester\Game 1014 Game Production II\GitHub - post beta\bin\Debug\Cat and Mouse.exe
