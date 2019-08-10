@@ -78,6 +78,7 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				cout << "clicking" << endl;
 				if (m_pMainMenu.GetButton(1).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
@@ -111,42 +112,108 @@ void UI_Manager::MainMenu(SDL_Renderer* pRenderer, bool &bSDLRunning, bool &bGam
 			bSDLRunning = false;
 		}
 	}
+
+	//SDL_Event event;
+	//if (SDL_PollEvent(&event))
+	//{
+	//	switch (event.type)
+	//	{
+	//	case SDL_QUIT:
+	//		bSDLRunning = false;
+	//		break;
+	//	case SDL_MOUSEBUTTONDOWN:
+	//		if (event.button.button == SDL_BUTTON_LEFT)
+	//		{
+	//			cout << "clicking" << endl;
+	//			if (m_pMainMenu.GetButton(1).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				bGameIsRunning = true;
+	//				TheAudioManager::Instance()->playMusic("Background", -1);
+	//				Game::GetInstance()->SetScore(0);
+
+
+	//				cout << "Game will start" << endl;
+	//			}
+	//			else if (m_pMainMenu.GetButton(2).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				SetScreenIndex(eMenu::HOW_TO_PLAY);
+	//			}
+	//			else if (m_pMainMenu.GetButton(3).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				UI_Scores::RetrieveHighscores();
+	//				SetScreenIndex(eMenu::SCORES); // Via enums
+	//			}
+	//			else if (m_pMainMenu.GetButton(4).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				bSDLRunning = false;
+	//			}
+	//		}
+	//		break;
+	//	}
+	//}
 	
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Potential change of scenes
-	{
-		SetScreenIndex(eMenu::HOW_TO_PLAY); // Via enums
-	}
-	if (m_pInput.KeyDown(SDL_SCANCODE_2))
-	{
-		bGameIsRunning = true;
-		cout << "Game will start" << endl;
-	}
-	if (m_pInput.KeyDown(SDL_SCANCODE_3))
-	{
-		SetScreenIndex(eMenu::SCORES); // Via enums
-	}
+	//if (m_pInput.KeyDown(SDL_SCANCODE_1)) // Potential change of scenes
+	//{
+	//	SetScreenIndex(eMenu::HOW_TO_PLAY); // Via enums
+	//}
+	//if (m_pInput.KeyDown(SDL_SCANCODE_2))
+	//{
+	//	bGameIsRunning = true;
+	//	cout << "Game will start" << endl;
+	//}
+	//if (m_pInput.KeyDown(SDL_SCANCODE_3))
+	//{
+	//	SetScreenIndex(eMenu::SCORES); // Via enums
+	//}
 
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_ESCAPE))
-	{
-		bSDLRunning = false;
-	}
+	//if (m_pInput.KeyDown(SDL_SCANCODE_ESCAPE))
+	//{
+	//	bSDLRunning = false;
+	//}
 }
 
 void UI_Manager::HowToPlay (SDL_Renderer* pRenderer)
 {
     m_pHowToPlay.Render(pRenderer);
 
-	SDL_Event event;
-	//SDL_PollEvent(&event);
+	//SDL_Event event;
+	////SDL_PollEvent(&event);
 
-	while (SDL_PollEvent(&event) != 0)
+	//while (SDL_PollEvent(&event) != 0)
+	//{
+	//	if (event.type == SDL_MOUSEBUTTONDOWN)
+	//	{
+	//		if (event.button.button == SDL_BUTTON_LEFT)
+	//		{
+	//			if (m_pHowToPlay.GetButton(1).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//				cout << "Screen changed" << endl;
+	//			}
+
+	//		}
+	//	}
+	//}
+
+
+
+	SDL_Event event;
+	if (SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_MOUSEBUTTONDOWN)
+		switch (event.type)
 		{
+		case SDL_MOUSEBUTTONDOWN:
+			
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				cout << "clicking" << endl;
 				if (m_pHowToPlay.GetButton(1).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
@@ -155,17 +222,19 @@ void UI_Manager::HowToPlay (SDL_Renderer* pRenderer)
 				}
 
 			}
+			break;
 		}
 	}
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
-	{
-		//m_pMainMenu.RenderMouseOver(pRenderer, i); Not Implemented in other classes
-		//cout << "MouseOver Detected" << endl;
 
-		SetScreenIndex(eMenu::MAIN_MENU); // Via enums
-		cout << "Screen changed" << endl;
-	}
+	//if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
+	//{
+	//	//m_pMainMenu.RenderMouseOver(pRenderer, i); Not Implemented in other classes
+	//	//cout << "MouseOver Detected" << endl;
+
+	//	SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//	cout << "Screen changed" << endl;
+	//}
 	
 }
 
@@ -173,15 +242,36 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 {
     m_pScores.Render(pRenderer);
 
-	SDL_Event event;
-	//SDL_PollEvent(&event);
+	//SDL_Event event;
+	////SDL_PollEvent(&event);
 
-	while (SDL_PollEvent(&event) != 0)
+	//while (SDL_PollEvent(&event) != 0)
+	//{
+	//	if (event.type == SDL_MOUSEBUTTONDOWN)
+	//	{
+	//		if (event.button.button == SDL_BUTTON_LEFT)
+	//		{
+	//			if (m_pScores.GetButton(1).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//				cout << "Screen changed" << endl;
+	//			}
+
+	//		}
+	//	}
+	//}
+
+	SDL_Event event;
+	if (SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_MOUSEBUTTONDOWN)
+		switch (event.type)
 		{
+		case SDL_MOUSEBUTTONDOWN:
+
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				cout << "clicking" << endl;
 				if (m_pScores.GetButton(1).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
@@ -190,14 +280,16 @@ void UI_Manager::Scores (SDL_Renderer* pRenderer)
 				}
 
 			}
+			break;
 		}
 	}
-	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
-	{
-		SetScreenIndex(eMenu::MAIN_MENU); // Via enums
-		cout << "Screen changed" << endl;
-			
-	}
+
+	//if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
+	//{
+	//	SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//	cout << "Screen changed" << endl;
+	//		
+	//}
 	
 }
 
@@ -205,15 +297,49 @@ void UI_Manager::GameOver(SDL_Renderer * pRenderer, bool &bSDLRunning)
 {
 	m_pGameOver.Render(pRenderer);
 
-	SDL_Event event;
-	//SDL_PollEvent(&event);
+	//SDL_Event event;
+	////SDL_PollEvent(&event);
 
-	while (SDL_PollEvent(&event) != 0)
+	//while (SDL_PollEvent(&event) != 0)
+	//{
+	//	if (event.type == SDL_MOUSEBUTTONDOWN)
+	//	{
+	//		if (event.button.button == SDL_BUTTON_LEFT)
+	//		{
+	//			if (m_pGameOver.GetButton(1).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//				TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1);
+	//				cout << "Screen changed" << endl;
+	//			}
+	//			if (m_pGameOver.GetButton(2).getState() == HOVER)
+	//			{
+	//				TheAudioManager::Instance()->playSound("Button", 0);
+	//				bSDLRunning = false;
+	//			}
+
+	//		}
+	//	}
+	//	if (event.type == SDL_QUIT)
+	//	{
+	//		bSDLRunning = false;
+	//	}
+	//}
+
+
+	SDL_Event event;
+	if (SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_MOUSEBUTTONDOWN)
+		switch (event.type)
 		{
+		case SDL_QUIT:
+			bSDLRunning = false;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_LEFT)
 			{
+				cout << "clicking" << endl;
 				if (m_pGameOver.GetButton(1).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
@@ -221,26 +347,22 @@ void UI_Manager::GameOver(SDL_Renderer * pRenderer, bool &bSDLRunning)
 					TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1);
 					cout << "Screen changed" << endl;
 				}
-				if (m_pGameOver.GetButton(2).getState() == HOVER)
+				else if (m_pGameOver.GetButton(2).getState() == HOVER)
 				{
 					TheAudioManager::Instance()->playSound("Button", 0);
 					bSDLRunning = false;
 				}
-
 			}
-		}
-		if (event.type == SDL_QUIT)
-		{
-			bSDLRunning = false;
+			break;
 		}
 	}
 
-	if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
-	{
+	//if (m_pInput.KeyDown(SDL_SCANCODE_4)) // Via Enum indexes
+	//{
 
-		SetScreenIndex(eMenu::MAIN_MENU); // Via enums
-		cout << "Screen changed" << endl;
-	}
+	//	SetScreenIndex(eMenu::MAIN_MENU); // Via enums
+	//	cout << "Screen changed" << endl;
+	//}
 }
 
 

@@ -68,6 +68,10 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
 		mouseHitBox.x = event.button.x;
 		mouseHitBox.y = event.button.y;
 	}
+	else
+	{
+		SDL_PushEvent(&event);
+	}
 
 	for (int i = 0; i < buttons.size(); i++) //for every button in buttons draw it
 	{

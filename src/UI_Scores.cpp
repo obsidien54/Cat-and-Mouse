@@ -47,7 +47,6 @@ void UI_Scores::RetrieveHighscores() {
 	for (int score : m_scores) {
 		std::cout << score << std::endl;
 	}
-
 }
 
 vector<int> UI_Scores::GetHighscores()
@@ -163,6 +162,10 @@ void UI_Scores::Render(SDL_Renderer* pRenderer)
 	{
 		mouseHitBox.x = event.button.x;
 		mouseHitBox.y = event.button.y;
+	}
+	else
+	{
+		SDL_PushEvent(&event);
 	}
 
 	for (int i = 0; i < buttons.size(); i++) //for every button in buttons draw it

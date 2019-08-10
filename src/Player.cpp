@@ -79,6 +79,53 @@ void Player::m_HandlePlayerAbilities()
 					break;
 				}
 			}
+			else if (Game::GetInstance()->GetInputManager()->KeyDown(SDL_SCANCODE_SPACE)) 
+			{
+				Level* Level = Game::GetInstance()->GetLevel();
+
+				switch (GetPlayerAngle()) {
+				case 0: // facing up
+					if (Level->m_Map[GetY() - 1][GetX()].isEnterableWall()) {
+						SetDestinationY(GetDst().y - TILESIZE);
+						SetDestinationX(GetDst().x);
+						SetMoving(true);
+						SetCurrentlyInWall(true);
+						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
+					}
+					break;
+				case 180: // facing down
+					if (Level->m_Map[GetY() + 1][GetX()].isEnterableWall()) {
+						SetDestinationY(GetDst().y + TILESIZE);
+						SetDestinationX(GetDst().x);
+						SetMoving(true);
+						SetCurrentlyInWall(true);
+						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
+					}
+					break;
+				case 90: // facing right
+					if (Level->m_Map[GetY()][GetX() + 1].isEnterableWall()) {
+						SetDestinationX(GetDst().x + TILESIZE);
+						SetDestinationY(GetDst().y);
+						SetMoving(true);
+						SetCurrentlyInWall(true);
+						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
+					}
+					break;
+				case 270: // facing left
+					if (Level->m_Map[GetY()][GetX() - 1].isEnterableWall()) {
+						SetDestinationX(GetDst().x - TILESIZE);
+						SetDestinationY(GetDst().y);
+						SetMoving(true);
+						SetCurrentlyInWall(true);
+						SetEnteredWall(true);
+						TheAudioManager::Instance()->playSound("enter wall", 0);
+					}
+					break;
+				}
+			}
 		}
 		break;
 	}
@@ -95,7 +142,7 @@ void Player::m_HandleMovement()
 
 void Player::m_HandleWarping()
 {
-	Level* Level = Game::GetInstance()->GetLevel();
+	/*Level* Level = Game::GetInstance()->GetLevel();
 	if (Level->m_Map[GetY()][GetX()].isLeftWarpTile() && !isMoving()) {
 		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
 		SetDestinationX(18 * TILESIZE);
@@ -105,6 +152,52 @@ void Player::m_HandleWarping()
 		SetDst({ TILESIZE * 3 - TILESIZE, TILESIZE * 11, TILESIZE, TILESIZE });
 		SetDestinationX(4 * TILESIZE);
 		SetMoving(true);
+	}*/
+
+
+	Level* Level = Game::GetInstance()->GetLevel();
+	if (Level->m_Map[GetY()][GetX()].isLeftWarpTile() && !isMoving()) {
+		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
+		SetDestinationX(18 * TILESIZE);
+		SetMoving(true);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
+	}
+	else if (Level->m_Map[GetY()][GetX()].isRightWarpTile() && !isMoving()) {
+		SetDst({ TILESIZE * 3 - TILESIZE, TILESIZE * 11, TILESIZE, TILESIZE });
+		SetDestinationX(4 * TILESIZE);
+		SetMoving(true);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
+	}
+	else if (Level->m_Map[GetY()][GetX()].isTopLeftWarpTile() && !isMoving()) {
+		SetDst({ TILESIZE * 19 , TILESIZE * 18, TILESIZE, TILESIZE });
+		SetDestinationX(19 * TILESIZE);
+		SetDestinationY(TILESIZE * 18);
+		SetMoving(true);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
+	}
+	 else if (Level->m_Map[GetY()][GetX()].isTopRightWarpTile() && !isMoving()) 
+	 {
+		SetDst({ TILESIZE * 3, TILESIZE * 18, TILESIZE, TILESIZE });
+		SetDestinationX(3 * TILESIZE);
+		SetDestinationY(TILESIZE * 18);
+		SetMoving(false);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
+	}
+	else if (Level->m_Map[GetY()][GetX()].isBottomLeftWarpTile() && !isMoving()) 
+	{
+		SetDst({ TILESIZE * 19, TILESIZE * 4, TILESIZE, TILESIZE });
+		SetDestinationX(19 * TILESIZE);
+		SetDestinationY(TILESIZE * 4);
+		SetMoving(false);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
+	}
+	else if (Level->m_Map[GetY()][GetX()].isBottomRightWarpTile() && !isMoving()) 
+	{
+		SetDst({ TILESIZE * 3, TILESIZE * 4, TILESIZE, TILESIZE });
+		SetDestinationX(3 * TILESIZE);
+		SetDestinationY(TILESIZE * 4);
+		SetMoving(true);
+		TheAudioManager::Instance()->playSound("warp ability", 0);
 	}
 
 }
@@ -159,6 +252,7 @@ void Player::m_HandleEatingMysteryCheese() {
 		// Grant player a random ability and start the timer
 		Game::GetInstance()->SetAbilityStartTimer(SDL_GetTicks());
 		SetAbility(PowerUp::GenerateRandomAbility());
+		//SetAbility(ENTER_WALL);
 		std::cout << "Your current ability: " << (GetAbility() == DEFEAT_CATS ? "Defeat Cats" : "Enter Walls") << std::endl;
 
 		if (GetAbility() == DEFEAT_CATS) 
@@ -292,7 +386,7 @@ void Player::m_GoToNextLevel()
 	}
 	else if (Game::GetInstance()->GetCurrLevel() == 4)
 	{
-		m_numCheese = 134;
+		m_numCheese = 138; //138 for more movable map, 134 for original design with rough corners
 		m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
 		m_iDestinationX = 11;
 		m_iDestinationY = 13;

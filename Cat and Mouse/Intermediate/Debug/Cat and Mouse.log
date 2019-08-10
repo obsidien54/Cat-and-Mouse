@@ -30,7 +30,7 @@ E:\Michael\Desktop\Github - master\src\Game.cpp(17,23): warning C4244:  '=': con
 E:\Michael\Desktop\Github - master\src\Game.cpp(25,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Main.cpp
   Player.cpp
-E:\Michael\Desktop\Github - master\src\Input_Manager.cpp(62,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
+E:\Michael\Desktop\Github - master\src\Input_Manager.cpp(63,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
 E:\Michael\Desktop\Github - master\src\Player.cpp(11,68): warning C4018:  '>': signed/unsigned mismatch
   PowerUp.cpp
   SDL_Manager.cpp
@@ -58,18 +58,18 @@ E:\Michael\Desktop\Github - master\src\TextureManager.cpp(238,11): warning C4244
 E:\Michael\Desktop\Github - master\src\TextureManager.cpp(238,11): warning C4244:             T=float
 E:\Michael\Desktop\Github - master\src\TextureManager.cpp(238,11): warning C4244:         ]
   UI_HowToPlay.cpp
-E:\Michael\Desktop\Github - master\src\UI_GameOver.cpp(47,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\src\UI_GameOver.cpp(51,20): warning C4018:  '<': signed/unsigned mismatch
   UI_Levels.cpp
-E:\Michael\Desktop\Github - master\src\UI_HowToPlay.cpp(72,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\src\UI_HowToPlay.cpp(76,20): warning C4018:  '<': signed/unsigned mismatch
 E:\Michael\Desktop\Github - master\src\UI_Levels.cpp(13,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   UI_MainMenu.cpp
 E:\Michael\Desktop\Github - master\src\UI_Levels.cpp(14,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   UI_Manager.cpp
   UI_Menu.cpp
   UI_Scores.cpp
-E:\Michael\Desktop\Github - master\src\UI_MainMenu.cpp(109,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\src\UI_MainMenu.cpp(113,20): warning C4018:  '<': signed/unsigned mismatch
   Generating Code...
-E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(168,20): warning C4018:  '<': signed/unsigned mismatch
-E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(168,20): warning C4018: E:\Michael\Desktop\Github - master\src\PowerUp.cpp(32) : warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
-E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(168,20): warning C4018: E:\Michael\Desktop\Github - master\src\Input_Manager.cpp(71) : warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
+E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(171,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(171,20): warning C4018: E:\Michael\Desktop\Github - master\src\PowerUp.cpp(32) : warning C4715: 'PowerUp::ConvertAbilityToString': not all control paths return a value
+E:\Michael\Desktop\Github - master\src\UI_Scores.cpp(171,20): warning C4018: E:\Michael\Desktop\Github - master\src\Input_Manager.cpp(72) : warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
   Cat and Mouse.vcxproj -> E:\Michael\Desktop\Github - master\bin\Debug\Cat and Mouse.exe
