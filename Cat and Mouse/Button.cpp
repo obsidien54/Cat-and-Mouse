@@ -118,10 +118,10 @@ void Button::setButtonRect(std::string name, glm::vec2 rect)
 	glm::vec2 buttonSize;
 	buttonSize = TheTextureManager::Instance()->getTextureSize(name);
 
-	m_pButtonRect.x = rect.x - buttonSize.x * 0.5;//converrt from middle of the button to the outer edge
-	m_pButtonRect.y = rect.y - buttonSize.y * 0.5;
-	m_pButtonRect.w = buttonSize.x;
-	m_pButtonRect.h = buttonSize.y;
+	m_pButtonRect.x = (int)(rect.x - buttonSize.x * 0.5);//converrt from middle of the button to the outer edge
+	m_pButtonRect.y = (int)(rect.y - buttonSize.y * 0.5);
+	m_pButtonRect.w = (int)(buttonSize.x);
+	m_pButtonRect.h = (int)(buttonSize.y);
 }
 
 void Button::buttonSetUp(glm::vec2 position, ButtonType type, std::string name)
@@ -133,8 +133,8 @@ void Button::buttonSetUp(glm::vec2 position, ButtonType type, std::string name)
 
 void Button::draw()
 {
-	int xComponent = getPosition().x;
-	int yComponent = getPosition().y;
+	int xComponent = (int)(getPosition().x);
+	int yComponent = (int)(getPosition().y);
 
 	switch (getState()) //draw the button depending on which state it is in
 	{
