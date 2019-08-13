@@ -2,7 +2,6 @@
 
 UI_Levels::UI_Levels()
 {
-    //cout << "Instance of a UI Levels Created" << endl;
     m_rTitle.x = 100;  //controls the rect's x coordinate 
     m_rTitle.y = 100; // controls the rect's y coordinte
     m_rTitle.w = 300; // controls the width of the rect
@@ -17,17 +16,7 @@ UI_Levels::UI_Levels()
     m_rBack.y = m_rLevel1.y + 50; // controls the rect's y coordinte
     m_rBack.w = m_rLevel1.w; // controls the width of the rect
     m_rBack.h = m_rLevel1.h; // These are all specific to ONE TEXT Title ... Data driven design
-    
-
 }
-/*
-UI_Levels* UI_Levels::GetInstance()
-{
-    static UI_Levels* instance = new UI_Levels();
-
-    return instance;
-}
-*/
 
 
 void UI_Levels::Render(SDL_Renderer* pRenderer)

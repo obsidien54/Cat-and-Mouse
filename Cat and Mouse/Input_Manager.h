@@ -8,8 +8,6 @@
 class Input_Manager // Manages order of INPUT scenes
 {
 private:
-	
-
     const Uint8* m_iKeyStates; // this is for the game loop
     SDL_Event event;
     
@@ -19,9 +17,6 @@ private:
 
 
 public:
-    
-    //static Input_Manager* GetInstance();
-	//bool MouseOver(SDL_Rect* rect);
     bool MouseUp_Select(SDL_Rect rect);
     bool KeyDown(SDL_Scancode c);
 

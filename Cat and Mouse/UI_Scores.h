@@ -28,7 +28,6 @@ public:
 	bool bBack;
 
 	UI_Scores();
-	//static UI_Scores* GetInstance();
 
 	//button controls
 	bool IsMouseOverButton(int buttonNum);

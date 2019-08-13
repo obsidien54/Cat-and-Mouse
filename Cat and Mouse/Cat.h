@@ -27,7 +27,6 @@ private:
 	static int m_sState;
 	static int m_ScatterLength;
 
-	//bool m_bIsVulnerable = false;
 	bool m_bIsDead = false, m_bIsMoving = false;
 	bool m_bIsDying = false;
 	bool m_reverse = false;

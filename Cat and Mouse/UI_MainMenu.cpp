@@ -62,9 +62,7 @@ UI_MainMenu::UI_MainMenu()
 
 	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/MainMenu_background.png",
 		"MainMenu_background", SDL_Manager::GetInstance()->GetRenderer());
-	//TheTextureManager::Instance()->getTextureSize
-	/*int textureWidth, textureHeight;
-	SDL_QueryTexture("MainMenu_background", NULL, NULL, &textureWidth, &textureHeight);*/
+	
 }
 
 
@@ -115,7 +113,6 @@ void UI_MainMenu::Render(SDL_Renderer* pRenderer)
 		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
 		{
 			buttons[i].setState(HOVER); //change the state
-			//std::cout << "hovering over button" << std::endl;
 		}
 		else
 		{

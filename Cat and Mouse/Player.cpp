@@ -137,24 +137,11 @@ void Player::m_HandleMovement()
 	m_HandleEatingCheese();
 	m_HandleEatingMysteryCheese();
 	m_MovePlayer();
-	//animate();
 }
 
 void Player::m_HandleWarping()
 {
-	/*Level* Level = Game::GetInstance()->GetLevel();
-	if (Level->m_Map[GetY()][GetX()].isLeftWarpTile() && !isMoving()) {
-		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
-		SetDestinationX(18 * TILESIZE);
-		SetMoving(true);
-	}
-	else if (Level->m_Map[GetY()][GetX()].isRightWarpTile() && !isMoving()) {
-		SetDst({ TILESIZE * 3 - TILESIZE, TILESIZE * 11, TILESIZE, TILESIZE });
-		SetDestinationX(4 * TILESIZE);
-		SetMoving(true);
-	}*/
-
-
+	
 	Level* Level = Game::GetInstance()->GetLevel();
 	if (Level->m_Map[GetY()][GetX()].isLeftWarpTile() && !isMoving()) {
 		SetDst({ TILESIZE * 19 - m_iMoveSpeed, TILESIZE * 11, TILESIZE, TILESIZE });
@@ -246,8 +233,6 @@ void Player::m_HandleEatingMysteryCheese() {
 		m_UpdateLives();
 		setNumCheese(getNumCheese()-1);
 
-
-		
 
 		// Grant player a random ability and start the timer
 		Game::GetInstance()->SetAbilityStartTimer(SDL_GetTicks());
@@ -403,9 +388,6 @@ void Player::m_GoToNextLevel()
 	Game::GetInstance()->SetCountdown(true);
 
 
-	//m_rDst = { TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE };
-	//m_iDestinationX = 11;
-	//m_iDestinationY = 13;
 	m_bIsMoving = false;
 
 }

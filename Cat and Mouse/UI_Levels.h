@@ -13,7 +13,6 @@ private:
     
 public:
     UI_Levels();
-    //static UI_Levels* GetInstance();
 
     void Render(SDL_Renderer* pRenderer);
 

@@ -2,7 +2,6 @@
 
 UI_HowToPlay::UI_HowToPlay()
 {
-    //cout << "Instance of a UI HowToPlay Created" << endl;
 	m_rTitle.x = 350;  //controls the rect's x coordinate 
 	m_rTitle.y = 30; // controls the rect's y coordinte
 	m_rTitle.w = 200; // controls the width of the rect
@@ -78,7 +77,6 @@ void UI_HowToPlay::Render(SDL_Renderer* pRenderer)
 		if (SDL_HasIntersection(buttons[i].getButtonRect(), &mouseHitBox))
 		{
 			buttons[i].setState(HOVER); //change the state
-			//std::cout << "hovering over button" << std::endl;
 		}
 		else
 		{

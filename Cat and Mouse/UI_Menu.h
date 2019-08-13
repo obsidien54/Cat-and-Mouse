@@ -18,7 +18,6 @@ protected:
 public:
     UI_Menu();
     
-    //void Render(SDL_Renderer* pRenderer); // Virtual function to override?
 
     ~UI_Menu();
 

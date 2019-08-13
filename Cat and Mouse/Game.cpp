@@ -19,7 +19,6 @@ Game::Game()
 
 bool Game::Init(SDL_Renderer* m_pRenderer) 
 {
-	//BuildBackgroundLayer();
 	BuildForegroundLayer(0);
 	SetUpTileVariables(0);
 	srand(time(0));
@@ -168,7 +167,6 @@ void Game::SetUpTileVariables()
 void Game::SetUpTileVariables(int level)
 {
 	std::string varFileName = "../Cat and Mouse/Assets/Level" + to_string(level) + "Variables.txt";
-	//std::string varFileName = "../Cat and Mouse/Assets/Level5Variables.txt";
 	std::ifstream varFile(varFileName);
 
 	for (int row = 0; row < ROWS; row++) {
@@ -204,7 +202,6 @@ void Game::BuildForegroundLayer()
 void Game::BuildForegroundLayer(int level)
 {
 	std::string mapFileName = "../Cat and Mouse/Assets/Level" + to_string(level) + "Map.txt";
-	//std::string mapFileName = "../Cat and Mouse/Assets/Level5Map.txt";
 	std::ifstream mapFile(mapFileName);
 
 	if (!mapFile) {
@@ -385,7 +382,6 @@ void Game::IncrementLevel()
 {
 	m_levelNum += 1; //increase level counter by 1
 	m_currLevel = rand() % 5; //choose a random level to load between 0 and 4
-	//m_currLevel = 4;
 	BuildForegroundLayer(m_currLevel); //build the random level
 	SetUpTileVariables(m_currLevel);
 	ResetCats();
@@ -459,8 +455,6 @@ void Game::GamePaused()
 void Game::PlayerWon()
 {
 	std::cout << "The player has won" << std::endl;
-	// load picture in the contructor
-	// Render picture
 	
 
 	if (m_currLevel == 0) {
@@ -476,31 +470,6 @@ void Game::PlayerWon()
 void Game::PlayerLost()
 {
 	std::cout << "The player has lost" << std::endl;
-	// load picture in the contructor
-	// Render picture
-	//m_pPlayer->SetDst(TILESIZE * 11, TILESIZE * 13);
-	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
-
-	/*m_pCats[0]->SetDst(TILESIZE * 3, TILESIZE * 3);
-	m_pCats[1]->SetDst(TILESIZE * 19, TILESIZE * 3);
-	m_pCats[2]->SetDst(TILESIZE * 3, TILESIZE * 19);
-	m_pCats[3]->SetDst(TILESIZE * 19, TILESIZE * 19);*/
-	
-
-	//std::cout << "The cat's destination x = " << m_pCats[0]->GetDestinationX() << std::endl;
-	/*if (m_livesNum == 0)
-	{
-		SDL_RenderClear(SDL_Manager::GetInstance()->GetRenderer());
-		TheTextureManager::Instance()->draw("Game_Over",
-			SDL_Manager::GetInstance()->GetRenderer(), 23 * TILESIZE, 23 * TILESIZE);
-		SDL_RenderPresent(SDL_Manager::GetInstance()->GetRenderer());
-		Game::GetInstance()->SetScore(0);
-	}*/
-	//SDL_Delay(3000);
-	//CreateGameObjects();
-
-	
-
 	if (m_currLevel == 0) {
 		m_pPlayer->SetDst({ TILESIZE * 11, TILESIZE * 13, TILESIZE, TILESIZE });
 		m_pPlayer->SetDestinationX(11);
@@ -663,13 +632,6 @@ void Game::UpdateCats()
 void Game::Render(SDL_Renderer* m_pRenderer) {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
-	//// draw background tile map
-	//for (int row = 0; row < ROWS; row++)
-	//{
-	//	for (int col = 0; col < COLS; col++) {
-	//		SDL_RenderCopy(m_pRenderer, m_pTileTexture, m_bg.m_Map[row][col].GetSrcP(), m_bg.m_Map[row][col].GetDstP());
-	//	}
-	//}
 
 	//full background image, need to render level map overtop
 	TheTextureManager::Instance()->draw("background main",
@@ -697,8 +659,7 @@ void Game::Render(SDL_Renderer* m_pRenderer) {
 	{
 		TheTextureManager::Instance()->draw("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16 - (DarknessWidth / 2), Game::GetInstance()->GetPlayer()->GetDst().y + 16 - (DarknessWidth / 2), DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE);
 	}
-	//TheTextureManager::Instance()->draws("Darkness", Game::GetInstance()->GetPlayer()->GetDst().x + 16, Game::GetInstance()->GetPlayer()->GetDst().y + 16, DarknessWidth, DarknessWidth, m_pRenderer, SDL_FLIP_NONE, false);
-
+	
 	m_pPlayer->animate();
 
 
@@ -847,10 +808,5 @@ void Game::Clean() {
 	std::cout << "Cleaning game. Bye!" << std::endl;
 	SDL_DestroyTexture(m_pTileTexture);
 	SDL_DestroyTexture(m_pPlayerTexture);
-	//SetScore(0);
-	//SDL_DestroyWindow(m_pWindow);
-	//SDL_DestroyRenderer(m_pRenderer);
-	//IMG_Quit();
-	//SDL_Quit();
 }
 

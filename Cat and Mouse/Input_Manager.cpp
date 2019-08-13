@@ -20,39 +20,13 @@ bool Input_Manager::MouseUp_Select(SDL_Rect rect) // Rename
 
 	if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
-		//if (m_bLMouseButton_Up == true)
-		//{
-		//	m_bLMouseButton_Up = false;
+		
 			return true;
-		//}
 	}
-	//m_bLMouseButton_Up = true;
 	return false;
 }
 
 
-//bool Input_Manager::MouseOver(SDL_Rect* rect) // Rename
-//{
-//	SDL_Event event;
-//	SDL_PollEvent(&event);
-//	
-//	
-//		mouseRect.x = event.motion.x;
-//		mouseRect.x = event.motion.y;
-//		
-//
-//	/*if ((m_iTempX > rect.x) && (m_iTempX < (rect.x + rect.w)) &&
-//		(m_iTempY > rect.y) && (m_iTempY < (rect.y + rect.h)))*/
-//	if(SDL_HasIntersection(rect, &mouseRect))
-//	{
-//		return true;
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//	
-//}
 
 bool Input_Manager::KeyDown(SDL_Scancode c)
 {

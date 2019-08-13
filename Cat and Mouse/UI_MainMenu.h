@@ -33,8 +33,6 @@ public:
 	bool bHowToPlayPressed, bStartPressed, bScoresPressed, bEscPressed;
 
     UI_MainMenu();
-    //static UI_MainMenu* GetInstance();
-	//void RenderMouseOver(SDL_Renderer* pRenderer, unsigned short i);
     void Render (SDL_Renderer* pRenderer);
 
 	bool IsMouseOverButton(int buttonNum);

@@ -61,7 +61,3 @@ void AudioManager::mixVolume(int volume)
 {
 	Mix_Volume( -1, volume);
 }
-//void AudioManager::mixVolumeChunk(int volume)
-//{
-//	//Mix_VolumeChunk(volume);
-//}

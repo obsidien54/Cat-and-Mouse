@@ -19,7 +19,6 @@ int main (int argc, char* argv[])
         return 1;
     }
 
-    //UI_Manager pUI;
 	Game* game = Game::GetInstance();
 	
 
@@ -50,7 +49,6 @@ int main (int argc, char* argv[])
 			game->Clean();
 			game->StopRunning();
 		}
-		//SDL_Delay(200); // This allows the menu to function normally
 
 	}
 

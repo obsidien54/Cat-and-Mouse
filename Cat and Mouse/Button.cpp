@@ -9,8 +9,6 @@ Button::Button()
 	setState(NORMAL);
 	m_position = glm::vec2(0.0f, 0.0f);
 
-	//load in textures required for the button of specific type
-	
 }
 
 Button::~Button()

@@ -8,9 +8,6 @@
 #include "SDL_Manager.h"
 #include <string>
 
-//randomly spawn 5 ships on the grid
-//tiles need to have a weight
-//need to know what neightbours surrounding are
 
 enum State {
 	NORMAL,

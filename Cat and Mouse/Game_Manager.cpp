@@ -8,14 +8,6 @@ Game_Manager::Game_Manager()
     m_iCurrentLevel = ONE;
     m_fps = (Uint32)round(1 / (long double)FPS * 1000);
 }
-/*
-Game_Manager* Game_Manager::GetInstance()
-{
-    static Game_Manager* instance = new Game_Manager();
-
-    return instance;
-}
-*/
 void Game_Manager::Start()
 {
     if (m_iCurrentLevel == ONE)
@@ -38,18 +30,7 @@ void Game_Manager::Start()
 
 void Game_Manager::Level1()
 {
-    /*
-    while () // GameLoop goes here
-    {
-        // 60 FPS Wake()
-        // Render Map and characters
-        // Get Input
-        // Update Movement of all objects and their interactions
-        // 60 FPS Sleep ()
-    }
-    // Updates High Scores
-    // Goes to Levels Menu
-    */
+  
 }
 
 void Game_Manager::Level2()

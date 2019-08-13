@@ -26,7 +26,6 @@ Cat::Cat(SDL_Rect s, SDL_Rect d, int cat) {
 	m_moveSpeed = 2;
 	angle = 0;
 	center.x = center.y = m_rDst.w / 2;
-	//SetAllState(C_State::WAITING);
 	SetState(C_State::WAITING);
 	checkBound = false;
 	SetDying(false);
@@ -519,9 +518,6 @@ void Cat::Flee()
 		if (!checkBound) {
 			if (Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX()].isIntersection())
 			{
-				//std::cout << "---------" << std::endl;
-				//std::cout << "GOING : " << GetDir() << std::endl;
-				//std::cout << "---------" << std::endl;
 				checkBound = true;
 				for (int dirPriority = 0; dirPriority < 4; dirPriority++)
 				{
@@ -543,9 +539,6 @@ void Cat::Flee()
 				}
 				SetDir(newDir);
 				newDir = 'q';
-				//std::cout << "---------" << std::endl;
-				//std::cout << "shortest : " << GetDir() << " | Distance :" << distance << std::endl;
-				//std::cout << "---------" << std::endl;
 			}
 		}
 	}
@@ -716,9 +709,6 @@ void Cat::Seek()
 		if (!checkBound) {
 			if (Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX()].isIntersection())
 			{
-				//std::cout << "---------" << std::endl;
-				//std::cout << "GOING : " << GetDir() << std::endl;
-				//std::cout << "---------" << std::endl;
 				checkBound = true;
 				for (int dirPriority = 0; dirPriority < 4; dirPriority++)
 				{
@@ -740,9 +730,6 @@ void Cat::Seek()
 				}
 				SetDir(newDir);
 				newDir = 'q';
-				//std::cout << "---------" << std::endl;
-				//std::cout << "shortest : " << GetDir() << " | Distance :" << distance << std::endl;
-				//std::cout << "---------" << std::endl;
 			}
 		}
 	}
@@ -756,7 +743,7 @@ void Cat::Seek()
 				SetMoving(true);
 			}
 			else // if Obstacle it will check for another route 
-			{//need to edit to take in direction priority
+			{
 				if (!Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX() + 1].isObstacle())
 				{
 					SetDir('d');
@@ -778,7 +765,7 @@ void Cat::Seek()
 				SetMoving(true);
 			}
 			else
-			{//need to edit to take in direction priority
+			{
 				if (!Game::GetInstance()->GetLevel()->m_Map[GetY()][GetX() - 1].isObstacle())
 				{
 					SetDir('a');
@@ -841,7 +828,6 @@ void Cat::Seek()
 	}
 	// if moving continue moving till
 	if (IsMoving()) {
-		//Animate(); //moved to game render function
 		if (GetDestinationX() > GetDst().x) {
 			MoveX(1);
 		}
@@ -884,7 +870,6 @@ void Cat::Update()
 		if (getReverse())
 		{
 			if (IsMoving()) {
-				//Animate(); //moved to game render function
 				if (GetDestinationX() > GetDst().x) {
 					MoveX(1);
 				}
@@ -900,9 +885,6 @@ void Cat::Update()
 				// if cat has gotten to destination then set moving to false
 				else if (GetDestinationX() == GetDst().x && GetDestinationY() == GetDst().y) {
 					SetMoving(false);
-					//SetState(C_State::SCATTER);
-					//SetAllState(C_State::SCATTER);
-					//frames = 0;
 				}
 			}
 			return;
@@ -975,7 +957,6 @@ void Cat::Update()
 	case C_State::WAKEUP:
 		SetMoving(true);
 		if (IsMoving()) {
-			//Animate(); //moved to game render function
 			if (GetDestinationX() > GetDst().x) {
 				MoveX(1);
 			}
@@ -1001,8 +982,6 @@ void Cat::Update()
 		Sync();
 		if (IsAllVulnerable())
 		{
-			/*TargetPlayer();
-			Flee();*/
 			TargetScatter();
 			Seek();
 		}
@@ -1023,8 +1002,6 @@ void Cat::Update()
 		Sync();
 		if (IsAllVulnerable())
 		{
-			/*TargetPlayer();
-			Flee();*/
 			TargetScatter();
 			Seek();
 		}
@@ -1061,7 +1038,6 @@ void Cat::Update()
 	case C_State::BACK2PEN:
 		SetMoving(true);
 		if (IsMoving()) {
-			//Animate(); // moved to game render funciton
 			if (GetDestinationX() > GetDst().x) {
 				MoveX(1);
 			}
@@ -1088,27 +1064,10 @@ void Cat::Update()
 		if (frames >= 600)
 		{
 			cout << "CAT " << m_CatNum << " RESPAWN" << endl;
-			/*switch (m_CatNum)
-			{
-			case 0:
-				Game::GetInstance()->ResetCat1();
-				break;
-			case 1:
-				Game::GetInstance()->ResetCat2();
-				break;
-			case 2:
-				Game::GetInstance()->ResetCat3();
-				break;
-			case 3:
-				Game::GetInstance()->ResetCat4();
-				break;
-			}*/
 
 			dir = 'w';
 			m_moveSpeed = 2;
 			angle = 0;
-			//center.x = center.y = m_rDst.w / 2;
-			//SetAllState(C_State::WAITING);
 			SetState(C_State::WAITING);
 			checkBound = false;
 			SetDying(false);
@@ -1131,8 +1090,6 @@ void Cat::Die()
 {
 	SetDead(true);
 	SetState(C_State::DYING);
-	//m_bIsVulnerable = false;
-	//m_rSrc = { m_CatNum * 192, 0, SPRITESIZE, SPRITESIZE };
 }
 
 void Cat::SetMoveSpeed(int m)
