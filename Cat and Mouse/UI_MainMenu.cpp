@@ -46,21 +46,21 @@ UI_MainMenu::UI_MainMenu()
 
 	//background music
 	
-	/*TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
+	/*TheAudioManager::Instance()->load("Assets/sound/Ms. Pac-Man Maze Madness OST Menu.mp3",
 		"Main_Menu_Background", sound_type::SOUND_MUSIC);*/
 
 
 		// Video game music composed my Takashi Tateishi
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Andre Menu Music.mp3",
+	TheAudioManager::Instance()->load("Assets/sound/Andre Menu Music.mp3",
 		"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	////music by bensound
-	//TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/bensound-endlessmotion.mp3",
+	//TheAudioManager::Instance()->load("Assets/sound/bensound-endlessmotion.mp3",
 	//	"Main_Menu_Background", sound_type::SOUND_MUSIC);
 
 	TheAudioManager::Instance()->playMusic("Main_Menu_Background", -1);
 
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/MainMenu_background.png",
+	TheTextureManager::Instance()->load("Assets/textures/MainMenu_background.png",
 		"MainMenu_background", SDL_Manager::GetInstance()->GetRenderer());
 	
 }

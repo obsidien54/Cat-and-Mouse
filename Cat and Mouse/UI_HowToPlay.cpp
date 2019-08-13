@@ -7,7 +7,7 @@ UI_HowToPlay::UI_HowToPlay()
 	m_rTitle.w = 200; // controls the width of the rect
 	m_rTitle.h = 100; // These are all specific to ONE TEXT Title ... Data driven design
 
-	TextureManager::Instance()->load("../Cat and Mouse/Assets/textures/instructions.png", "Instructions", SDL_Manager::GetInstance()->GetRenderer());
+	TextureManager::Instance()->load("Assets/textures/instructions.png", "Instructions", SDL_Manager::GetInstance()->GetRenderer());
 
 	mouseHitBox = { 0,0,2,2 };
 	m_mainMenuButton.buttonSetUp(glm::vec2(368, 570), MAIN_MENU_BUTTON, "main menu");

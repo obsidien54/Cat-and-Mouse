@@ -6,9 +6,6 @@
 
 int main (int argc, char* argv[])
 {
-	AllocConsole();
-	freopen("CON", "w", stdout);
-
     SDL_Manager* pSDL = SDL_Manager::GetInstance();
     
     if (pSDL->Init("Cat and Mouse", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 23, 23, 

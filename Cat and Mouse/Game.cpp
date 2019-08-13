@@ -28,9 +28,9 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 	m_bRunning = true;
 
 
-	SDL_Surface* tileSurface = IMG_Load("../Cat and Mouse/Assets/textures/Tiles.png");
-	SDL_Surface* playerSurface = IMG_Load("../Cat and Mouse/Assets/textures/mouse.png");
-	SDL_Surface* ghostsSurface = IMG_Load("../Cat and Mouse/Assets/textures/Cats.png");
+	SDL_Surface* tileSurface = IMG_Load("Assets/textures/Tiles.png");
+	SDL_Surface* playerSurface = IMG_Load("Assets/textures/mouse.png");
+	SDL_Surface* ghostsSurface = IMG_Load("Assets/textures/Cats.png");
 	m_pTileTexture = SDL_CreateTextureFromSurface(m_pRenderer, tileSurface);
 	m_pPlayerTexture = SDL_CreateTextureFromSurface(m_pRenderer, playerSurface);
 	m_pGhostsTexture = SDL_CreateTextureFromSurface(m_pRenderer, ghostsSurface);
@@ -42,75 +42,75 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 		std::cout << "Pixel maps creation success!" << std::endl;
 	}
 
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/Game_Over.png",
+	TheTextureManager::Instance()->load("Assets/textures/Game_Over.png",
 		"Game_Over", SDL_Manager::GetInstance()->GetRenderer());
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/darkk.png",
+	TheTextureManager::Instance()->load("Assets/textures/darkk.png",
 		"Darkness", SDL_Manager::GetInstance()->GetRenderer());
 
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/background.png",
+	TheTextureManager::Instance()->load("Assets/textures/background.png",
 		"background main", SDL_Manager::GetInstance()->GetRenderer());
 
 	//load countdown images
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/countdown_5.png",
+	TheTextureManager::Instance()->load("Assets/textures/countdown_5.png",
 		"count 5", SDL_Manager::GetInstance()->GetRenderer());
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/countdown_4.png",
+	TheTextureManager::Instance()->load("Assets/textures/countdown_4.png",
 		"count 4", SDL_Manager::GetInstance()->GetRenderer());
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/countdown_3.png",
+	TheTextureManager::Instance()->load("Assets/textures/countdown_3.png",
 		"count 3", SDL_Manager::GetInstance()->GetRenderer());
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/countdown_2.png",
+	TheTextureManager::Instance()->load("Assets/textures/countdown_2.png",
 		"count 2", SDL_Manager::GetInstance()->GetRenderer());
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/countdown_1.png",
+	TheTextureManager::Instance()->load("Assets/textures/countdown_1.png",
 		"count 1", SDL_Manager::GetInstance()->GetRenderer());
 
 	//LOAD IN SOUND EFFECTS
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/GameOver.wav",
+	TheAudioManager::Instance()->load("Assets/sound/GameOver.wav",
 		"GameOver", sound_type::SOUND_SFX);
 
 	//player death sound
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Death.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Death.wav",
 		"Death", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/CatDeath.wav",
+	TheAudioManager::Instance()->load("Assets/sound/CatDeath.wav",
 		"CatDeath", sound_type::SOUND_SFX);
 
 	//play upon level completion
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Victory.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Victory.wav",
 		"Victory", sound_type::SOUND_SFX);
 
 	//load the sound files that revolve around the player. WHen using them just use the audiomanager play function
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Cheese.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Cheese.wav",
 		"cheese", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Powerup4.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Powerup4.wav",
 		"powerup", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/WallAbility.wav",
+	TheAudioManager::Instance()->load("Assets/sound/WallAbility.wav",
 		"wall ability", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/EnterWall.wav",
+	TheAudioManager::Instance()->load("Assets/sound/EnterWall.wav",
 		"enter wall", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/LifeUp.wav",
+	TheAudioManager::Instance()->load("Assets/sound/LifeUp.wav",
 		"LifeUp", sound_type::SOUND_SFX);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/WarpAbility.wav",
+	TheAudioManager::Instance()->load("Assets/sound/WarpAbility.wav",
 		"warp ability", sound_type::SOUND_SFX);
 
 	//countdown timer sounds
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Blip_Select_High.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Blip_Select_High.wav",
 		"Timer High", sound_type::SOUND_SFX);
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Blip_Select_Low.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Blip_Select_Low.wav",
 		"Timer Low", sound_type::SOUND_SFX);
 
 	////music from  patrickdearteaga.com by Patrick de Arteaga
-	//TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Boss Fight.mp3",
+	//TheAudioManager::Instance()->load("Assets/sound/Boss Fight.mp3",
 	//	"Mystery Phase", sound_type::SOUND_MUSIC);
 
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/fight.wav",
+	TheAudioManager::Instance()->load("Assets/sound/fight.wav",
 		"Mystery Phase", sound_type::SOUND_MUSIC);
 
-	m_pFont = TTF_OpenFont("../Cat and Mouse/Assets/text/junegull.ttf", 24);
+	m_pFont = TTF_OpenFont("Assets/text/junegull.ttf", 24);
 	std::cout << "Font creation success!" << std::endl;
 	
 
@@ -120,7 +120,7 @@ bool Game::Init(SDL_Renderer* m_pRenderer)
 void Game::BuildBackgroundLayer()
 {
 	// build background layer
-	std::ifstream bgFile("../Cat and Mouse/Assets/bg.txt");
+	std::ifstream bgFile("Assets/bg.txt");
 	if (!bgFile) {
 		std::cout << "bg file not detected" << std::endl;
 	}
@@ -153,7 +153,7 @@ void Game::CreateGameObjects()
 
 void Game::SetUpTileVariables()
 {
-	std::ifstream varFile("../Cat and Mouse/Assets/Level0Variables.txt");
+	std::ifstream varFile("Assets/Level0Variables.txt");
 	for (int row = 0; row < ROWS; row++) {
 		for (int col = 0; col < COLS; col++) {
 			char temp;
@@ -166,7 +166,7 @@ void Game::SetUpTileVariables()
 
 void Game::SetUpTileVariables(int level)
 {
-	std::string varFileName = "../Cat and Mouse/Assets/Level" + to_string(level) + "Variables.txt";
+	std::string varFileName = "Assets/Level" + to_string(level) + "Variables.txt";
 	std::ifstream varFile(varFileName);
 
 	for (int row = 0; row < ROWS; row++) {
@@ -183,7 +183,7 @@ void Game::BuildForegroundLayer()
 {
 	// Build tilemap
 
-	std::ifstream mapFile("../Cat and Mouse/Assets/Level0Map.txt");
+	std::ifstream mapFile("Assets/Level0Map.txt");
 	if (!mapFile) {
 		std::cout << "bg file not detected" << std::endl;
 	}
@@ -201,7 +201,7 @@ void Game::BuildForegroundLayer()
 
 void Game::BuildForegroundLayer(int level)
 {
-	std::string mapFileName = "../Cat and Mouse/Assets/Level" + to_string(level) + "Map.txt";
+	std::string mapFileName = "Assets/Level" + to_string(level) + "Map.txt";
 	std::ifstream mapFile(mapFileName);
 
 	if (!mapFile) {
@@ -352,7 +352,7 @@ void Game::HandlePlayerAndCatInteractions() {
 							TheAudioManager::Instance()->mixVolume(128);
 							TheAudioManager::Instance()->playSound("GameOver", 1);
 
-							ofstream outFile("../Cat and Mouse/Assets/highscores.txt", ios::app);
+							ofstream outFile("Assets/highscores.txt", ios::app);
 							outFile << m_scoreNum << std::endl;
 
 

@@ -46,50 +46,50 @@ void Button::setType(ButtonType newType)
 	switch (newType)
 	{
 	case ButtonType::HOW_TO_PLAY_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_how_to_play.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_how_to_play.png",
 			"how to play", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_how_to_play_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_how_to_play_large.png",
 			"how to play large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("how to play");
 		break;
 	case ButtonType::MAIN_MENU_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_main_menu.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_main_menu.png",
 			"main menu", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_main_menu_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_main_menu_large.png",
 			"main menu large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("main menu");
 		break;
 	case ButtonType::PLAY_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_play.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_play.png",
 			"play", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_play_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_play_large.png",
 			"play large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("play");
 		break;
 	case ButtonType::QUIT_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_quit.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_quit.png",
 			"quit", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_quit_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_quit_large.png",
 			"quit large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("quit");
 		break;
 	case ButtonType::HIGH_SCORES_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_high_scores.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_high_scores.png",
 			"high scores", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_high_scores_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_high_scores_large.png",
 			"high scores large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("high scores");
 		break;
 	case ButtonType::LEVELS_BUTTON:
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_levels.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_levels.png",
 			"levels", SDL_Manager::GetInstance()->GetRenderer());
 
-		TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/button_levels_large.png",
+		TheTextureManager::Instance()->load("Assets/textures/button_levels_large.png",
 			"levels large", SDL_Manager::GetInstance()->GetRenderer());
 		setName("levels");
 		break;

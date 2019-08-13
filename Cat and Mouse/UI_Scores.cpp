@@ -22,7 +22,7 @@ void UI_Scores::RetrieveHighscores() {
 	m_scores.clear();
 
 
-	ifstream highscoreFile("../Cat and Mouse/Assets/highscores.txt");
+	ifstream highscoreFile("Assets/highscores.txt");
 	int highscore;
 	highscoreFile >> highscore;
 	while (!highscoreFile.eof()) {

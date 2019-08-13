@@ -151,8 +151,31 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)lib\SDL\lib\x86\SDL2.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_image.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_mixer.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\zlib1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libfreetype-6.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\DevIL.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glut32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILU.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILUT.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libFLAC-8.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libjpeg-9.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmodplug-1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmpg123-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libogg-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopus-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopusfile-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libpng16-16.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libtiff-5.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbis-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbisfile-3.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libwebp-7.dll" "$(OutDir)"
+xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /s /e /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -168,8 +191,31 @@
       <AdditionalDependencies>freeglut_static.lib;DevIL.lib;ILU.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)lib\SDL\lib\x64\SDL2.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_image.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_mixer.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\zlib1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libfreetype-6.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\DevIL.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glut32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILU.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILUT.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libFLAC-8.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libjpeg-9.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmodplug-1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmpg123-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libogg-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopus-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopusfile-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libpng16-16.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libtiff-5.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbis-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbisfile-3.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libwebp-7.dll" "$(OutDir)"
+xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /s /e /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -184,15 +230,38 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>freeglut_static.lib;DevIL.lib;ILU.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)lib\SDL\lib\x86\SDL2.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_image.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_mixer.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\zlib1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libfreetype-6.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\DevIL.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glut32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILU.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILUT.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libFLAC-8.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libjpeg-9.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmodplug-1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmpg123-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libogg-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopus-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopusfile-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libpng16-16.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libtiff-5.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbis-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbisfile-3.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libwebp-7.dll" "$(OutDir)"
+xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /s /e /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -206,14 +275,37 @@
       <AdditionalIncludeDirectories>$(SolutionDir)lib\IL\include\;$(SolutionDir)lib\GLUT\include\;$(SolutionDir)lib\GLEW\include\;$(SolutionDir)lib\GL\include\;$(SolutionDir)lib\;$(SolutionDir)lib\GLM\;$(SolutionDir)lib\SDL\include\;$(SolutionDir)lib\SDL_Image\include\;$(SolutionDir)lib\SDL_Mixer\include\;$(SolutionDir)lib\SDL_ttf\include\;$(SolutionDir)lib\SDL\lib\x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>freeglut_static.lib;DevIL.lib;ILU.lib;glew32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)lib\SDL\lib\x64\SDL2.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_image.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_mixer.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\SDL2_ttf.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\zlib1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libfreetype-6.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\DevIL.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glew32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\glut32.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILU.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\ILUT.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libFLAC-8.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libjpeg-9.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmodplug-1.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libmpg123-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libogg-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopus-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libopusfile-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libpng16-16.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libtiff-5.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbis-0.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libvorbisfile-3.dll" "$(OutDir)"
+copy "$(SolutionDir)Cat and Mouse\libwebp-7.dll" "$(OutDir)"
+xcopy "$(ProjectDir)Assets" "$(OutDir)Assets" /s /e /i /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

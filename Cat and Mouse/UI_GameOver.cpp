@@ -20,7 +20,7 @@ UI_GameOver::UI_GameOver()
 	buttons.push_back(button1);
 	buttons.push_back(button2);
 
-	TheTextureManager::Instance()->load("../Cat and Mouse/Assets/textures/Game_Over.png",
+	TheTextureManager::Instance()->load("Assets/textures/Game_Over.png",
 		"game over", SDL_Manager::GetInstance()->GetRenderer());
 
 }

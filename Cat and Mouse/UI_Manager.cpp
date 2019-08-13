@@ -6,10 +6,10 @@ UI_Manager::UI_Manager()
 {
     m_iCurrentScreenIndex = 0;
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/12 - Crash Man (1).wav",
+	TheAudioManager::Instance()->load("Assets/sound/12 - Crash Man (1).wav",
 		"Background", sound_type::SOUND_MUSIC);
 
-	TheAudioManager::Instance()->load("../Cat and Mouse/Assets/sound/Button.wav",
+	TheAudioManager::Instance()->load("Assets/sound/Button.wav",
 		"Button", sound_type::SOUND_SFX);
 
 

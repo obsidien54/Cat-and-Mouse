@@ -5,10 +5,10 @@
 E:\Michael\Desktop\Github - master\Cat and Mouse\Game.cpp(17,23): warning C4244:  '=': conversion from 'Uint64' to 'Uint32', possible loss of data
   Game_Manager.cpp
   Input_Manager.cpp
-E:\Michael\Desktop\Github - master\Cat and Mouse\Game.cpp(25,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\Michael\Desktop\Github - master\Cat and Mouse\Game.cpp(24,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   main.cpp
   Player.cpp
-E:\Michael\Desktop\Github - master\Cat and Mouse\Input_Manager.cpp(63,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
+E:\Michael\Desktop\Github - master\Cat and Mouse\Input_Manager.cpp(37,30): warning C4805:  '==': unsafe mix of type 'const Uint8' and type 'bool' in operation
 E:\Michael\Desktop\Github - master\Cat and Mouse\Player.cpp(11,68): warning C4018:  '>': signed/unsigned mismatch
   PowerUp.cpp
   SDL_Manager.cpp
@@ -38,19 +38,128 @@ E:\Michael\Desktop\Github - master\Cat and Mouse\TextureManager.cpp(238,11): war
   UI_HowToPlay.cpp
 E:\Michael\Desktop\Github - master\Cat and Mouse\UI_GameOver.cpp(51,20): warning C4018:  '<': signed/unsigned mismatch
   UI_Levels.cpp
-E:\Michael\Desktop\Github - master\Cat and Mouse\UI_HowToPlay.cpp(76,20): warning C4018:  '<': signed/unsigned mismatch
-E:\Michael\Desktop\Github - master\Cat and Mouse\UI_Levels.cpp(13,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+E:\Michael\Desktop\Github - master\Cat and Mouse\UI_HowToPlay.cpp(75,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\Cat and Mouse\UI_Levels.cpp(12,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   UI_MainMenu.cpp
-E:\Michael\Desktop\Github - master\Cat and Mouse\UI_Levels.cpp(14,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
+E:\Michael\Desktop\Github - master\Cat and Mouse\UI_Levels.cpp(13,30): warning C4244:  '=': conversion from 'double' to 'int', possible loss of data
   UI_Manager.cpp
   UI_Menu.cpp
   UI_Scores.cpp
-E:\Michael\Desktop\Github - master\Cat and Mouse\UI_MainMenu.cpp(113,20): warning C4018:  '<': signed/unsigned mismatch
+E:\Michael\Desktop\Github - master\Cat and Mouse\UI_MainMenu.cpp(111,20): warning C4018:  '<': signed/unsigned mismatch
 E:\Michael\Desktop\Github - master\Cat and Mouse\UI_Scores.cpp(171,20): warning C4018:  '<': signed/unsigned mismatch
   Generating code
-E:\Michael\Desktop\Github - master\Cat and Mouse\Input_Manager.cpp(72): warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
-  912 of 920 functions (99.1%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+E:\Michael\Desktop\Github - master\Cat and Mouse\Input_Manager.cpp(46): warning C4715: 'Input_Manager::KeyDown': not all control paths return a value
+  All 920 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   Cat and Mouse.vcxproj -> E:\Michael\Desktop\Github - master\Release\Cat and Mouse.exe
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+          1 file(s) copied.
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\bg.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\highscores.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level0.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level0Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level0Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level1Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level1Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level2Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level2Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level3Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level3Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level4Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level4Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level5Map.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\Level5Variables.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\12 - Crash Man (1).wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Andre Menu Music.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\bensound-endlessmotion.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Blip_Select_High.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Blip_Select_Low.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Boss Fight.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Button.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\CatDeath.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Cheese.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Death.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\EnterWall.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\fight.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\GameOver.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Hip Shop.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Jump.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\LifeUp.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Ms. Pac-Man Maze Madness OST Menu.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Pac Man World 2 Soundtrack - Menu.mp3
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Pause.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Pellet.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Powerup.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Powerup4.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Return.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Select.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\Victory.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\WallAbility.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\sound\WarpAbility.wav
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\8bitOperatorPlusSC-Bold.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\CatsAlphabet.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\junegull.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\Apache License.txt
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-Bold.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-BoldItalic.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-ExtraBold.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-ExtraBoldItalic.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-Italic.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-Light.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-LightItalic.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-Regular.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-Semibold.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\text\open-sans\OpenSans-SemiboldItalic.ttf
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\background.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_high_scores.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_high_scores_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_how_to_play.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_how_to_play_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_levels.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_levels_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_main_menu.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_main_menu_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_play.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_play_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_quit.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_quit_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_restart.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\button_restart_large.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\Cats.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\cheese.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\countdown_1.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\countdown_2.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\countdown_3.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\countdown_4.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\countdown_5.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\darkk.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\Game_Over.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\instructions.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\MainMenu_background.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\mouse.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\PacMan.png
+  E:\Michael\Desktop\Github - master\Cat and Mouse\Assets\textures\Tiles.png
+  85 File(s) copied
