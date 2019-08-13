@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cat and Mouse", "Cat and Mouse\Cat and Mouse.vcxproj", "{056A63E3-0205-4D30-A0A7-3170A2399630}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Cat and Mouse Installer", "Cat and Mouse Installer\Cat and Mouse Installer.vdproj", "{6C582EC5-8D52-4ABB-8075-43B998808DDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,11 @@ Global
 		{056A63E3-0205-4D30-A0A7-3170A2399630}.Release|x64.Build.0 = Release|x64
 		{056A63E3-0205-4D30-A0A7-3170A2399630}.Release|x86.ActiveCfg = Release|Win32
 		{056A63E3-0205-4D30-A0A7-3170A2399630}.Release|x86.Build.0 = Release|Win32
+		{6C582EC5-8D52-4ABB-8075-43B998808DDE}.Debug|x64.ActiveCfg = Debug
+		{6C582EC5-8D52-4ABB-8075-43B998808DDE}.Debug|x86.ActiveCfg = Debug
+		{6C582EC5-8D52-4ABB-8075-43B998808DDE}.Release|x64.ActiveCfg = Release
+		{6C582EC5-8D52-4ABB-8075-43B998808DDE}.Release|x86.ActiveCfg = Release
+		{6C582EC5-8D52-4ABB-8075-43B998808DDE}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
